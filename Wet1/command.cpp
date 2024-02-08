@@ -34,34 +34,63 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
 // ARE IN THIS CHAIN OF IF COMMANDS. PLEASE ADD
 // MORE IF STATEMENTS AS REQUIRED
 /*************************************************/
-	if (!strcmp(cmd, "cd") ) 
+	if (!strcmp(cmd, "showpid")) 
 	{
-		if(num_arg > 1)//too much arguments passed
-        {
-            cout << "cd: too many arguments" ;
-            return 1;
-        }
-        if (args[1] == '-')//depends on how the struct will be constracted
-        {
-            
-        }
-        return chdir(arg[1]);
-	} 
+		cout << "smash pid is " << smash.pid;
+	}
 	/*************************************************/
 	else if (!strcmp(cmd, "pwd")) 
 	{
-		cout << getcwd();
+		char* pwd = getcwd();
+		if (pwd == nullptr) {
+			cout << 'didnt catch that pwd';
+			return 1; 
+		}
+		cout << pwd;
 	}
 	/*************************************************/
+	else if (!strcmp(cmd, "cd") ) 
+	{
+		if(num_arg > 1)//too much arguments passed
+        {
+            cout << "smash error: cd: too many arguments" ;
+            return 1;
+        }
+        if (args[1] == '-')
+        {
+			if (smash.last_path == nullptr) {
+				cout << 'smash error: cd: OLDPWD not set'
+				return 1
+			}
+            else if(chdir(smash.last_path)) { //chdir faild
+				cout << 'faild returning to last pwd "' << smash.last_path <<'"';
+				return 1;
+			}
+        }
+		else 
+		{
+			smash.last_path = smash.curr_path();
+			smash.curr_path = arg[1];
+			if chdir(smash.curr_path) { //faild
+				cout << 'faild updating the current pwd "'<< smash.curr_path << '"';
+				return;
+			}
+		}
+		
+        return ;
+	} 
+	/*************************************************/
+	
 	else if (!strcmp(cmd, "jobs")) 
 	{
- 		
+		int current_time = time()
+ 		std::sort(smash.jobs_array[0],
+				smash.jobs_array[MAX_JOBS - 1],
+				job.compareByJob_ID);
+		for (int i ; i = 0; i < smash.job_counter ; i++)
+			job.print_job(smash.jobs_array[i] , current_time);
 	}
-	/*************************************************/
-	else if (!strcmp(cmd, "showpid")) 
-	{
-		cout << "smash pid is " << getpid()
-	}
+	
 	/*************************************************/
 	else if (!strcmp(cmd, "fg")) 
 	{
