@@ -1,5 +1,8 @@
 
-#include "commands.h"
+#include "commands.hpp"
+#include "smash.hpp"
+#include <iostream>
+
 using namespace std;
 
 
@@ -10,14 +13,14 @@ using namespace std;
 // Parameters: pointer to jobs, command string
 // Returns: 0 - success,1 - failure
 //********************************************************
-int ExeCmd(void* jobs, char* lineSize, char* cmdString)
+int ExeCmd(smash_t smash, char* lineSize, char* cmdString)
 {
 	char* cmd; 
 	char* args[MAX_ARG];
 	char pwd[MAX_LINE_SIZE];
 	char* delimiters = " \t\n";  
 	int i = 0, num_arg = 0;
-	bool illegal_cmd = FALSE; // illegal command
+	bool illegal_cmd = false; // illegal command 
     	cmd = strtok(lineSize, delimiters);
 	if (cmd == NULL)
 		return 0; 
@@ -26,7 +29,10 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
 	{
 		args[i] = strtok(NULL, delimiters); 
 		if (args[i] != NULL) 
-			num_arg++; 
+		{
+			num_arg++;
+		}
+		
  
 	}
 /*************************************************/
@@ -34,47 +40,52 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
 // ARE IN THIS CHAIN OF IF COMMANDS. PLEASE ADD
 // MORE IF STATEMENTS AS REQUIRED
 /*************************************************/
-	if (!strcmp(cmd, "showpid")) 
+	if (!strcmp(cmd, "showpid"))  
 	{
+		if (smash.pid == nullptr) { //should not happen
+			return 1;
+		}
 		cout << "smash pid is " << smash.pid;
+		return 0;
 	}
 	/*************************************************/
 	else if (!strcmp(cmd, "pwd")) 
 	{
 		char* pwd = getcwd();
-		if (pwd == nullptr) {
-			cout << 'didnt catch that pwd';
+		if (pwd == nullptr)  //getcwd failed
 			return 1; 
-		}
+		
 		cout << pwd;
+		return 0;
 	}
 	/*************************************************/
 	else if (!strcmp(cmd, "cd") ) 
 	{
-		if(num_arg > 1)//too much arguments passed
-        {
+		char* current_path = getcwd()
+		if (current_path == nullptr) {  //getcwd failed
+			return 1;
+		}
+		if(num_arg > 1) {//too much arguments passed
             cout << "smash error: cd: too many arguments" ;
-            return 1;
+			return 1;
         }
-        if (args[1] == '-')
+        if (args[1] == '-') //changing to last cd
         {
-			if (smash.last_path == nullptr) {
-				cout << 'smash error: cd: OLDPWD not set'
-				return 1
-			}
-            else if(chdir(smash.last_path)) { //chdir faild
-				cout << 'faild returning to last pwd "' << smash.last_path <<'"';
+			if (smash_t::get_last_path() == nullptr) {
+				cout << 'smash error: cd: OLDPWD not set';
 				return 1;
 			}
-        }
-		else 
-		{
-			smash.last_path = smash.curr_path();
-			smash.curr_path = arg[1];
-			if chdir(smash.curr_path) { //faild
-				cout << 'faild updating the current pwd "'<< smash.curr_path << '"';
-				return;
+            else if(chdir(smash_t::get_last_path())) { //chdir faild
+				return 1;
 			}
+			smash.last_path = current_path;
+			return 0;
+        } 
+
+		smash.last_path = current_path;
+		if chdir(smash.curr_path) { //faild
+			cout << 'faild updating the current pwd "'<< smash.curr_path << '"';
+			return;
 		}
 		
         return ;
@@ -83,17 +94,37 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
 	
 	else if (!strcmp(cmd, "jobs")) 
 	{
-		int current_time = time()
- 		std::sort(smash.jobs_array[0],
-				smash.jobs_array[MAX_JOBS - 1],
-				job.compareByJob_ID);
-		for (int i ; i = 0; i < smash.job_counter ; i++)
-			job.print_job(smash.jobs_array[i] , current_time);
+		smash.print_jobs()
 	}
 	
 	/*************************************************/
 	else if (!strcmp(cmd, "fg")) 
 	{
+		char* error_print[4] = {"smash error: fg: ",
+							 	"invalid arguments ",
+							 	"jobs list is empty ",
+							 	"does not exist "}
+		if (args[2] != nullptr || (args[1] != nullptr && isdigit(args[1])))
+		{
+			cout << error_print[0] << error_print[1] << endl;
+		}
+		else if (args[1] == nullptr)
+		{
+			if( smash.get_job_counter() == 0)
+				cout << error_print[0] << error_print[2] << endl;
+			else /* need to run the job with the biggest job-id */
+			{
+				job_a = smash.job_array[smash.get_job_counter() - 1];
+				cout << job_a.get_command() << job_a.get_job_id() << endl; 
+				smash.get_job_counter() += -1;
+
+			}
+		}
+		else if (args[1] > smash.get_job_counter())
+		{
+			cout<< error_print[0] <<"job-id "<<args[1] <<error_print[3] <<endl;
+		}
+		else /* execute the job_id */
 		
 	} 
 	/*************************************************/
@@ -153,9 +184,16 @@ void ExeExternal(char *args[MAX_ARG], char* cmdString)
 			default:
                 	// Add your code here
 					
-					/* 
-					your code
-					*/
+					if(args[num_arg -1] == &)//enter job to the array or run it in the background or in the child process what the fuckkkkkkkkk
+					{
+						smash.job_insert(args[1] , 2, pID);
+					}
+					else //run it 
+					{
+						execv(cmdString, args);
+						waitpid(pID);
+					}
+					
 	}
 }
 //**************************************************************************************

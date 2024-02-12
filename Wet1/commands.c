@@ -43,7 +43,7 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
 	/*************************************************/
 	else if (!strcmp(cmd, "jobs")) 
 	{
- 		
+ 		while()
 	}
 	/*************************************************/
 	else if (!strcmp(cmd, "showpid")) 

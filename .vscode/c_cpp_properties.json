@@ -9,7 +9,8 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
-            ]
+            ],
+            "cppStandard": "c++98"
         }
     ],
     "version": 4
