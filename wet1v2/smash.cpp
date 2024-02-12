@@ -7,6 +7,8 @@
 
 using namespace std;
 
+int find_job_index(int job_id);
+
 smash_t::smash_t(/* args */)
 {
     this->pid_num = getpid();
@@ -58,33 +60,49 @@ void smash_t::job_insert(string command, int status, int pID)
     this->job_counter++;
 }
 
-void smash_t::job_remove(int job_id)
+job* smash_t::job_access(int job_id)
 {
-    int index = 0;
-    while (this->jobs_array[index] != NULL && ) {
-        //print job doesnt exist
-        return;
-    }
-    delete(this->jobs_array[index]);
+    int index = find_job_index(job_id);
+    job* return_p_job = this->jobs_array[index];
+    return return_p_job;
+} 
+
+job* smash_t::job_get(int job_id) 
+{
+    //gives the user the job, he needs to free the memory
+    int index = find_job_index(job_id);
+    job* return_p_job = this->jobs_array[index];
     this->jobs_array[index] = NULL;
     this->job_counter--;
-    jobs_sort();
+    //sorts the jobs
+    this->jobs_sort_id(index);
+    //sets the max job id to the highest id
+    index = MAX_JOBS - 1;
+    while (this->jobs_array[index] == NULL && index > 0) {
+        index--;
+    }
+    if (this->jobs_array[index] == NULL) {
+        this->max_job_id = 0;
+    }
+    else {
+        this->max_job_id = *(this->jobs_array[index])->get_job_id();
+    }
+    //return the wanted output
+    return return_p_job;
+}
+
+void smash_t::job_remove(int job_id)
+{
+    job* job_to_remove = this->job_get(job_id);
+    if (job_to_remove == NULL) {
+        return;
+    }
+    delete(job_to_remove);
+    return;
 }
 
 //NULL is returned if not exist or invalid ID
-job smash_t::job_get(int job_id) ; 
-{
-    int index = 0;
-    while (*(this->jobs_array[index]).get_) {
-        
-    }
-    job a = *(this->jobs_array[])
-    int index = job_id - 1;
-    if (job_id > 100 or job_id < 1) {
-        return NULL;
-    }
-    return (this->jobs_array)[index];
-}
+
 
 void smash_t::print_jobs()
 {
@@ -92,12 +110,12 @@ void smash_t::print_jobs()
     time(&curr_time);
     for (int i =0; i< MAX_JOBS; i++) {
         if ((this->jobs_array)[i] != NULL) {
-           (*((this->jobs_array)[i])).print_job(curr_time);
+           (*(this->jobs_array[i])).print_job(curr_time);
         }
     }
 }
 
-void smash_t::jobs_sort(int place_in_array)
+void smash_t::jobs_sort_id(int place_in_array)
 {
     for(int i = 0; i < MAX_JOBS; i++)
     {
@@ -105,6 +123,29 @@ void smash_t::jobs_sort(int place_in_array)
         if(this->jobs_array[i] == NULL && this->jobs_array[j] != NULL)
         {
             jobs_array[i] = jobs_array[j];
+            jobs_array[j] = NULL;
         }
     }
+}
+
+int find_job_index(int job_id)
+{
+int index = 0;
+    job* p_curret_job = this->jobs_array[index];
+    if (p_curret_job == NULL) {
+        //empty arr, job doesnt exist
+        return -1;
+    }
+    while ((*p_curret_job).get_job_id() != job_id) {
+        index++;
+        if (index == MAX_JOBS){
+            return -1; //ran on all the array
+        }
+        p_curret_job = this->jobs_array[index];         
+        if (p_curret_job == NULL) {
+            //job doesnt exist, 
+            return -1;
+        }
+    } //quits the loop when the job id is identical
+    return index;
 }

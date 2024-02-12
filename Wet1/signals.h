@@ -8,7 +8,8 @@
 #include <string.h>
 #include <signal.h>
 
-
+void ctrl_c_handler(int sig, int smash_pid, int process_pid);
+void ctrl_z_handler(int sig, int smash_pid, int process_pid);
 
 #endif
 

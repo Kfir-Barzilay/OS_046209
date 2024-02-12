@@ -110,11 +110,11 @@ int ExeCmd(smash_t smash, char* lineSize, char* cmdString)
 							 	"invalid arguments ",
 							 	"jobs list is empty ",
 							 	"does not exist "}
-		if (args[2] != nullptr || (args[1] != nullptr && isdigit(args[1])))
+		if (args[2] != nullptr || (args[1] != nullptr && isdigit(atoi(args[1]))))
 		{
 			cout << error_print[0] << error_print[1] << endl;
 		}
-		else if (args[1] == nullptr)
+		else if (num_arg == 1)/* the user didn't entered job id */
 		{
 			int largest_id = smash.get_job_counter();
 			job* job_p = smash.job_access(largest_id);
@@ -126,13 +126,14 @@ int ExeCmd(smash_t smash, char* lineSize, char* cmdString)
 			cout << (*job_p).get_command() << (*job_p).get_job_id() << endl; 
 			smash.job_remove(largest_id);
 		}
-		else if (args[1] > smash.get_job_counter())
+		job::job job_to_exec = smash.get_job(atoi(args[1]));
+		else if (job_to_exec == NULL)
 		{
 			cout<< error_print[0] <<"job-id "<<args[1] <<error_print[3] <<endl;
 		}
 		else /* execute the job_id */
 		{
-			/* need to be filled */
+			
 		}
 	} 
 	/*************************************************/

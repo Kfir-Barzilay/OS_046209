@@ -22,8 +22,10 @@ public:
     void set_last_path(const string path);
     int get_job_counter();
     void job_insert(string command, int status, int pID);
+    job* job_access(int job_id);
+    job* job_get(int job_id); // the user needs to free the space
+                            //jk memory loss isnt being tested. 
     void job_remove(int job_id);
-    job job_get(int job_id); //gets and removes
-    void jobs_sort(int place_in_array);
+    void jobs_sort_id(int place_in_array);
     void print_jobs();
 };

@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	if (L_Fg_Cmd == NULL) 
 			exit (-1); 
 	L_Fg_Cmd[0] = '\0';
-	
+	smash_t* p_smash = new smash();
     	while (1)
     	{
 	 	printf("smash > ");
