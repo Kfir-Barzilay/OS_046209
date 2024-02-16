@@ -9,6 +9,28 @@ using namespace std;
 
 int find_job_index(int job_id);
 
+int find_job_index(int job_id)
+{
+int index = 0;
+    job* p_curret_job = this->jobs_array[index];
+    if (p_curret_job == NULL) {
+        //empty arr, job doesnt exist
+        return -1;
+    }
+    while ((*p_curret_job).get_job_id() != job_id) {
+        index++;
+        if (index == MAX_JOBS){
+            return -1; //ran on all the array
+        }
+        p_curret_job = this->jobs_array[index];         
+        if (p_curret_job == NULL) {
+            //job doesnt exist, 
+            return -1;
+        }
+    } //quits the loop when the job id is identical
+    return index;
+}
+
 smash_t::smash_t(/* args */)
 {
     this->pid_num = getpid();
@@ -60,9 +82,14 @@ void smash_t::job_insert(string command, int status, int pID)
     this->job_counter++;
 }
 
+//return job* of the job. return NULL in not exist
 job* smash_t::job_access(int job_id)
 {
     int index = find_job_index(job_id);
+    if(index == -1)
+    {
+        return NULL;
+    }
     job* return_p_job = this->jobs_array[index];
     return return_p_job;
 } 
@@ -128,24 +155,25 @@ void smash_t::jobs_sort_id(int place_in_array)
     }
 }
 
-int find_job_index(int job_id)
+
+
+/*this func need to return a job_id with status value of stopped 
+(we defined stopped as 3), check from the highest job_id to the lowest. 
+if there is no job with this status return -1, for not exist)*/
+int smash::highest_stopped_job()
 {
-int index = 0;
-    job* p_curret_job = this->jobs_array[index];
-    if (p_curret_job == NULL) {
-        //empty arr, job doesnt exist
-        return -1;
-    }
-    while ((*p_curret_job).get_job_id() != job_id) {
-        index++;
-        if (index == MAX_JOBS){
-            return -1; //ran on all the array
-        }
-        p_curret_job = this->jobs_array[index];         
-        if (p_curret_job == NULL) {
-            //job doesnt exist, 
+    index = this->jobs_counter - 1;
+    while (index > 0) {
+        job* p_curr_job = this->jobs_array[index]
+        if (p_curr_job == NULL) {
             return -1;
         }
-    } //quits the loop when the job id is identical
-    return index;
+
+        if ((*p_curr_job).get_status() == 3) {
+            return (*p_curr_job).get_id();
+        }
+        index--;
+    }
+
+    return -1;
 }

@@ -3,6 +3,7 @@
 #include "smash.hpp"
 #include <iostream>
 #define SMASH_ERROR "smash error: "
+#define STOPPED 3
 using namespace std;
 
 
@@ -66,13 +67,15 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 	/*************************************************/
 	else if (!strcmp(cmd, "cd") ) 
 	{
+		//---arg check
+		if(num_arg > 1) {//too much arguments passed
+            cout << "smash error: cd: too many arguments" ;
+			return 1;
 		char* current_path = getcwd()
 		if (current_path == nullptr) {  //getcwd failed
 			return 1;
 		}
-		if(num_arg > 1) {//too much arguments passed
-            cout << "smash error: cd: too many arguments" ;
-			return 1;
+		
         }
         if (args[1] == '-') //changing to last cd
         {
@@ -105,10 +108,17 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 	/*************************************************/
 	else if (!strcmp(cmd, "kill"))
 	{
+		//-------checks the input
 		if (num_arg != 2) { //invalid args num
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return 1;
 		}
+		if (!isdigit(args[2])) {
+			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
+			return 1;
+		}
+		int signal = atoi(args[2]);
+		//-------get job pid
 		job* kill_job = smash.job_access(args[1])
 		if (kill_job == NULL) { //job doesnt exist
 			cerr << SMASH_ERROR << "kill: job-id " << args[2];
@@ -116,12 +126,14 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 			return 1;
 		}
 		pid_t job_pid = (*kill_job).get_pid();
-		//send signal to job!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-		//send signal to job!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-		//send signal to job!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-		cout << "signal number " << args[2] << " was sent to pid ";
-		cout << job_pid << endl;
-		return 0;
+		//------send signal
+		if (kill(kill_job , signal) == 0) {
+			cout << "signal number " << args[2] << " was sent to pid ";
+			cout << job_pid << endl;
+			return 0;
+		}
+		//-----undefiend error
+		return 1;
 	} 
 	/*************************************************/	
 
@@ -131,11 +143,11 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 							 	"invalid arguments ",
 							 	"jobs list is empty ",
 							 	"does not exist "}
-		if (args[2] != nullptr || (args[1] != nullptr && isdigit(args[1])))
+		if (num_arg > 1 || !isdigit(args[1])))
 		{
 			cout << error_print[0] << error_print[1] << endl;
 		}
-		else if (args[1] == nullptr)
+		else if (num_arg == 0 )
 		{
 			int largest_id = smash.get_job_counter();
 			job* job_p = smash.job_access(largest_id);
@@ -144,28 +156,125 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 				cout << error_print[0] << error_print[2] << endl;
 				return 1;
 			}
-			cout << (*job_p).get_command() << (*job_p).get_job_id() << endl; 
+			cout << (*job_p).get_command() << (*job_p).get_job_id() << endl;
+			int status;
+			int wait = waitpid((*job_p).get_pid(), &status, WUNTRACED);// do we need wuntraced or something else?
+			if(wait == -1)
+			{
+				cout << "smash error: waitpid failed" << endl;
+				return 1;
+			} 
+			if(WIFSTOPPED(status))//return true if the process stoped, otherwise false
+			{
+				*(job_p).set_status(STOPPED);
+
+			}
 			smash.job_remove(largest_id);
 		}
 		else if (args[1] > smash.get_job_counter())
 		{
 			cout<< error_print[0] <<"job-id "<<args[1] <<error_print[3] <<endl;
 		}
-		else /* execute the job_id */
+		else if(num_arg == 1 && isdigit(arg[1])) /* execute the job_id */
 		{
-			/* need to be filled */
+			int job_id = atoi(arg[1]);
+			job* job_p = smash.job_access(job_id);
+			if (job_p == NULL) 
+			{
+				cout << error_print[0] << error_print[2] << endl;
+				return 1;
+			}
+			cout << (*job_p).get_command() << job_id << endl;
+			int status;
+			int wait = waitpid((*job_p).get_pid(), &status, WUNTRACED);// do we need wuntraced or something else?
+			if(wait == -1)
+			{
+				cout << "smash error: waitpid failed" << endl;
+				return 1;
+			} 
+			if(WIFSTOPPED(status))//return true if the process stoped, otherwise false
+			{
+				*(job_p).set_status(STOPPED);
+
+			}
+			smash.job_remove(job_id);
 		}
 	} 
 	/*************************************************/
 	else if (!strcmp(cmd, "bg")) 
 	{
-  		
+  		if(num_arg > 1)
+		{
+			cout << SMASH_ERROR << cmd <<": invalid arguments" << endl;
+			return 1;
+		}
+		if(num_arg == 0)
+		{
+			int job_id = highest_stopped_job();
+			if(job_id == -1)
+			{
+				cout << SMASH_ERROR << cmd << ": there are no jobs to resume" << endl;
+				return 1;
+			}
+			job *job_p = smash.job_access(job_id);
+			int signal = kill(job_p.get_pid(), SIGCONT);
+			if(signal == -1)
+			{
+				cout << "smash error: kill failed" << emdl;
+				return 1;
+			}
+			job_p.set_status(1);//need to check the status numbers
+			cout << job_p.get_command() << ": " << job_id << endl;
+			int kill = kill(job_p.get_pid(), SIGCONT);
+			if(kill == -1)
+			{
+				perror("smash error: kill failed");
+				return 1;
+			}
+		}
+		else if(arg_num == 1 && isdigit(arg[1]))
+		{
+			int job_id = atoi(arg[1]);
+			job *job_p = smash.job_access();
+			if(job_p == NULL)
+			{
+				cout << SMASH_ERROR << cmd << ": job id " << job_id << " does not exist" << endl;
+				return 1;
+			}
+			if(job_p.get_status() != 3)//not stopped
+			{
+				cout << SMASH_ERROR << cmd <<": job id" << job_id << "is already running in the background" << endl;
+				return 1;
+			}
+			cout << job_p.get_command() << ": " << job_id << endl;
+			job_p.set_status(STOPPED);
+			int kill = kill(job_p.get_pid(), SIGCONT);
+			if(kill == -1)
+			{
+				perror("smash error: kill failed");
+				return 1;
+			}
+		}
+		return 0;
 	}
 	/*************************************************/
 	else if (!strcmp(cmd, "quit"))
 	{
-		if (args[1] == "kill") {
-
+		//-----kill all processes if needed
+		if (args[1] == "kill") { //-------------------------------------------------need help
+			for (int i = 0; i < smash.job_counter; i++) {
+				job_pid = (*(smash.jobs_array[i])).get_pid();
+				time_t sig_time = time();
+				cout << "Sending SIGTERM"; 
+				int kill = kill(job_pid , SIGTERM);
+				time_t current_time = time();
+				while (time_diff(current_time , sig_time) < 5)
+					
+				if(kill == -1)
+				{
+					cout << SMASH_ERROR << "kill failed" <<endl;
+				}
+			}
 		}
 		//finishing smash
    		delete[smash];
@@ -234,6 +343,7 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 	}
     return 0;
 }
+
 void ExeExternal(char *args[MAX_ARG], char* cmdString)
 {
 	int pID;

@@ -27,5 +27,6 @@ public:
                             //jk memory loss isnt being tested. 
     void job_remove(int job_id);
     void jobs_sort_id(int place_in_array);
+    int highest_stopped_job();
     void print_jobs();
 };
