@@ -71,12 +71,14 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 		if(num_arg > 1) {//too much arguments passed
             cout << "smash error: cd: too many arguments" ;
 			return 1;
+		}
+
 		char* current_path = getcwd()
 		if (current_path == nullptr) {  //getcwd failed
 			return 1;
 		}
 		
-        }
+        
         if (args[1] == '-') //changing to last cd
         {
 			if (smash_t::get_last_path() == nullptr) {
