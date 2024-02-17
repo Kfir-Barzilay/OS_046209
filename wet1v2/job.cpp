@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <string>
 #include <ctime>
 
@@ -15,8 +16,8 @@ char* string_cpy(const char* str)
         return NULL;
     }
     size_t str_len = strlen(str) + 1;
-    str_cpy = new char[str_len];
-    srtcpy(str_cpy, str);
+    char* str_cpy = new char[str_len];
+    strcpy(str_cpy, str);
     return str_cpy;
 }
 
@@ -27,10 +28,10 @@ job::job(const char* command,
         const pid_t pid,
         const bool is_background,
         const bool is_stopped
-        );
+        )
 {
     //---set command
-    this->command = srting_cpy(command);
+    this->command = string_cpy(command);
     //---set args 
     if (args == NULL) {
         this->args = NULL;
@@ -49,7 +50,7 @@ job::job(const char* command,
     this->is_stopped = is_stopped;
 }
 
-job::job(const job& a);
+job::job(const job& a);s
 {   
     //---set command
     this->command = a.get("command");
