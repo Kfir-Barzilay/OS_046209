@@ -3,7 +3,8 @@
 #include "smash.hpp"
 #include <iostream>
 #define SMASH_ERROR "smash error: "
-#define STOPPED 3
+#define SUCCESS 0
+#define FAILURE 1
 using namespace std;
 
 
@@ -33,8 +34,6 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 		{
 			num_arg++;
 		}
-		
- 
 	}
 /*************************************************/
 // Built in Commands PLEASE NOTE NOT ALL REQUIRED
@@ -49,56 +48,62 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 	if (!strcmp(cmd, "showpid"))  
 	{
 		if (smash.pid == nullptr) { //should not happen
-			return 1;
+			return FAILURE;
 		}
 		cout << "smash pid is " << smash.pid;
-		return 0;
+		return SUCCESS;
 	}
 	/*************************************************/
 	else if (!strcmp(cmd, "pwd")) 
 	{
 		char* pwd = getcwd();
 		if (pwd == nullptr)  //getcwd failed
-			return 1; 
+			return FAILURE; 
 		
-		cout << pwd;
-		return 0;
+		cout << pwd << endl;
+		return SUCCESS;
 	}
 	/*************************************************/
 	else if (!strcmp(cmd, "cd") ) 
 	{
 		//---arg check
 		if(num_arg > 1) {//too much arguments passed
-            cout << "smash error: cd: too many arguments" ;
-			return 1;
+            cerr << "smash error: cd: too many arguments" << endl;
+			return FAILURE;
 		}
 
 		char* current_path = getcwd()
 		if (current_path == nullptr) {  //getcwd failed
-			return 1;
+			perror("smash error: getcwd failed");
+			return FAILURE;
 		}
 		
         
         if (args[1] == '-') //changing to last cd
         {
-			if (smash_t::get_last_path() == nullptr) {
-				cout << 'smash error: cd: OLDPWD not set';
-				return 1;
+			char *last_path = smash.get_last_path();
+			if (last_path == nullptr) {
+				cerr << SMASH_ERROR << 'cd: OLDPWD not set' << endl;
+				delete(last_path);
+				return FAILURE;
 			}
-            else if(chdir(smash_t::get_last_path())) { //chdir faild
-				return 1;
+            else if(chdir(last_path)) { //chdir faild
+				perror("smash error: chdir failed");
+				delete(last_path);
+				return FAILURE;
 			}
-			smash.last_path = current_path;
-			return 0;
+			smash.set_last_path(current_path);
+			return SUCCESS
         } 
 
-		smash.last_path = current_path;
-		if chdir(smash.curr_path) { //faild
-			cout << 'faild updating the current pwd "'<< smash.curr_path << '"';
-			return;
+		//changing to new cd------------------------------------------------------------------check
+		smash.set_last_path(current_path);
+		if chdir(args[1]) { //faild
+			cerr << 'faild updating the current pwd "'<< current_path << '"';
+			return FAILURE;
 		}
 		
-        return ;
+        return SUCCESS;
 	} 
 	/*************************************************/
 	
@@ -113,29 +118,32 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 		//-------checks the input
 		if (num_arg != 2) { //invalid args num
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
-			return 1;
+			return FAILURE;
 		}
-		if (!isdigit(args[2])) {
+		if (!isdigit(args[1]) || !isdigit(args[2])) {
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
-			return 1;
+			return FAILURE;
 		}
+		pid_t job_id = atoi(args[1]);
 		int signal = atoi(args[2]);
 		//-------get job pid
-		job* kill_job = smash.job_access(args[1])
-		if (kill_job == NULL) { //job doesnt exist
+		job* kill_job = smash.job_access(job_id)
+		if (kill_job == NULL)
+		{ //job doesnt exist
 			cerr << SMASH_ERROR << "kill: job-id " << args[2];
 			cerr << " does not exist" << endl;
-			return 1;
+			return FAILURE;
 		}
 		pid_t job_pid = (*kill_job).get_pid();
 		//------send signal
-		if (kill(kill_job , signal) == 0) {
+		if (kill(kill_job , signal) == 0)
+		{
 			cout << "signal number " << args[2] << " was sent to pid ";
 			cout << job_pid << endl;
-			return 0;
+			return SUCCESS;
 		}
 		//-----undefiend error
-		return 1;
+		return FAILURE;
 	} 
 	/*************************************************/	
 
@@ -147,35 +155,41 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 							 	"does not exist "}
 		if (num_arg > 1 || !isdigit(args[1])))
 		{
-			cout << error_print[0] << error_print[1] << endl;
+			cerr << error_print[0] << error_print[1] << endl;
 		}
 		else if (num_arg == 0 )
 		{
-			int largest_id = smash.get_job_counter();
+			int largest_id = smash.get_max_job_id();
 			job* job_p = smash.job_access(largest_id);
 			if (job_p == NULL) 
 			{
-				cout << error_print[0] << error_print[2] << endl;
-				return 1;
+				cerr << error_print[0] << error_print[2] << endl;
+				return FAILURE;
 			}
-			cout << (*job_p).get_command() << (*job_p).get_job_id() << endl;
+			pid_t pid = (*job_p).get_pid();
+			char *command = (*job_p).get_command(); 
+			cout << command << pid << endl;
+			delete(command);
 			int status;
-			int wait = waitpid((*job_p).get_pid(), &status, WUNTRACED);// do we need wuntraced or something else?
+			pid_t pid = (*job_p).get_pid();
+			int wait = waitpid(pid, &status, WUNTRACED);
+			// do we need wuntraced or something else?
 			if(wait == -1)
 			{
-				cout << "smash error: waitpid failed" << endl;
-				return 1;
+				perror("smash error: waitpid failed");
+				return FAILURE;
 			} 
-			if(WIFSTOPPED(status))//return true if the process stoped, otherwise false
+			if(WIFSTOPPED(status))/* return true if the process stoped,
+									 otherwise false*/
 			{
-				*(job_p).set_status(STOPPED);
+				*(job_p).set_is_stopped(true);
 
 			}
 			smash.job_remove(largest_id);
 		}
-		else if (args[1] > smash.get_job_counter())
+		else if (args[1] > smash.get_max_job_id())
 		{
-			cout<< error_print[0] <<"job-id "<<args[1] <<error_print[3] <<endl;
+			cerr<< error_print[0] <<"job-id "<<args[1] <<error_print[3] <<endl;
 		}
 		else if(num_arg == 1 && isdigit(arg[1])) /* execute the job_id */
 		{
@@ -183,55 +197,71 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 			job* job_p = smash.job_access(job_id);
 			if (job_p == NULL) 
 			{
-				cout << error_print[0] << error_print[2] << endl;
-				return 1;
+				cerr << error_print[0] << error_print[2] << endl;
+				return FAILURE;
 			}
-			cout << (*job_p).get_command() << job_id << endl;
+			char* command = (*job_p).get_command();
+			cout << command << job_id << endl;
+			delete(command);
 			int status;
-			int wait = waitpid((*job_p).get_pid(), &status, WUNTRACED);// do we need wuntraced or something else?
+			// do we need wuntraced or something else?
+			pid_t pid = (*job_p).get_pid();
+			int wait = waitpid(pid, &status, WUNTRACED);
 			if(wait == -1)
 			{
-				cout << "smash error: waitpid failed" << endl;
-				return 1;
+				perror("smash error: waitpid failed");
+				return FAILURE;
 			} 
-			if(WIFSTOPPED(status))//return true if the process stoped, otherwise false
+			if(WIFSTOPPED(status))/* return true if the process stoped,
+									 otherwise false */
 			{
-				*(job_p).set_status(STOPPED);
+				*(job_p).set_is_stopped(true);
 
 			}
 			smash.job_remove(job_id);
+			return SUCCESS;
 		}
 	} 
 	/*************************************************/
 	else if (!strcmp(cmd, "bg")) 
 	{
+		char* errors[5] = {": invalid arguments", 
+						   ": there are no jobs to resume",
+						   " does not exist",
+						   "is already running in the background",
+						   ": job id ",
+						   }
   		if(num_arg > 1)
 		{
-			cout << SMASH_ERROR << cmd <<": invalid arguments" << endl;
-			return 1;
+			cerr << SMASH_ERROR << cmd << errors[0] << endl;
+			return FAILURE;
 		}
 		if(num_arg == 0)
 		{
 			int job_id = highest_stopped_job();
 			if(job_id == -1)
 			{
-				cout << SMASH_ERROR << cmd << ": there are no jobs to resume" << endl;
-				return 1;
+				cerr << SMASH_ERROR << cmd << errors[1] << endl;
+				return FAILURE;
 			}
 			job *job_p = smash.job_access(job_id);
-			int signal = kill(job_p.get_pid(), SIGCONT);
+			pid_t pid = job_p.get_pid();
+			int signal = kill(pid, SIGCONT);
 			if(signal == -1)
 			{
-				cout << "smash error: kill failed" << emdl;
-				return 1;
+				perror("smash error: kill failed");
+				return FAILURE;
 			}
-			job_p.set_status(1);//need to check the status numbers
-			cout << job_p.get_command() << ": " << job_id << endl;
-			int kill = kill(job_p.get_pid(), SIGCONT);
+			job_p.set_is_stopped(false);
+			char *command = job_p.get_command();
+			cout << command << ": " << job_id << endl;
+			delete(command);
+			pid_t pid = job_p.get_pid();
+			int kill = kill(pid, SIGCONT);
 			if(kill == -1)
 			{
 				perror("smash error: kill failed");
-				return 1;
+				return FAILURE;
 			}
 		}
 		else if(arg_num == 1 && isdigit(arg[1]))
@@ -240,24 +270,27 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 			job *job_p = smash.job_access();
 			if(job_p == NULL)
 			{
-				cout << SMASH_ERROR << cmd << ": job id " << job_id << " does not exist" << endl;
-				return 1;
+				cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[2] << endl;
+				return FAILURE;
 			}
-			if(job_p.get_status() != 3)//not stopped
+			if(!(job_p.get_is_stopped))//not stopped
 			{
-				cout << SMASH_ERROR << cmd <<": job id" << job_id << "is already running in the background" << endl;
-				return 1;
+				cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[3] << endl;
+				return FAILURE;
 			}
-			cout << job_p.get_command() << ": " << job_id << endl;
-			job_p.set_status(STOPPED);
-			int kill = kill(job_p.get_pid(), SIGCONT);
+			char *command = job_p.get_command();
+			cout << command << ": " << job_id << endl;
+			delete(command);
+			job_p.set_is_stopped( false);
+			pit_t pid = job_p.get_pid();
+			int kill = kill(pid, SIGCONT);
 			if(kill == -1)
 			{
 				perror("smash error: kill failed");
-				return 1;
+				return FAILURE;
 			}
 		}
-		return 0;
+		return SUCCESS;
 	}
 	/*************************************************/
 	else if (!strcmp(cmd, "quit"))
@@ -265,7 +298,7 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 		//-----kill all processes if needed
 		if (args[1] == "kill") { //-------------------------------------------------need help
 			for (int i = 0; i < smash.job_counter; i++) {
-				job_pid = (*(smash.jobs_array[i])).get_pid();
+				pid_t job_pid = (*(smash.jobs_array[i])).get_pid();
 				time_t sig_time = time();
 				cout << "Sending SIGTERM"; 
 				int kill = kill(job_pid , SIGTERM);
@@ -275,13 +308,14 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 				if(kill == -1)
 				{
 					cout << SMASH_ERROR << "kill failed" <<endl;
+					return FAILURE;
 				}
 			}
 		}
 		//finishing smash
    		delete[smash];
 		*pp_smash = NULL;
-		return 0;
+		return SUCCESS;
 	} 
 	/*************************************************/
 	
@@ -289,14 +323,14 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 	{
 		if (num_arg != 3)
 		{
-			cout << "smash error: diff: invalid arguments" << endl;
+			cerr << "smash error: diff: invalid arguments" << endl;
 		}
 		ifstream file1(argv[1]);
     	ifstream file2(argv[2]);
 		if (!file1.is_open() || !file2.is_open()) 
 		{
 			cerr << "Error opening files." << std::endl;
-			return 1;
+			return FAILURE;
 		}
 
 		string line1, line2;
@@ -305,30 +339,30 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 		{
 			if (line1 != line2)
 			{
-				cout << "Files differ at line " << lineNumber << endl;
+				cout << "Files differ at line " << lineNumber << endl;//not needed
 				file1.close();
 				file2.close();
-				return 1;
+				return FAILURE;
 			}
 			lineNumber++;
 		}
 
 		if (!file1.eof() || !file2.eof()) 
 		{
-			cout << "Files have different lengths." << endl;
+			cout << "Files have different lengths." << endl;//not needed
 			file1.close();
 			file2.close();
-			return 1;
+			return FAILURE;
 		} 
 		else 
 		{
-			cout << "Files are identical." << endl;
+			cout << "Files are identical." << endl;//not needed
 		}
 
 		file1.close();
 		file2.close();
 
-		return 0;
+		return SUCCESS;
 	}
 			
  
@@ -336,58 +370,55 @@ int ExeCmd(smash_t** pp_smash, char* lineSize, char* cmdString)
 	else // external command
 	{
  		ExeExternal(args, cmdString);
-	 	return 0;
+	 	return SUCCESS;
 	}
 	if (illegal_cmd == TRUE)
 	{
 		printf("smash error: > \"%s\"\n", cmdString);
-		return 1;
+		return FAILURE;
 	}
-    return 0;
+    return SUCCESS;
 }
 
-void ExeExternal(char *args[MAX_ARG], char* cmdString)
+void ExeExternal(char *args[MAX_ARG], char* cmdString, Job *jobs)
 {
 	int pID;
     	switch(pID = fork()) 
 	{
     		case -1: 
-					// Add your code here (error)
-					
-					/* 
-					your code
-					*/
+					perror("smash error: fork failed");
+					exit(1);
         	case 0 :
                 	// Child Process
                		setpgrp();
 					
-			        // Add your code here (execute an external command)
-					
-					/* 
-					your code
-					*/
+			        execv(args[0], args); /*running on cmd the command,
+										  return only if got error*/ 
+					perror("smash error: execv failed");
+					exit(1);
 			
 			default:
                 	// Add your code here
-					
-					if(args[num_arg -1] == &)//enter job to the array or run it in the background or in the child process what the fuckkkkkkkkk
+					int status;
+					int wait_pid =waitpid(pID, &status, WUNTRACED | WCONTINUED);
+					if(wait_pid == -1)
 					{
-						smash.job_insert(args[1] , 2, pID);
-					}
-					else //run it 
+						perror("smash error: waitpid failed");
+					} 
+					if(WIFSTOPPED(status))// only occur when SIGSTOP sent
 					{
-						execv(cmdString, args);
-						waitpid(pID);
+						//do we need to enter the arguments also?
+						smash.job_insert(cmdString, args, pID, status);
 					}
 					
 	}
 }
-//**************************************************************************************
+//*****************************************************************************
 // function name: BgCmd
 // Description: if command is in background, insert the command to jobs
 // Parameters: command string, pointer to jobs
 // Returns: 0- BG command -1- if not
-//**************************************************************************************
+//*****************************************************************************
 int BgCmd(char* lineSize, void* jobs)
 {
 
@@ -398,10 +429,21 @@ int BgCmd(char* lineSize, void* jobs)
 	{
 		lineSize[strlen(lineSize)-2] = '\0';
 		// Add your code here (execute a in the background)
-					
-		/* 
-		your code
-		*/
+		char cmd[MAX_LINE_SIZE];
+		strcpy(cmd, lineSize);
+		lineSize[strlen(lineSize) - 1] = '\0';
+		Command = strtok(lineSize, delimiters);
+		if(Command == NULL)
+		{
+			return SUCCESS;
+		}			
+		args[0] = Command;
+		for(int i =0; i < MAX_ARG; i++)
+		{
+			//NULL indicates using the same string
+			args[i] = strtok(NULL, delimeters);
+		}
+		ExeExternal(args, cmd, *jobs);
 		
 	}
 	return -1;

@@ -8,68 +8,144 @@ using namespace std;
 
 #define STOPPED 3
 
-job::job(const string str, const int job_id, const int status, const int pID)
+
+char* string_cpy(const char* str)
 {
-    this->command = str;
+    if (str == NULL) {
+        return NULL;
+    }
+    size_t str_len = strlen(str) + 1;
+    str_cpy = new char[str_len];
+    srtcpy(str_cpy, str);
+    return str_cpy;
+}
+
+
+job::job(const char* command,
+        const char** args, 
+        const int job_id, 
+        const pid_t pid,
+        const bool is_background,
+        const bool is_stopped
+        );
+{
+    //---set command
+    this->command = srting_cpy(command);
+    //---set args 
+    if (args == NULL) {
+        this->args = NULL;
+    }
+    else {
+        this->args = new char*[MAX_ARG];
+        for (int i = 0; i < MAX_ARG ; i++) {
+            this->args[i] = string_cpy(args[i]);
+        }
+    }
+    //---set the rest;
     this->job_id = job_id; 
-    this->pid = pID;
+    this->pid = pid;
     time(&this->start_time);
-    this->status = status;
+    this->is_background = is_background;
+    this->is_stopped = is_stopped;
 }
 
-job(const job& a);
-{
-    this->command = a.get_command();
-    this->job_id = a.get_job_id(); 
-    this->pid = a.get_pid();
-    this->start_time = a.get_start_time();
-    this->status = a.get_status();
+job::job(const job& a);
+{   
+    //---set command
+    this->command = a.get("command");
+    this->args = a.get("args");
+    this->job_id = a.get("job_id"); 
+    this->pid = a.get("pid");
+    this->start_time = a.get("start_time");
+    this->is_back_ground = a.get("is_back_ground");
+    this->is_stopped = a.get("is_stopped");
 }
 
-string job::get_command()
+job::~job 
 {
-    return this->command;
+    delete(this->command);
+    for (int i = 0; i < MAX_ARG ; i++) {
+        if (this->args[i] != NULL) {
+            delete(this->args[i]);
+        }
+    }
+    delete(this->args)
 }
 
-int job::get_job_id()
+char* job::get_command()
 {
+    char *str_cpy = string_cpy(this->command);
+    return str_cpy;
+}
+
+
+//char** always args
+char** job::get_args()
+{ 
+    if (this->args == NULL) {
+        return = NULL;
+    }
+    else {
+        char**args_cpy = new char*[MAX_ARG];
+        for (int i = 0; i < MAX_ARG ; i++) {
+            args_cpy[i] = string_cpy(this->args[i]);
+        }
+    }
+    return args_cpy;
+}
+
+int job::get_job_id() 
+{   
     return this->job_id;
 }
 
-int job::get_pid()
-{
+pid_t job::get_pid() 
+{   
     return this->pid;
 }
 
-int job::get_start_time()
+time_t job::get_start_time() 
 {
     return this->start_time;
 }
 
-int job::get_status()
+bool job::get_is_background()
 {
-    return this->status;
+    return this->is_background;
 }
 
-void job::set_status(int status)
+bool job::get_is_stopped()
 {
-    this->status = status;
+    return this->is_stopped;
+}
+
+bool job::get_is_background()
+{
+    return this->is_background;
+}
+
+bool job::get_is_stopped()
+{
+    return this->is_stopped;
+}
+
+bool job::set_is_background(bool value)
+{
+    this->background = value;
+}
+
+bool job::set_is_stopped(bool value)
+{
+    this->stopped = value;
 }
 
 void job::print_job(time_t current_time)
 {
     int time_passed = difftime(current_time, this->start_time);
-    cout <<"[" << this->job_id <<"] " << this->command << " : ";
+    cout <<"[" << this->job_id <<"] " << this->command << "& : ";
     cout << this->pid <<" " << time_passed << " secs";
-    if(status == STOPPED){
+    if(this->is_stopped){
         cout << " (stopped)";
     }
     cout << endl;
 }
-
-bool job::lowerByPID (const job* a) {
-    if (a == NULL) { //null pointer is the greatest
-        return true;
-    }
-    return this->pid < (*a).pid;
-}   

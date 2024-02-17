@@ -1,27 +1,37 @@
 
 #include <iostream>
 #include <string>
-
+#define MAX_ARG 20
 using namespace std;
 
 class job
 {
 private:
-    string command;
+    char* command;
+    char *args[MAX_ARG];
     int job_id;
-    int pid;
+    pid_t pid;
     time_t start_time;// we can use time(pointer) return secondes passed from midnight or clock() return the clock cycles passed
-    int status; // 1- foreground, 2 - background, 3 - stopped
+    bool is_background;
+    bool is_stopped;
 public:
-    job(const string str, const int job_id, const int status, const int pID);
+    job(const char* command,
+        const char** args,  
+        const int job_id, 
+        const pid_t pid, 
+        const bool is_background, 
+        const bool is_stopped
+    );
     job(const job& a);
-    //no heap allocations no need for destructor
-    string get_command();
+    ~job();
+    char* get_command();
+    char** get_args();
     int get_job_id();
-    int get_pid();
-    int get_start_time();
-    int get_status();
-    void set_status(int status);
+    pid_t get_pid();
+    time_t get_start_time();
+    bool get_is_background();
+    bool get_is_stopped();
+    void set_is_background(bool value);
+    void set_is_stopped(bool value);
     void print_job(time_t current_time);
-    bool lowerByPID (const job* a);
 };

@@ -6,12 +6,20 @@
 #include "smash.hpp"
 
 using namespace std;
-
-int find_job_index(int job_id);
+char* string_cpy(const char* str)
+{
+    if (str == NULL) {
+        return NULL;
+    }
+    size_t str_len = strlen(str) + 1;
+    str_cpy = new char[str_len];
+    srtcpy(str_cpy, str);
+    return str_cpy;
+}
 
 int find_job_index(int job_id)
 {
-int index = 0;
+    int index = 0;
     job* p_curret_job = this->jobs_array[index];
     if (p_curret_job == NULL) {
         //empty arr, job doesnt exist
@@ -33,9 +41,9 @@ int index = 0;
 
 smash_t::smash_t(/* args */)
 {
-    this->pid_num = getpid();
-    this->last_path = "";
-    this->job_counter = 0;
+    this->pid = getpid();
+    this->last_path = NULL;
+    this->jobs_counter = 0;
     this->max_job_id = 0;
     this->jobs_array = new job*[MAX_JOBS];
     for (int i = 0; i < MAX_JOBS; i++) {
@@ -45,41 +53,68 @@ smash_t::smash_t(/* args */)
 
 smash_t::~smash_t()
 {
+    if (this->last_path != NULL){
+        delete(last_path);
+    }
+    for (int i = 0; i < MAX_JOBS; i++) {
+        if(jobs_array[i] != NULL) {
+            delete(jobs_array[i]);
+        }
+    }
     delete(this->jobs_array);
 }
 
-pid_t smash_t::get_pid_num()
+pid_t smash_t::get_pid()
 {
     return this->pid_num;
 }
 
-string smash_t::get_last_path()
+char* smash_t::get_last_path()
 {
-    return this->last_path;
+    char* last_path_cpy = string_cpy(this->last_path);
+    return last_path_cpy;
+}
+     
+int smash_t::get_jobs_counter()
+{
+    return this->jobs_counter;
 }
 
-void smash_t::set_last_path(const string path)
+int smash_t::get_max_job_id()
 {
-    this->last_path = path;
+    return this->max_job_id;
 }
 
-int smash_t::get_job_counter()
+void smash_t::set_last_path(char* str)
 {
-    return this->job_counter;
+    this->last_path = string_cpy(str);
 }
 
-
-void smash_t::job_insert(string command, int status, int pID)
+int smash_t::set_jobs_counter(int num)
 {
-    if (this->get_job_counter() >= 100) { 
-        cout << "too many jobs in array" << endl;
+    this->jobs_counter = num;
+}
+
+int smash_t::set_max_job_id(int num)
+{
+    this->max_job_id = num;
+}
+
+void smash_t::job_insert(const char* command,
+                        char** args,
+                        pid_t pid,
+                        bool is_background,
+                        bool is_stopped)
+{
+    if (this->jobs_counter >= 100) { 
+        cerr << "too many jobs in array" << endl;
         return;
     }
-    int job_ID = this->max_job_id + 1;
+    int job_id = this->max_job_id + 1;
     this->max_job_id++;
-    job* new_job = new job(command, job_ID , status, pID); 
-    this->jobs_array[job_counter] = new_job;
-    this->job_counter++;
+    job* new_job = new job(command, args, job_id, pid, is_background, is_stopped); 
+    this->jobs_array[jobs_counter] = new_job;
+    this->jobs_counter++;
 }
 
 //return job* of the job. return NULL in not exist
@@ -98,17 +133,20 @@ job* smash_t::job_get(int job_id)
 {
     //gives the user the job, he needs to free the memory
     int index = find_job_index(job_id);
+    if (index < 0) {
+        return NULL;
+    }
     job* return_p_job = this->jobs_array[index];
     this->jobs_array[index] = NULL;
-    this->job_counter--;
+    this->jobs_counter--;
     //sorts the jobs
     this->jobs_sort_id(index);
     //sets the max job id to the highest id
     index = MAX_JOBS - 1;
-    while (this->jobs_array[index] == NULL && index > 0) {
+    while (this->jobs_array[index] == NULL && index > 0) { //stops at the first element
         index--;
     }
-    if (this->jobs_array[index] == NULL) {
+    if (this->jobs_array[index] == NULL) { //empty list
         this->max_job_id = 0;
     }
     else {
@@ -129,8 +167,6 @@ void smash_t::job_remove(int job_id)
 }
 
 //NULL is returned if not exist or invalid ID
-
-
 void smash_t::print_jobs()
 {
     time_t curr_time;
@@ -155,11 +191,9 @@ void smash_t::jobs_sort_id(int place_in_array)
     }
 }
 
-
-
-/*this func need to return a job_id with status value of stopped 
-(we defined stopped as 3), check from the highest job_id to the lowest. 
-if there is no job with this status return -1, for not exist)*/
+/*this func need to return a job_id with status value of stopped,
+  check from the highest job_id to the lowest. 
+  if there is no job with this status return -1, for not exist)*/
 int smash::highest_stopped_job()
 {
     index = this->jobs_counter - 1;
@@ -169,7 +203,7 @@ int smash::highest_stopped_job()
             return -1;
         }
 
-        if ((*p_curr_job).get_status() == 3) {
+        if ((*p_curr_job).get("is_stopped")) {
             return (*p_curr_job).get_id();
         }
         index--;
