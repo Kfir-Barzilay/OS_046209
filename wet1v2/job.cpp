@@ -50,19 +50,19 @@ job::job(const char* command,
     this->is_stopped = is_stopped;
 }
 
-job::job(const job& a);s
+job::job(const job& a)
 {   
     //---set command
-    this->command = a.get("command");
-    this->args = a.get("args");
-    this->job_id = a.get("job_id"); 
-    this->pid = a.get("pid");
-    this->start_time = a.get("start_time");
-    this->is_back_ground = a.get("is_back_ground");
-    this->is_stopped = a.get("is_stopped");
+    this->command = a.get_command();
+    this->args = a.get_args();
+    this->job_id = a.get_job_id(); 
+    this->pid = a.get_pid();
+    this->start_time = a.get_start_time();
+    this->is_background = a.get_is_background();
+    this->is_stopped = a.get_is_stopped();
 }
 
-job::~job 
+job::~job()
 {
     delete(this->command);
     for (int i = 0; i < MAX_ARG ; i++) {
@@ -70,10 +70,10 @@ job::~job
             delete(this->args[i]);
         }
     }
-    delete(this->args)
+    delete(this->args);
 }
 
-char* job::get_command()
+char* job::get_command() const
 {
     char *str_cpy = string_cpy(this->command);
     return str_cpy;
@@ -81,13 +81,14 @@ char* job::get_command()
 
 
 //char** always args
-char** job::get_args()
+char** job::get_args() const
 { 
+    char**args_cpy;
     if (this->args == NULL) {
-        return = NULL;
+        return NULL;
     }
     else {
-        char**args_cpy = new char*[MAX_ARG];
+        args_cpy = new char*[MAX_ARG];
         for (int i = 0; i < MAX_ARG ; i++) {
             args_cpy[i] = string_cpy(this->args[i]);
         }
@@ -95,49 +96,39 @@ char** job::get_args()
     return args_cpy;
 }
 
-int job::get_job_id() 
+int job::get_job_id() const
 {   
     return this->job_id;
 }
 
-pid_t job::get_pid() 
+pid_t job::get_pid() const
 {   
     return this->pid;
 }
 
-time_t job::get_start_time() 
+time_t job::get_start_time() const 
 {
     return this->start_time;
 }
 
-bool job::get_is_background()
+bool job::get_is_background() const
 {
     return this->is_background;
 }
 
-bool job::get_is_stopped()
+bool job::get_is_stopped() const
 {
     return this->is_stopped;
 }
 
-bool job::get_is_background()
+void job::set_is_background(bool value)
 {
-    return this->is_background;
+    this->is_background = value;
 }
 
-bool job::get_is_stopped()
+void job::set_is_stopped(bool value)
 {
-    return this->is_stopped;
-}
-
-bool job::set_is_background(bool value)
-{
-    this->background = value;
-}
-
-bool job::set_is_stopped(bool value)
-{
-    this->stopped = value;
+    this->is_stopped = value;
 }
 
 void job::print_job(time_t current_time)

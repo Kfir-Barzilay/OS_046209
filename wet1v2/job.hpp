@@ -8,7 +8,7 @@ class job
 {
 private:
     char* command;
-    char *args[MAX_ARG];
+    char **args;
     int job_id;
     pid_t pid;
     time_t start_time;// we can use time(pointer) return secondes passed from midnight or clock() return the clock cycles passed
@@ -24,13 +24,13 @@ public:
     );
     job(const job& a);
     ~job();
-    char* get_command();
-    char** get_args();
-    int get_job_id();
-    pid_t get_pid();
-    time_t get_start_time();
-    bool get_is_background();
-    bool get_is_stopped();
+    char* get_command() const;
+    char** get_args() const;
+    int get_job_id() const;
+    pid_t get_pid() const;
+    time_t get_start_time() const;
+    bool get_is_background() const;
+    bool get_is_stopped() const;
     void set_is_background(bool value);
     void set_is_stopped(bool value);
     void print_job(time_t current_time);

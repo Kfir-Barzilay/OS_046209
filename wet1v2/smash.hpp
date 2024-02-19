@@ -13,19 +13,27 @@ private:
     char* last_path;
     int jobs_counter;
     int max_job_id;
-    job** jobs_array;
+    
+    
+    int find_job_index(int job_id);
 public:
+    job** jobs_array;
     smash_t();
     ~smash_t();
-    pid_t get_pid();
-    char* get_last_path();
-    int get_jobs_counter();
-    int get_max_job_id();
+    pid_t get_pid() const;
+    char* get_last_path() const;
+    int get_jobs_counter() const;
+    int get_max_job_id() const;
     void set_last_path(char* str);
     void set_jobs_counter(int num);
     void set_max_job_id( int num);
 
-    void job_insert(char* command, int status, int pID);
+    void job_insert(const char* command,
+                    const char** args,
+                    pid_t pid,
+                    bool is_background,
+                    bool is_stopped
+                    );
     job* job_access(int job_id);
     job* job_get(int job_id); // the user needs to free the space
                             //jk memory loss isnt being tested. 
