@@ -17,6 +17,10 @@ extern string last_path;
 
 
 bool is_all_digits(const string& str) {
+	if(str == NULL)
+	{
+		return false;
+	}
     for (char c : str) {
         if (!isdigit(c)) {
             return false;
@@ -89,7 +93,7 @@ int ExeCmd(char* lineSize,
 			return FAILURE;
 		}
         
-        if (*args[1] == '-') //changing to last cd
+        if (args[1] != NULL && *args[1] == '-') //changing to last cd
         {
 			if (last_path == "") {
 				cerr << SMASH_ERROR << "cd: OLDPWD not set" << endl;
@@ -131,12 +135,13 @@ int ExeCmd(char* lineSize,
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return FAILURE;
 		}
-		if (!is_all_digits(args[1]) || !is_all_digits(args[2])) {
+		bool valid_sig =(!strcmp(*(args[1]),'-'))&& is_all_digits((args[1])++);
+		if (!valid_sig || !is_all_digits(args[2])) {
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return FAILURE;
 		}
-		int job_id = atoi(args[1]);
-		int signal = atoi(args[2]);
+		int job_id = atoi(args[2]);
+		int signal = atoi(((args[1])++));
 		//-------get job pid
         pid_t job_pid = jobs[job_index(job_id)].pid;
 		if (job_pid == INVALID)
@@ -146,12 +151,16 @@ int ExeCmd(char* lineSize,
 			return FAILURE;
 		}
 		//------send signal
-		if (kill(job_pid , signal) == 0)
+		cout << job_pid << "this is my pid" << endl;
+		cout << "smash pid is: " << getpid() << endl;
+		int kill_p = kill(job_pid,signal);
+		if (kill_p == 0)
 		{
-			cout << "signal number " << args[2] << " was sent to pid ";
+			cout << "signal number " << args[1] << " was sent to pid ";
 			cout << job_pid << endl;
 			return SUCCESS;
 		}
+		perror("smash error: kill failed \n");
 		//-----undefiend error
 		return FAILURE;
 	} 
@@ -163,67 +172,45 @@ int ExeCmd(char* lineSize,
 							 	"invalid arguments ",
 							 	"jobs list is empty ",
 							 	"does not exist "};
-		if (num_arg > 1 || !is_all_digits(args[1]))
+		if (num_arg > 1 || (args[1] != NULL && !is_all_digits(args[1])))
 		{
 			cerr << error_print[0] << error_print[1] << endl;
+			return FAILURE;
 		}
-		else if (num_arg == 0 )
+		int job_id;
+		if (num_arg == 0 ) 
 		{
-			int largest_id = max_job_id();
-			if (largest_id == INVALID) 
+			job_id = max_job_id();
+			if (job_id == INVALID) 
 			{
 				cerr << error_print[0] << error_print[2] << endl;
 				return FAILURE;
 			}
-			pid_t pid = jobs[job_index(largest_id)].pid;
-			string command =jobs[job_index(largest_id)].command; 
-			cout << command << pid << endl;
-			int status;
-			int wait = waitpid(pid, &status, WUNTRACED);
-			// do we need wuntraced or something else?
-			if(wait == -1)
-			{
-				perror("smash error: waitpid failed");
-				return FAILURE;
-			} 
-			if(WIFSTOPPED(status))/* return true if the process stoped,
-									 otherwise false*/
-			{
-                jobs[job_index(largest_id)].is_stopped = true;
-			}
-			remove_by_id(largest_id);
 		}
-		else if (*args[1] > max_job_id())
+		else
 		{
-			cerr<< error_print[0] <<"job-id "<<args[1] <<error_print[3] <<endl;
+			job_id = atoi(args[1]);
 		}
-		else if(num_arg == 1 && is_all_digits(args[1])) /* execute the job_id */
+		job fg_job = pop_job(job_id)
+		pid_t pid = fg_job.pid;
+		string command =fg_job.command; 
+		int status;
+		int wait = waitpid(pid, &status, WUNTRACED); //-------------------------------------
+		// do we need wuntraced or something else?
+		if(wait == -1)
 		{
-			int job_id = atoi(args[1]);
-			if (job_index(job_id) == INVALID) 
-			{
-				cerr << error_print[0] << error_print[2] << endl;
+			perror("smash error: waitpid failed");
+			return FAILURE;
+		} 
+		if(WIFSTOPPED(status))/* return true if the process stoped,
+									otherwise false*/
+		{
+			fg_job.is_stopped = true;
+			if(insert_job(fg_job) == FAILURE) {
 				return FAILURE;
 			}
-			string command = jobs[job_index(job_id)].command;
-			cout << command << job_id << endl;
-			int status;
-			// do we need wuntraced or something else?
-			pid_t pid = jobs[job_index(job_id)].pid;
-			int wait = waitpid(pid, &status, WUNTRACED);
-			if(wait == -1)
-			{
-				perror("smash error: waitpid failed");
-				return FAILURE;
-			} 
-			if(WIFSTOPPED(status))/* return true if the process stoped,
-									 otherwise false */
-			{
-                jobs[job_index(job_id)].is_stopped = true;
-			}
-			remove_by_id(job_id);
-			return SUCCESS;
 		}
+		return SUCCESS;
 	} 
 	/*************************************************/
 	else if (!strcmp(cmd, "bg")) 
@@ -239,6 +226,13 @@ int ExeCmd(char* lineSize,
 			cerr << SMASH_ERROR << cmd << errors[0] << endl;
 			return FAILURE;
 		}
+		if(num_arg == 0) {
+
+		}
+		else if(num_arg == 1 && is_all_digits(args[1]))
+		{
+
+
 		if(num_arg == 0)
 		{
 			int job_id = highest_stopped_id();
@@ -294,6 +288,10 @@ int ExeCmd(char* lineSize,
 	else if (!strcmp(cmd, "quit"))
 	{
 		//-----kill all processes if needed
+		if (num_arg == 0 || args[1] == NULL)
+		{
+			return SUCCESS;
+		}
 		if (!strcmp(args[1], "kill")) { //-------------------------------------------------need help
 			for (int i = 0; i < MAXJOBS; i++) {
                 if (jobs[i].job_id == INVALID) {
@@ -369,7 +367,7 @@ int ExeCmd(char* lineSize,
 	/*************************************************/	
 	else // external command
 	{
- 		ExeExternal(args, cmdString, true);
+ 		ExeExternal(args, cmdString, false);
 	 	return SUCCESS;
 	}
 	if (illegal_cmd == true)
@@ -382,8 +380,20 @@ int ExeCmd(char* lineSize,
 
 void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 {
-	int pID;
-    	switch(pID = fork()) 
+	int pID = fork();
+	/*
+	//----------------------------------------------------------------------------------------
+	cout << "into exeExternal: My pid is= " << pID << "; is_backgroud = " << is_background << endl; 
+	cout << "command " << args[0] << ";  my args are: "; 
+	for (int i = 1 ; i < MAXARGS ; i++) {
+		if (args[i] != NULL) {
+			cout << "arg"<< i << "- "<< args[i] <<"  "; 
+		}
+	}
+	cout << endl;
+	//----------------------------------------------------------------------------------
+	*/
+    switch(pID) 
 	{
     		case -1: 
 					perror("smash error: fork failed\n");
@@ -453,20 +463,18 @@ int BgCmd(char* lineSize)
 			return SUCCESS;
 		}			
 		args[0] = Command;
-		cout << "command " << Command << endl; /////////////////////////////////////////
+		//cout << "command " << Command << endl; /////////////////////////////////////////
 		for(int i = 1; i < MAXARGS; i++)
 		{
 			//NULL indicates using the same string
 
 			args[i] = strtok(NULL, delimiters.c_str());
-			if(args[i] != NULL)
-				cout << "arg[" << i <<"] = " << args[i] << endl;
 		}
-		cout << "lineSize " << lineSize << endl; ///////////////////////////////////////////
+		//cout << "lineSize " << lineSize << endl; ///////////////////////////////////////////
 		ExeExternal(args, lineSize, is_background);
 		return SUCCESS;
 	}
-	return -1;
+		return -1;
 }
 
 

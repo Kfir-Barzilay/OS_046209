@@ -39,6 +39,7 @@ int max_job_id();
 int highest_stopped_id();
 void refresh();
 
+int insert_job(const job &a);
 int insert_job(pid_t pid, 
             string command, 
             string args[MAXARGS], 

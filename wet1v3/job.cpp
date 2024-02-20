@@ -1,4 +1,7 @@
 #include <iostream>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #include <string>
 #include <ctime>
 #include <vector>
@@ -62,8 +65,14 @@ job::job(const job& other)
 void job::print_job(time_t current_time)
 {
     int time_passed = difftime(current_time, this->start_time);
-    cout <<"[" << this->job_id <<"] " << this->command << "& : ";
-    cout << this->pid <<" " << time_passed << " secs";
+    if (is_background) {
+        cout <<"[" << this->job_id <<"] " << this->command << " & : ";
+        cout << this->pid <<" " << time_passed << " secs";
+    }
+    else {
+        cout <<"[" << this->job_id <<"] " << this->command << " : ";
+        cout << this->pid <<" " << time_passed << " secs";
+    }
     if(this->is_stopped){
         cout << " (stopped)";
     }
@@ -75,14 +84,21 @@ bool compareByJob_id(const job& a, const job& b)
     if (a.job_id == INVALID) {
         return false;
     }
+    else if (b.job_id == INVALID) {
+        return true;
+    }
     return (a.job_id < b.job_id);
 }
 
 bool compareByPid(const job& a, const job& b)
 {
-    if (a.job_id == INVALID) {
+    if (a.pid == INVALID) {
         return false;
     }
+    else if (b.pid == INVALID) {
+        return true;
+    }
+
     return (a.pid < b.pid);
 }
 
@@ -100,7 +116,7 @@ int job_index(int job_id)
 //return max job id, returns -1 if the list is empty
 int max_job_id()
 {
-    int max = INVALID;
+    int max = 0;
     for (int i = 0; i < MAXJOBS ; i++) {
         max = (jobs[i].job_id > max) ? jobs[i].job_id : max;
     }
@@ -121,16 +137,48 @@ int highest_stopped_id()
 // sorts and removes dead programs-------------------------------------------
 void refresh()
 {
+    /*
     for(int i=0; i < MAXJOBS; i++)
     {
-        if(jobs[i].job_id != INVALID && jobs[i].is_dead())
+        if(jobs[i].job_id != INVALID) 
         {
+            int status;
+            pid_t result = waitpid(jobs[i].pid, &status, WNOHANG);
+            switch (result)
+            {
+            case -1:
+                //error whatever ///////////////////////////////////////////////////////////////////////
+                break;
+            case 0: 
+                //job is running....
+                break;
+
+            default:
+                //was terminated
+                remove_by_index(i);
+                break;
+            } 
             remove_by_index(i);
         }
     }
+    */
     sort(jobs, jobs + MAXJOBS, compareByJob_id);
 }
-
+int isert_job(&job a)
+{
+    refresh();
+    if (jobs[MAXJOBS - 1].job_id != INVALID) {//full list
+        return FAILED;
+    }
+    jobs[MAXJOBS - 1] = job(a.id,
+                            a.pid,
+                            a.command,
+                            a.args,
+                            a.is_background,
+                            a.is_stopped);
+    refresh();
+    return SUCCESS;
+}
 int insert_job(pid_t pid, 
             string command, 
             string args[MAXARGS], 
