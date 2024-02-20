@@ -17,10 +17,6 @@ extern string last_path;
 
 
 bool is_all_digits(const string& str) {
-	if(str == NULL)
-	{
-		return false;
-	}
     for (char c : str) {
         if (!isdigit(c)) {
             return false;
@@ -135,7 +131,7 @@ int ExeCmd(char* lineSize,
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return FAILURE;
 		}
-		bool valid_sig =(!strcmp(*(args[1]),'-'))&& is_all_digits((args[1])++);
+		bool valid_sig =((*(args[1])) == '-') && is_all_digits((args[1])++);
 		if (!valid_sig || !is_all_digits(args[2])) {
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return FAILURE;
@@ -191,7 +187,7 @@ int ExeCmd(char* lineSize,
 		{
 			job_id = atoi(args[1]);
 		}
-		job fg_job = pop_job(job_id)
+		job fg_job = pop_job(job_id);
 		pid_t pid = fg_job.pid;
 		string command =fg_job.command; 
 		int status;
@@ -221,113 +217,106 @@ int ExeCmd(char* lineSize,
 						   "is already running in the background",
 						   ": job id ",
 						   };
-  		if(num_arg > 1)
+  		if(num_arg > 1 || (arg[1] != NULL && !is_all_digits(args[1])))
 		{
 			cerr << SMASH_ERROR << cmd << errors[0] << endl;
 			return FAILURE;
 		}
-		if(num_arg == 0) {
-
-		}
-		else if(num_arg == 1 && is_all_digits(args[1]))
+		int job_id;
+		if(num_arg == 0) 
 		{
-
-
-		if(num_arg == 0)
-		{
-			int job_id = highest_stopped_id();
-			if(job_id == -1)
+			job_id = highest_stopped_id();
+			if(job_id == INVALID)
 			{
 				cerr << SMASH_ERROR << cmd << errors[1] << endl;
 				return FAILURE;
 			}
-			pid_t pid = jobs[job_index(job_id)].pid;
-			int signal = kill(pid, SIGCONT);
-			if(signal == -1)
-			{
-				perror("smash error: kill failed");
-				return FAILURE;
-			}
-            jobs[job_index(job_id)].is_stopped = false;
-			string command = jobs[job_index(job_id)].command;
-			cout << command << ": " << job_id << endl;
-			int kill_p = kill(pid, SIGCONT);
-			if(kill_p == -1)
-			{
-				perror("smash error: kill failed");
-				return FAILURE;
-			}
 		}
-		else if(num_arg == 1 && is_all_digits(args[1]))
-		{
-			int job_id = atoi(args[1]);
+		else { // 1 arg is digit
+			job_id = atoi(args[1]);
 			if(job_index(job_id) == INVALID)
 			{
 				cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[2] << endl;
 				return FAILURE;
 			}
-			if(!jobs[job_index(job_id)].is_stopped)//not stopped
-			{
-				cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[3] << endl;
-				return FAILURE;
-			}
-			string command = jobs[job_index(job_id)].command;
-			cout << command << ": " << job_id << endl;
-            jobs[job_index(job_id)].is_stopped = false;
-			pid_t pid = jobs[job_index(job_id)].pid;
-			int kill_p = kill(pid, SIGCONT);
-			if(kill_p == -1)
-			{
-				perror("smash error: kill failed");
-				return FAILURE;
-			}
+		}
+
+		pid_t pid = jobs[job_index(job_id)].pid;
+		int signal = kill(pid, SIGCONT);
+		if(signal == -1)
+		{
+			perror("smash error: kill failed");
+			return FAILURE;
+		}
+		jobs[job_index(job_id)].is_stopped = false;
+		string command = jobs[job_index(job_id)].command;
+		cout << command << ": " << job_id << endl;
+		int kill_p = kill(pid, SIGCONT);
+		if(kill_p == -1)
+		{
+			perror("smash error: kill failed");
+			return FAILURE;
 		}
 		return SUCCESS;
 	}
+	
 	/*************************************************/
 	else if (!strcmp(cmd, "quit"))
 	{
 		//-----kill all processes if needed
-		if (num_arg == 0 || args[1] == NULL)
-		{
-			return SUCCESS;
-		}
-		if (!strcmp(args[1], "kill")) { //-------------------------------------------------need help
+		if (args[1] != NULL && !strcmp(args[1], "kill")) { //-------------------------------------------------need help
 			for (int i = 0; i < MAXJOBS; i++) {
-                if (jobs[i].job_id == INVALID) {
-                }
+                if (jobs[i].job_id == INVALID){}
                 else
                 {
                     pid_t job_pid = jobs[i].pid;
-                    time_t sig_time = time(NULL);
-                    cout << "Sending SIGTERM"; 
+                    time_t sig_time;
+					time(&sig_time);
+                    cout << "Sending SIGTERM... "; 
                     int kill_p = kill(job_pid , SIGTERM);
                     if(kill_p == -1)
                     {
                         perror("smash error: kill failed");
                         return FAILURE;
                     }
-                    //time_t current_time = time();
-                    while ((time(NULL) - sig_time)  < 5);
-                }
+                    if ((time(NULL) - sig_time)  < 5) {
+						kill_p = kill(job_pid, SIGKILL);
+						if(kill_p == INVALID)
+						{
+							cerror("smash error: kill failed");
+							return FAILURE;
+						}
+						cout << "(5 sec passed) Sending SIGKILL... ";
+					}
+					cout << "Done." << endl;
+				}
 			}
 		}
 		//finishing smash
+		int kill_p = kill(smash_pid, SIGKILL);
+		if(kill_p == INVALID)
+		{
+			perror("smash error: kill failed");
+			return FAILURE;
+		}
 		return SUCCESS;
 	} 
 	/*************************************************/
 	
 	else if (!strcmp(cmd, "diff"))
 	{
-		if (num_arg != 3)
+		if (num_arg != 2 || args[1] == NULL || args[2] == NULL)
 		{
 			cerr << "smash error: diff: invalid arguments" << endl;
+			return FAILURE;
 		}
 		ifstream file1(args[1]);
     	ifstream file2(args[2]);
 		if (!file1.is_open() || !file2.is_open()) 
 		{
 			cerr << "Error opening files." << std::endl;
+			file1.close();
+			file2.close();
 			return FAILURE;
 		}
 
@@ -381,18 +370,6 @@ int ExeCmd(char* lineSize,
 void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 {
 	int pID = fork();
-	/*
-	//----------------------------------------------------------------------------------------
-	cout << "into exeExternal: My pid is= " << pID << "; is_backgroud = " << is_background << endl; 
-	cout << "command " << args[0] << ";  my args are: "; 
-	for (int i = 1 ; i < MAXARGS ; i++) {
-		if (args[i] != NULL) {
-			cout << "arg"<< i << "- "<< args[i] <<"  "; 
-		}
-	}
-	cout << endl;
-	//----------------------------------------------------------------------------------
-	*/
     switch(pID) 
 	{
     		case -1: 
@@ -401,6 +378,11 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
         	case 0 :
                 	// Child Process
                		setpgrp();
+					if (args == NULL && cmdString == NULL)
+					{
+						perror("smash error: execv failed\n");
+						exit(1);
+					}
 					
 			        execv(args[0], args); /*running on cmd the command,
 										  return only if got error*/ 
@@ -408,6 +390,10 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 					exit(1);
 			
 			default:
+					if (args == NULL && cmdString == NULL)
+					{
+						perror("smash error: waitpid failed");
+					}
 					string args_str[MAXARGS];
 					for (int i; i < MAXARGS; i++) {
 						if (args[i] != NULL) {
