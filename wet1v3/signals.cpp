@@ -5,7 +5,7 @@
 /*******************************************/
 /* Name: handler_cntlc
    Synopsis: handle the Control-C */
-#include "signals.h"
+#include "signals.hpp"
 #include <iostream>
 
 using namespace std;
@@ -14,7 +14,7 @@ void ctrl_c_handler(int sig, int smash_pid, int process_pid)
 {
     sigset_t signal_set;
     sigset_t old_signal_set;
-    char* error = {"smash: ", "caught ctrl-C", "process ", "was killed"};
+    string error[] = {"smash: ", "caught ctrl-C", "process ", "was killed"};
     int kill_signal;
 
     /* initializes mask_set with all possible signals */
@@ -44,7 +44,7 @@ void ctrl_z_handler(int sig, int smash_pid, int process_pid)
 {
     sigset_t signal_set;
     sigset_t old_signal_set;
-    char* error = {"smash: ", "caught ctrl-Z", "process ", "was stopped"};
+    string error[] = {"smash: ", "caught ctrl-Z", "process ", "was stopped"};
     int kill_signal;
 
     sigfillset(&signal_set);

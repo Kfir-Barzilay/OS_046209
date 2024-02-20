@@ -4,6 +4,8 @@
 #define MAXJOBS 100
 #define MAXARGS 20
 #define INVALID -1
+#define SUCCESS 0
+#define FAILED 1
 using namespace std;
 
 
@@ -20,12 +22,12 @@ public:
     bool is_stopped;
 
     job();
-    job(int job_id
-        pid_t pid, 
-        string command, 
-        string args[MAXARGS], 
-        bool is_background, 
-        bool is_stopped);
+    job(const int job_id,
+        const pid_t pid, 
+        const string command, 
+        const string args[MAXARGS], 
+        const bool is_background, 
+        const bool is_stopped);
     job(const job& a);
     void print_job(time_t current_time);
 };
@@ -37,9 +39,9 @@ int max_job_id();
 int highest_stopped_id();
 void refresh();
 
-void insert_job(pid_t pid, 
+int insert_job(pid_t pid, 
             string command, 
-            string args[MAX_ARG], 
+            string args[MAXARGS], 
             bool is_background, 
             bool is_stopped);
 job pop_job(int job_id);

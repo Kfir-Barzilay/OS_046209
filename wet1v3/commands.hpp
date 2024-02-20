@@ -19,6 +19,7 @@ int ExeCmd( char* lineSize,
 int BgCmd(char* lineSize);
 
 void ExeExternal(char* args[MAXARGS], 
-                char* cmdString);
+                char* cmdString,
+                bool is_background);
 #endif
 

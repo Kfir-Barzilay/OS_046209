@@ -1,7 +1,9 @@
 #include <iostream>
-#include <cstring>
 #include <string>
 #include <ctime>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 #include "job.hpp"
 
@@ -10,13 +12,14 @@ using namespace std;
 
 #define STOPPED 3
 
+
 job::job()
 {
     this->job_id = INVALID;
     this->pid = INVALID;
     this->command = "";
     for (int i = 0; i< MAXARGS; i++) {
-        this->args = "";
+        this->args[i] = "";
     }
     time(&this->start_time);
     this->is_background = false;
@@ -87,8 +90,9 @@ bool compareByPid(const job& a, const job& b)
 int job_index(int job_id)
 {
     for (int i = 0; i < MAXJOBS ; i++) {
-        if jobs[i].job_id = job_id;
-        return i;
+        if (jobs[i].job_id == job_id) {
+            return i;
+        }
     }
     return INVALID;
 }
@@ -117,16 +121,19 @@ int highest_stopped_id()
 // sorts and removes dead programs-------------------------------------------
 void refresh()
 {
-    //remove dead programs
-    //--insert code
-    //---------
-
-    sort(begin(jobs), end(jobs), compareByJob_id)
+    for(int i=0; i < MAXJOBS; i++)
+    {
+        if(jobs[i].job_id != INVALID && jobs[i].is_dead())
+        {
+            remove_by_index(i);
+        }
+    }
+    sort(jobs, jobs + MAXJOBS, compareByJob_id);
 }
 
 int insert_job(pid_t pid, 
             string command, 
-            string args[MAX_ARG], 
+            string args[MAXARGS], 
             bool is_background, 
             bool is_stopped)
 {
@@ -140,12 +147,12 @@ int insert_job(pid_t pid,
                             command,
                             args,
                             is_background,
-                            is_stopped)
+                            is_stopped);
     refresh();
     return SUCCESS;
 }
 
-job pop_job(int job_id);
+job pop_job(int job_id)
 {
     int index = job_index(job_id);
     job temp = jobs[index];
@@ -172,9 +179,9 @@ void print_all_jobs()
     refresh();
     time_t curr_time;
     time(&curr_time);
-    for (int i =0; i< MAX_JOBS; i++) {
-        if ((this->jobs_array)[i] != NULL) {
-           (*(this->jobs_array[i])).print_job(curr_time);
+    for (int i =0; i< MAXJOBS; i++) {
+        if (jobs[i].job_id != INVALID) {
+           jobs[i].print_job(curr_time);
         }
     }
 }

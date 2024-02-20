@@ -8,14 +8,14 @@ main file. This file contains the main function of smash
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-#include "commands.h"
-#include "signals.h"
-#include "job.hpp"
+#include "commands.hpp"
+#include "signals.hpp"
 #define MAX_LINE_SIZE 80
 #define MAXARGS 20
 #define MAXJOBS 100
 
-int smash_pid;
+
+pid_t smash_pid;
 job jobs[MAXJOBS]; //This represents the list of jobs. Please change to a preferred type (e.g array of char*)
 string last_path = "";
 
@@ -28,7 +28,12 @@ char lineSize[MAX_LINE_SIZE];
 int main(int argc, char *argv[])
 {
     char cmdString[MAX_LINE_SIZE]; 	   
-	smash_pid = ;
+	smash_pid = getpid();
+	if(smash_pid == -1)
+	{
+		perror("smash error: getpid failed");
+		return FAILED;
+	}
 	//signal declaretions
 	//NOTE: the signal handlers and the function/s that sets the handler should be found in siganls.c
 	 /* add your code here */
@@ -57,9 +62,9 @@ int main(int argc, char *argv[])
 		strcpy(cmdString, lineSize);    	
 		cmdString[strlen(lineSize)-1]='\0';
 					// background command	
-	 	if(!BgCmd(lineSize, jobs)) continue; 
+	 	if(!BgCmd(lineSize)) continue; 
 					// built in commands
-		ExeCmd(jobs, lineSize, cmdString);
+		ExeCmd(lineSize, cmdString);
 		
 		/* initialize for next line read*/
 		lineSize[0]='\0';

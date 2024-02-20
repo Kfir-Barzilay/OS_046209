@@ -1,9 +1,11 @@
 
 #include "commands.hpp"
 #include <iostream>
+#include <cstring>
 #include <cctype>
 #include <bits/stdc++.h>
 #include <string.h>
+
 #define SMASH_ERROR "smash error: "
 #define SUCCESS 0
 #define FAILURE 1
@@ -11,10 +13,10 @@ using namespace std;
 
 extern int smash_pid;
 extern job jobs[MAXJOBS];
-extern string last_path = "";
+extern string last_path;
 
 
-bool is_all_digits(const std::string& str) {
+bool is_all_digits(const string& str) {
     for (char c : str) {
         if (!isdigit(c)) {
             return false;
@@ -29,22 +31,22 @@ bool is_all_digits(const std::string& str) {
 // Parameters: pointer to jobs, command string
 // Returns: 0 - success,1 - failure
 //********************************************************
-int ExeCmd(char *lineSize,
-		    char *cmdString)
+int ExeCmd(char* lineSize,
+		   char* cmdString)
 {
-	char *cmd; 
-	char *args[MAX_ARG];
-	char pwd[MAX_LINE_SIZE];
-	char* delimiters = " \t\n";  
+	char* cmd; 
+	char* args[MAXARGS];
+	//char pwd[MAX_LINE_SIZE];
+	string delimiters = " \t\n";  
 	int i = 0, num_arg = 0;
 	bool illegal_cmd = false; // illegal command 
-    	cmd = strtok(lineSize, delimiters);
+    cmd = strtok(lineSize, delimiters.c_str());
 	if (cmd == NULL)
 		return 0; 
    	args[0] = cmd;
-	for (i=1; i<MAX_ARG; i++)
+	for (i=1; i < MAXARGS; i++)
 	{
-		args[i] = strtok(NULL, delimiters); 
+		args[i] = strtok(NULL, delimiters.c_str()); 
 		if (args[i] != NULL) 
 		{
 			num_arg++;
@@ -56,13 +58,13 @@ int ExeCmd(char *lineSize,
 // MORE IF STATEMENTS AS REQUIRED
 /*************************************************/
 	
-	if (!strcmp(cmd, "showpid"))  
+	if (!strcmp(cmd, "showpid"))  //V
 	{
-		cout << "smash pid is " << smash_pid;
+		cout << "smash pid is " << smash_pid << endl;
 		return SUCCESS;
 	}
 	/*************************************************/
-	else if (!strcmp(cmd, "pwd")) 
+	else if (!strcmp(cmd, "pwd")) //V
 	{
 		char* pwd = getcwd(NULL,0);
 		if (pwd == NULL)  //getcwd failed
@@ -76,14 +78,14 @@ int ExeCmd(char *lineSize,
 	{
 		//---arg check
 		if(num_arg > 1) {//too much arguments passed
-            cerr << "smash error: cd: too many arguments" << endl;
+            cerr << SMASH_ERROR << "cd: too many arguments" << endl;
 			return FAILURE;
 		}
 
 		char* current_path = getcwd(NULL,0);
 
 		if (current_path == NULL) {  //getcwd failed
-			perror("smash error: getcwd failed");
+			perror("smash error: getcwd failed\n");
 			return FAILURE;
 		}
         
@@ -95,22 +97,22 @@ int ExeCmd(char *lineSize,
                 return FAILURE;
 			}
             else if(chdir(last_path.c_str())) { //chdir faild
-				perror("smash error: chdir failed");
+				perror("smash error: chdir failed\n");
                 free(current_path);
 				return FAILURE;
 			}
-			last_path(current_path);
+			last_path = current_path;
             free(current_path);
 			return SUCCESS;
         } 
 
-		//changing to new cd------------------------------------------------------------------check
+		//changing to new cd
 		if (chdir(args[1])) { //faild
-			cerr << "faild updating the current pwd \""<< current_path << '"';
+			perror("smash error: chdir failed\n");
             free(current_path);
 			return FAILURE;
 		}
-        last_path(current_path);
+        last_path = current_path;
         free(current_path);
         return SUCCESS;
 	} 
@@ -136,7 +138,7 @@ int ExeCmd(char *lineSize,
 		int job_id = atoi(args[1]);
 		int signal = atoi(args[2]);
 		//-------get job pid
-        pid_t job_pid = get_job_pid(job_id);
+        pid_t job_pid = jobs[job_index(job_id)].pid;
 		if (job_pid == INVALID)
 		{ //job doesnt exist
 			cerr << SMASH_ERROR << "kill: job-id " << args[2];
@@ -157,7 +159,7 @@ int ExeCmd(char *lineSize,
 
 	else if (!strcmp(cmd, "fg")) 
 	{
-		char* error_print[4] = {"smash error: fg: ",
+		string error_print[4] = {"smash error: fg: ",
 							 	"invalid arguments ",
 							 	"jobs list is empty ",
 							 	"does not exist "};
@@ -226,7 +228,7 @@ int ExeCmd(char *lineSize,
 	/*************************************************/
 	else if (!strcmp(cmd, "bg")) 
 	{
-		char* errors[5] = {": invalid arguments", 
+		string errors[5] = {": invalid arguments", 
 						   ": there are no jobs to resume",
 						   " does not exist",
 						   "is already running in the background",
@@ -252,7 +254,7 @@ int ExeCmd(char *lineSize,
 				perror("smash error: kill failed");
 				return FAILURE;
 			}
-            jobs[job_index(job_id)].is_stopped() = false;
+            jobs[job_index(job_id)].is_stopped = false;
 			string command = jobs[job_index(job_id)].command;
 			cout << command << ": " << job_id << endl;
 			int kill_p = kill(pid, SIGCONT);
@@ -292,7 +294,7 @@ int ExeCmd(char *lineSize,
 	else if (!strcmp(cmd, "quit"))
 	{
 		//-----kill all processes if needed
-		if (args[1] == "kill") { //-------------------------------------------------need help
+		if (!strcmp(args[1], "kill")) { //-------------------------------------------------need help
 			for (int i = 0; i < MAXJOBS; i++) {
                 if (jobs[i].job_id == INVALID) {
                 }
@@ -313,8 +315,6 @@ int ExeCmd(char *lineSize,
 			}
 		}
 		//finishing smash
-   		delete(&smash);
-		p_smash = NULL;
 		return SUCCESS;
 	} 
 	/*************************************************/
@@ -369,7 +369,7 @@ int ExeCmd(char *lineSize,
 	/*************************************************/	
 	else // external command
 	{
- 		ExeExternal(args, cmdString, &smash);
+ 		ExeExternal(args, cmdString, true);
 	 	return SUCCESS;
 	}
 	if (illegal_cmd == true)
@@ -380,13 +380,13 @@ int ExeCmd(char *lineSize,
     return SUCCESS;
 }
 
-void ExeExternal(char *args[MAX_ARG], char* cmdString)
+void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 {
 	int pID;
     	switch(pID = fork()) 
 	{
     		case -1: 
-					perror("smash error: fork failed");
+					perror("smash error: fork failed\n");
 					exit(1);
         	case 0 :
                 	// Child Process
@@ -394,21 +394,35 @@ void ExeExternal(char *args[MAX_ARG], char* cmdString)
 					
 			        execv(args[0], args); /*running on cmd the command,
 										  return only if got error*/ 
-					perror("smash error: execv failed");
+					perror("smash error: execv failed\n");
 					exit(1);
 			
 			default:
-                	// Add your code here
-					int status;
-					int wait_pid =waitpid(pID, &status, WUNTRACED | WCONTINUED);
-					if(wait_pid == -1)
+					string args_str[MAXARGS];
+					for (int i; i < MAXARGS; i++) {
+						if (args[i] != NULL) {
+							args_str[i] = args[i];
+						}
+					}
+                	if(!is_background)
 					{
-						perror("smash error: waitpid failed");
-					} 
-					if(WIFSTOPPED(status))// only occur when SIGSTOP sent
+						int is_stopped;
+						int wait_pid =waitpid(pID, &is_stopped, WUNTRACED | WCONTINUED);
+						if(wait_pid == -1)
+						{
+							perror("smash error: waitpid failed");
+						} 
+						
+						if(WIFSTOPPED(is_stopped))// only occur when SIGSTOP sent
+						{
+							//do we need to enter the arguments also?
+							insert_job(pID, cmdString, args_str ,true, is_stopped);
+						}
+						
+					}
+					else
 					{
-						//do we need to enter the arguments also?
-						smash.job_insert(cmdString, args, pID,true, status);
+						insert_job(pID, cmdString, args_str ,true, false);
 					}
 					
 	}
@@ -419,32 +433,38 @@ void ExeExternal(char *args[MAX_ARG], char* cmdString)
 // Parameters: command string, pointer to jobs
 // Returns: 0- BG command -1- if not
 //*****************************************************************************
-int BgCmd(char* lineSize, void* jobs)
+int BgCmd(char* lineSize)
 {
-
 	char* Command;
-	char* delimiters = " \t\n";
-	char *args[MAX_ARG];
+	bool is_background = false;
+	string delimiters = " \t\n";
+	char* args[MAXARGS];
+	
 	if (lineSize[strlen(lineSize)-2] == '&')
 	{
+		is_background = true;
 		lineSize[strlen(lineSize)-2] = '\0';
-		// Add your code here (execute a in the background)
 		char cmd[MAX_LINE_SIZE];
 		strcpy(cmd, lineSize);
 		lineSize[strlen(lineSize) - 1] = '\0';
-		Command = strtok(lineSize, delimiters);
+		Command = strtok(cmd, delimiters.c_str());
 		if(Command == NULL)
 		{
 			return SUCCESS;
 		}			
 		args[0] = Command;
-		for(int i =0; i < MAX_ARG; i++)
+		cout << "command " << Command << endl; /////////////////////////////////////////
+		for(int i = 1; i < MAXARGS; i++)
 		{
 			//NULL indicates using the same string
-			args[i] = strtok(NULL, delimiters);
+
+			args[i] = strtok(NULL, delimiters.c_str());
+			if(args[i] != NULL)
+				cout << "arg[" << i <<"] = " << args[i] << endl;
 		}
-		ExeExternal(args, cmd, jobs);
-		
+		cout << "lineSize " << lineSize << endl; ///////////////////////////////////////////
+		ExeExternal(args, lineSize, is_background);
+		return SUCCESS;
 	}
 	return -1;
 }
