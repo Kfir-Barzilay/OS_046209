@@ -142,16 +142,14 @@ int ExeCmd(char* lineSize,
 		int job_id = atoi(args[2]);
 		int signal = atoi(sig_num_str);
 		//-------get job pid
-        pid_t job_pid = jobs[job_index(job_id)].pid;
-		if (job_pid == INVALID)
+		if (job_index(job_id) == INVALID)
 		{ //job doesnt exist
 			cerr << SMASH_ERROR << "kill: job-id " << args[2];
 			cerr << " does not exist" << endl;
 			return FAILURE;
 		}
+		pid_t job_pid = jobs[job_index(job_id)].pid;
 		//------send signal
-		cout << job_pid << "this is my pid" << endl;
-		cout << "smash pid is: " << getpid() << endl;
 		int kill_p = kill(job_pid,signal);
 		if (kill_p == 0)
 		{
