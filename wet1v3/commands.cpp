@@ -280,7 +280,7 @@ int ExeCmd(char* lineSize,
                         perror("smash error: kill failed");
                         return FAILURE;
                     }
-                    if ((time(NULL) - sig_time)  < 5) {
+                    if ((time(NULL) - sig_time)  > 5) {
 						kill_p = kill(job_pid, SIGKILL);
 						if(kill_p == INVALID)
 						{

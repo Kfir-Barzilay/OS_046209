@@ -1,0 +1,12 @@
+/bin/sleep 100 &
+/bin/sleep 200 &
+/bin/sleep 300 &
+/bin/sleep 100 &
+/bin/sleep 200 &
+/bin/sleep 300 &
+/bin/sleep 100 &
+/bin/sleep 200 &
+/bin/sleep 300 &
+jobs
+quit kill
+command <<EOF

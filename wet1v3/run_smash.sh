@@ -14,5 +14,5 @@ g++ -std=c++11 -Wall -Werror -pedantic-errors -DNDEBUG *.cpp -o smash
 
 # Run the compiled executable
 echo "Running ./smash..."
-./smash
+./smash < test.txt
 
