@@ -6,7 +6,10 @@
 #include <ctime>
 #include <vector>
 #include <iterator>
-#include <algorithm>
+#include <cctype>
+#include <stdio.h>
+#include <errno.h>
+
 
 #include "job.hpp"
 
@@ -62,6 +65,17 @@ job::job(const job& other)
     this->is_stopped = other.is_stopped;
 }
 
+bool job::operator<(const job& b)// is a < b ?
+{
+    if (this->job_id == INVALID) { //a > b 
+        return false;
+    }
+    else if (b.job_id == INVALID) {// a < b
+        return true;
+    }
+    return (this->job_id < b.job_id);
+}
+
 void job::print_job(time_t current_time)
 {
     int time_passed = difftime(current_time, this->start_time);
@@ -102,6 +116,7 @@ bool compareByPid(const job& a, const job& b)
     return (a.pid < b.pid);
 }
 
+
 //finds job index, returns -1 if doesnt exist
 int job_index(int job_id)
 {
@@ -134,43 +149,56 @@ int highest_stopped_id()
     return max; 
 }
 
-// sorts and removes dead programs-------------------------------------------
+//doing wait on all jobs... 
+//if terminated then remove
+//if stopped or working then update array
+//sort 
 void refresh()
 {
-    /*
-    for(int i=0; i < MAXJOBS; i++)
+    //update jobs 
+    int status;
+    for (int i = 0; i < MAXJOBS; i++)
     {
-        if(jobs[i].job_id != INVALID) 
-        {
-            int status;
-            pid_t result = waitpid(jobs[i].pid, &status, WNOHANG);
-            switch (result)
-            {
-            case -1:
-                //error whatever ///////////////////////////////////////////////////////////////////////
-                break;
-            case 0: 
-                //job is running....
-                break;
-
-            default:
-                //was terminated
-                remove_by_index(i);
-                break;
-            } 
-            remove_by_index(i);
+        if (jobs[i].pid > 0) {
+            pid_t result = waitpid(jobs[i].pid, &status, WNOHANG | WUNTRACED);
+            if (result == -1) {
+                perror("smash error: waitpid failed \n"); //-------------------------------------------
+                return;
+            } else if (result > 0) {
+                // Child process state has changed
+                if (WIFEXITED(status) || WIFSIGNALED(status)) {
+                    remove_by_index(i);
+                    break;
+                } else if (WIFSTOPPED(status)) {
+                    jobs[i].is_stopped = true;
+                }
+            } else {
+                // Child process is still running
+            }
         }
     }
-    */
-    sort(jobs, jobs + MAXJOBS, compareByJob_id);
+    //sort jobs (min sort)
+    for (int i = 0; i < MAXJOBS; i++) {
+        int min_index = i;
+        job min_job = jobs[i]; 
+        for (int j = i + 1; j < MAXJOBS; j++) {
+            if (jobs[j] < jobs[min_index]) {
+                min_index = j;
+                min_job = jobs[j];
+            }
+        } 
+        jobs[min_index] = jobs[i];
+        jobs[i] = min_job;           
+    }
 }
-int isert_job(&job a)
+
+int insert_job(const job& a)
 {
     refresh();
     if (jobs[MAXJOBS - 1].job_id != INVALID) {//full list
         return FAILED;
     }
-    jobs[MAXJOBS - 1] = job(a.id,
+    jobs[MAXJOBS - 1] = job(a.job_id,
                             a.pid,
                             a.command,
                             a.args,
@@ -229,7 +257,7 @@ void print_all_jobs()
     time(&curr_time);
     for (int i =0; i< MAXJOBS; i++) {
         if (jobs[i].job_id != INVALID) {
-           jobs[i].print_job(curr_time);
+            jobs[i].print_job(curr_time);
         }
     }
 }

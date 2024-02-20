@@ -127,17 +127,20 @@ int ExeCmd(char* lineSize,
 	else if (!strcmp(cmd, "kill"))
 	{
 		//-------checks the input
-		if (num_arg != 2) { //invalid args num
+		if (num_arg != 2 || args[1] == NULL || args[2] == NULL) {
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return FAILURE;
 		}
-		bool valid_sig =((*(args[1])) == '-') && is_all_digits((args[1])++);
+		char* sig_num_str = args[1] + 1;
+		cout  <<" '-' is -> " << *(args[1]) << " signum is " << sig_num_str << " job id is " << args[2] << endl;
+		bool valid_sig =((*(args[1])) == '-') && is_all_digits(sig_num_str);
+		cout << "valid sig " << valid_sig << endl;
 		if (!valid_sig || !is_all_digits(args[2])) {
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return FAILURE;
 		}
 		int job_id = atoi(args[2]);
-		int signal = atoi(((args[1])++));
+		int signal = atoi(sig_num_str);
 		//-------get job pid
         pid_t job_pid = jobs[job_index(job_id)].pid;
 		if (job_pid == INVALID)
@@ -217,7 +220,7 @@ int ExeCmd(char* lineSize,
 						   "is already running in the background",
 						   ": job id ",
 						   };
-  		if(num_arg > 1 || (arg[1] != NULL && !is_all_digits(args[1])))
+  		if(num_arg > 1 || (args[1] != NULL && !is_all_digits(args[1])))
 		{
 			cerr << SMASH_ERROR << cmd << errors[0] << endl;
 			return FAILURE;
@@ -283,7 +286,7 @@ int ExeCmd(char* lineSize,
 						kill_p = kill(job_pid, SIGKILL);
 						if(kill_p == INVALID)
 						{
-							cerror("smash error: kill failed");
+							perror("smash error: kill failed");
 							return FAILURE;
 						}
 						cout << "(5 sec passed) Sending SIGKILL... ";

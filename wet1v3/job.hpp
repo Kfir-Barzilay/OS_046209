@@ -30,6 +30,7 @@ public:
         const bool is_stopped);
     job(const job& a);
     void print_job(time_t current_time);
+    bool operator<(const job& b);
 };
 
 bool compareByJob_id(const job& a, const job& b);
