@@ -8,9 +8,12 @@
 #include "signals.hpp"
 #include <iostream>
 
-using namespace std;
 
-void ctrl_c_handler(int sig, int smash_pid, int process_pid)
+using namespace std;
+extern pid_t current_pid;
+extern pid_t smash_pid;
+
+void ctrl_c_handler(int sig)
 {
     sigset_t signal_set;
     sigset_t old_signal_set;
@@ -18,48 +21,89 @@ void ctrl_c_handler(int sig, int smash_pid, int process_pid)
     int kill_signal;
 
     /* initializes mask_set with all possible signals */
-    sigfillset(&signal_set);
+    int fail_p = sigfillset(&signal_set);
+    if(fail_p == -1)
+    {
+        sys_err(SIGFILLSET);
+        return;
+    }
 
     /* changes the signal mask of the call process. It blocks all signals specified in mask_set,
     and the previous signal mask is stored in old_set.SIG_SETMASK is a flag indicating that the 
     set of signals specified by mask_set should be the new set of blocked signals for the process. */
-    sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
-    cout << error[0] << error[1] << endl;
-
-    if(smash_pid != process_pid)/*kill the child process that run in foreground*/
+    fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
+    if(fail_p == -1)
     {
-        kill_signal = kill(process_pid, SIGKILL);
+        sys_err(SIGPROCMASK);
+        return;
+    }
+    cout << error[0] << error[1] << endl;
+    if(current_pid == -1)
+    {
+        sys_err(GETPID);
+        return;
+    }
+    cout << "smash pid is: " << smash_pid << "and pro pid is:" << current_pid << endl;
+    if(smash_pid != current_pid)/*kill the child process that run in foreground*/
+    {
+
+        kill_signal = kill(current_pid, SIGKILL);
         if( kill_signal == -1)
         {
-            perror("smash error: kill failed");//the sigkill failed
+            sys_err(KILL);//the sigkill failed
             return;
         }
-        cout << error[0] << error[2] << process_pid << error[3] << endl;
+        cout << error[0] << error[2] << current_pid << error[3] << endl;
     }
+    else
 
-    sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
+    fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
+    if(fail_p == -1)
+    {
+        sys_err(SIGPROCMASK);
+        return;
+    }
 }
 
-void ctrl_z_handler(int sig, int smash_pid, int process_pid)
+void ctrl_z_handler(int sig)
 {
     sigset_t signal_set;
     sigset_t old_signal_set;
     string error[] = {"smash: ", "caught ctrl-Z", "process ", "was stopped"};
     int kill_signal;
-
-    sigfillset(&signal_set);
-    sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
-    cout << error[0] << error[1] << endl;
-    if(smash_pid != process_pid)/*kill the child process that run in foreground*/
+    if(current_pid == -1)
     {
-        kill_signal = kill(process_pid, SIGSTOP);
+        sys_err(GETPID);
+        return;
+    }
+    int fail_p = sigfillset(&signal_set);
+    if(fail_p == -1)
+    {
+        sys_err(SIGFILLSET);
+        return;
+    }
+    fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
+    if(fail_p == -1)
+    {
+        sys_err(SIGPROCMASK);
+        return;
+    }
+    cout << error[0] << error[1] << endl;
+    if(smash_pid != current_pid)/*kill the child process that run in foreground*/
+    {
+        kill_signal = kill(current_pid, SIGSTOP);
         if( kill_signal == -1)
         {
-            perror("smash error: kill failed");//the sigstop failed
+            sys_err(KILL);//the sigstop failed
             return;
         }
-        cout << error[0] << error[2] << process_pid << error[3] << endl;
+        cout << error[0] << error[2] << current_pid << error[3] << endl;
     }
 
-    sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
+    fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
+    if( fail_p == -1)
+        {
+            sys_err(SIGPROCMASK);//the sigstop failed
+            return;
+        }
 }

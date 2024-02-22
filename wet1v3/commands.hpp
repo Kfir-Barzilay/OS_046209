@@ -1,5 +1,5 @@
-#ifndef _COMMANDS_H
-#define _COMMANDS_H
+#ifndef _COMMANDS_HPP
+#define _COMMANDS_HPP
 #include <unistd.h> 
 #include <stdio.h>
 #include <time.h>
@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "job.hpp"
+#include "signals.hpp"
 
 
 #define MAX_LINE_SIZE 80
@@ -21,5 +21,6 @@ int BgCmd(char* lineSize);
 void ExeExternal(char* args[MAXARGS], 
                 char* cmdString,
                 bool is_background);
-#endif
+
+#endif 
 

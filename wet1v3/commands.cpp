@@ -9,9 +9,11 @@
 #define SMASH_ERROR "smash error: "
 #define SUCCESS 0
 #define FAILURE 1
+
 using namespace std;
 
-extern int smash_pid;
+extern pid_t current_pid;
+extern pid_t smash_pid;
 extern job jobs[MAXJOBS];
 extern string last_path;
 
@@ -68,7 +70,11 @@ int ExeCmd(char* lineSize,
 	{
 		char* pwd = getcwd(NULL,0);
 		if (pwd == NULL)  //getcwd failed
+		{
+			sys_err(GETCWD);
 			return FAILURE; 
+		}
+
 		
 		cout << pwd << endl;
 		return SUCCESS;
@@ -85,7 +91,7 @@ int ExeCmd(char* lineSize,
 		char* current_path = getcwd(NULL,0);
 
 		if (current_path == NULL) {  //getcwd failed
-			perror("smash error: getcwd failed\n");
+			sys_err(GETCWD);
 			return FAILURE;
 		}
         
@@ -97,7 +103,7 @@ int ExeCmd(char* lineSize,
                 return FAILURE;
 			}
             else if(chdir(last_path.c_str())) { //chdir faild
-				perror("smash error: chdir failed\n");
+				sys_err(CHDIR);
                 free(current_path);
 				return FAILURE;
 			}
@@ -108,7 +114,7 @@ int ExeCmd(char* lineSize,
 
 		//changing to new cd
 		if (chdir(args[1])) { //faild
-			perror("smash error: chdir failed\n");
+			sys_err(CHDIR);
             free(current_path);
 			return FAILURE;
 		}
@@ -157,7 +163,7 @@ int ExeCmd(char* lineSize,
 			cout << job_pid << endl;
 			return SUCCESS;
 		}
-		perror("smash error: kill failed \n");
+		sys_err(KILL);
 		//-----undefiend error
 		return FAILURE;
 	} 
@@ -190,13 +196,14 @@ int ExeCmd(char* lineSize,
 		}
 		job fg_job = pop_job(job_id);
 		pid_t pid = fg_job.pid;
+		current_pid = pid;
 		string command =fg_job.command; 
 		int status;
 		int wait = waitpid(pid, &status, WUNTRACED); //-------------------------------------
 		// do we need wuntraced or something else?
 		if(wait == -1)
 		{
-			perror("smash error: waitpid failed");
+			sys_err(WAITPID);
 			return FAILURE;
 		} 
 		if(WIFSTOPPED(status))/* return true if the process stoped,
@@ -246,7 +253,7 @@ int ExeCmd(char* lineSize,
 		int signal = kill(pid, SIGCONT);
 		if(signal == -1)
 		{
-			perror("smash error: kill failed");
+			sys_err(KILL);
 			return FAILURE;
 		}
 		jobs[job_index(job_id)].is_stopped = false;
@@ -255,7 +262,7 @@ int ExeCmd(char* lineSize,
 		int kill_p = kill(pid, SIGCONT);
 		if(kill_p == -1)
 		{
-			perror("smash error: kill failed");
+			sys_err(KILL);
 			return FAILURE;
 		}
 		return SUCCESS;
@@ -277,14 +284,14 @@ int ExeCmd(char* lineSize,
                     int kill_p = kill(job_pid , SIGTERM);
                     if(kill_p == -1)
                     {
-                        perror("smash error: kill failed");
+                        sys_err(KILL);
                         return FAILURE;
                     }
                     if ((time(NULL) - sig_time)  > 5) {
 						kill_p = kill(job_pid, SIGKILL);
 						if(kill_p == INVALID)
 						{
-							perror("smash error: kill failed");
+							sys_err(KILL);
 							return FAILURE;
 						}
 						cout << "(5 sec passed) Sending SIGKILL... ";
@@ -297,7 +304,7 @@ int ExeCmd(char* lineSize,
 		int kill_p = kill(smash_pid, SIGKILL);
 		if(kill_p == INVALID)
 		{
-			perror("smash error: kill failed");
+			sys_err(KILL);
 			return FAILURE;
 		}
 		return SUCCESS;
@@ -305,54 +312,27 @@ int ExeCmd(char* lineSize,
 	/*************************************************/
 	
 	else if (!strcmp(cmd, "diff"))
-	{
+	{/*
+		string arg_err =  "smash error: diff: invalid arguments";
 		if (num_arg != 2 || args[1] == NULL || args[2] == NULL)
 		{
-			cerr << "smash error: diff: invalid arguments" << endl;
+			cerr << arg_err << endl;
 			return FAILURE;
 		}
 		ifstream file1(args[1]);
     	ifstream file2(args[2]);
-		if (!file1.is_open() || !file2.is_open()) 
-		{
-			cerr << "Error opening files." << std::endl;
-			file1.close();
-			file2.close();
-			return FAILURE;
+
+		stringstream first;
+		stringstream second;
+		first << first.rdbuff();
+		second << second.rdbuff();
+		if (!first.str().compare(second.str())) {
+			cout << FAILURE << endl;
+			return SUCCESS;
 		}
-
-		string line1, line2;
-		int lineNumber = 1;
-		while (getline(file1, line1) && getline(file2, line2)) 
-		{
-			if (line1 != line2)
-			{
-				cout << "Files differ at line " << lineNumber << endl;//not needed
-				file1.close();
-				file2.close();
-				return FAILURE;
-			}
-			lineNumber++;
-		}
-
-		if (!file1.eof() || !file2.eof()) 
-		{
-			cout << "Files have different lengths." << endl;//not needed
-			file1.close();
-			file2.close();
-			return FAILURE;
-		} 
-		else 
-		{
-			cout << "Files are identical." << endl;//not needed
-		}
-
-		file1.close();
-		file2.close();
-
-		return SUCCESS;
+		cout << SUCCESS << endl;
+		return SUCCESS;*/
 	}
-			
  
 	/*************************************************/	
 	else // external command
@@ -374,26 +354,25 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
     switch(pID) 
 	{
     		case -1: 
-					perror("smash error: fork failed\n");
+					sys_err(FORK);
 					exit(1);
         	case 0 :
                 	// Child Process
                		setpgrp();
 					if (args == NULL && cmdString == NULL)
 					{
-						perror("smash error: execv failed\n");
 						exit(1);
 					}
 					
 			        execv(args[0], args); /*running on cmd the command,
 										  return only if got error*/ 
-					perror("smash error: execv failed\n");
+					sys_err(EXECV);
 					exit(1);
 			
 			default:
 					if (args == NULL && cmdString == NULL)
 					{
-						perror("smash error: waitpid failed");
+						return;
 					}
 					string args_str[MAXARGS];
 					for (int i; i < MAXARGS; i++) {
@@ -404,16 +383,17 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
                 	if(!is_background)
 					{
 						int is_stopped;
-						int wait_pid =waitpid(pID, &is_stopped, WUNTRACED | WCONTINUED);
+						current_pid = pID;
+						int wait_pid =waitpid(current_pid, &is_stopped, WUNTRACED | WCONTINUED);
 						if(wait_pid == -1)
 						{
-							perror("smash error: waitpid failed");
+							sys_err(WAITPID);
 						} 
 						
 						if(WIFSTOPPED(is_stopped))// only occur when SIGSTOP sent
 						{
 							//do we need to enter the arguments also?
-							insert_job(pID, cmdString, args_str ,true, is_stopped);
+							insert_job(current_pid, cmdString, args_str ,true, is_stopped);
 						}
 						
 					}

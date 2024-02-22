@@ -8,7 +8,19 @@
 #define FAILED 1
 using namespace std;
 
-
+enum SYSERRORS {
+    GETCWD =0,
+    CHDIR,
+    KILL,
+    WAITPID,
+    FORK,
+    EXECV,
+    GETPID,
+    FOPEN,
+    FCLOSE,
+    SIGPROCMASK,
+    SIGFILLSET
+};
 
 class job
 {
@@ -49,5 +61,6 @@ int insert_job(pid_t pid,
 job pop_job(int job_id);
 void remove_by_id(int job_id);
 void remove_by_index(int index);
-
 void print_all_jobs();
+void sys_err(int sys_call);
+

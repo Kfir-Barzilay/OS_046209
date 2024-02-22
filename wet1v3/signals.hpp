@@ -7,9 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include "job.hpp"
 
-void ctrl_c_handler(int sig, int smash_pid, int process_pid);
-void ctrl_z_handler(int sig, int smash_pid, int process_pid);
+void ctrl_c_handler(int sig);
+void ctrl_z_handler(int sig);
 
 #endif
 

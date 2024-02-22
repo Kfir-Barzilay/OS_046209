@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -162,7 +163,7 @@ void refresh()
         if (jobs[i].pid > 0) {
             pid_t result = waitpid(jobs[i].pid, &status, WNOHANG | WUNTRACED);
             if (result == -1) {
-                perror("smash error: waitpid failed \n"); //-------------------------------------------
+                sys_err(WAITPID); //-------------------------------------------
                 return;
             } else if (result > 0) {
                 // Child process state has changed
@@ -259,5 +260,59 @@ void print_all_jobs()
         if (jobs[i].job_id != INVALID) {
             jobs[i].print_job(curr_time);
         }
+    }
+}
+
+void sys_err(int sys_call)
+{
+    switch (sys_call)
+    {
+    case GETCWD:
+        perror("smash error: getcwd failed\n");
+        break;
+
+    case CHDIR:
+        perror("smash error: chdir failed\n");
+        break;
+
+    case KILL:
+        perror("smash error: kill failed\n");
+        break;
+
+    case WAITPID:
+        perror("smash error: waitpid failed\n");
+        break;
+
+    case FORK:
+        perror("smash error: fork failed\n");
+        break;
+    
+    case EXECV:
+       perror("smash error: execv failed\n");
+       break;
+    
+    case GETPID:
+        perror("smash error: getpid failed\n");
+        break;
+        
+    case FOPEN:
+        perror("smash error: fopen failed\n");
+        break;
+
+    case FCLOSE:
+        perror("smash error: fclose failed\n");
+        break; 
+    
+    case SIGPROCMASK:
+        perror("smash error: sigprocmask failed\n");
+        break;
+    
+    case SIGFILLSET:
+        perror("smash error: sigfillset failed\n");
+        break;
+
+    default:
+        cout << "something aint good for " << sys_call << endl; //debug line
+        break;
     }
 }
