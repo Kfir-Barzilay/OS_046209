@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <string>
+#define MAXLINELEN 80
 #define MAXJOBS 100
 #define MAXARGS 20
 #define INVALID -1
@@ -47,6 +48,7 @@ public:
 
 bool compareByJob_id(const job& a, const job& b);
 bool compareByPid(const job& a, const job& b);
+bool job_in_fg(pid_t pid);
 int job_index(int job_id);
 int max_job_id();
 int highest_stopped_id();

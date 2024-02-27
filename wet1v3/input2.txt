@@ -1,0 +1,34 @@
+fg
+fg 1
+/bin/sleep 100 &
+/bin/sleep 100 &
+/bin/sleep 100 &
+/bin/sleep 100 &
+/bin/sleep 100 &
+fg 18
+fg 1 2
+bg
+bg 3
+fg 1
+jobs
+fg 3
+jobs
+fg
+jobs
+bg
+jobs
+fg
+jobs
+/bin/sleep 100 &
+jobs
+fg
+/bin/sleep 100 &
+jobs
+fg 2
+jobs
+bg
+jobs
+bg 10
+bg 4
+bg 2 3
+quit

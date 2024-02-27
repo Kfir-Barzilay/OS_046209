@@ -20,6 +20,7 @@ using namespace std;
 #define STOPPED 3
 
 
+
 job::job()
 {
     this->job_id = INVALID;
@@ -45,8 +46,15 @@ job::job(const int job_id,
     this->pid = pid;
     this->command = command; 
     //set args
-    for (int i; i < MAXARGS; i++){
-        this->args[i] = args[i];
+    if (args == NULL) {
+        for (int i=0; i < MAXARGS; i++){
+            this->args[i] = "";
+        }
+    }
+    else {
+        for (int i=0; i < MAXARGS; i++){
+            this->args[i] = args[i];
+        }
     }
     time(&this->start_time);
     this->is_background = is_background;
@@ -57,13 +65,24 @@ job::job(const job& other)
 {   
     this->job_id = other.job_id; 
     this->pid = other.pid;
+    //cout << "1" << endl;
     this->command = other.command;
-    for (int i; i < MAXARGS; i++){
-        this->args[i] = other.args[i];
+   // cout << "2" << endl;
+    if (other.args == NULL) {
+        for (int i = 0; i < MAXARGS; i++){
+            this->args[i] = "";
+        }
     }
+    else {
+        for (int i = 0; i < MAXARGS; i++){
+            this->args[i] = other.args[i];
+        }
+    }
+    //cout << "3" << endl;
     this->start_time = other.start_time;
     this->is_background = other.is_background;
     this->is_stopped = other.is_stopped;
+    //cout << "4" << endl;
 }
 
 bool job::operator<(const job& b)// is a < b ?
@@ -117,7 +136,6 @@ bool compareByPid(const job& a, const job& b)
     return (a.pid < b.pid);
 }
 
-
 //finds job index, returns -1 if doesnt exist
 int job_index(int job_id)
 {
@@ -129,6 +147,12 @@ int job_index(int job_id)
     return INVALID;
 }
 
+
+bool job_in_fg(pid_t pid)
+{
+    pid_t fg_pid = getpid();
+    return pid == fg_pid;
+}
 //return max job id, returns -1 if the list is empty
 int max_job_id()
 {
@@ -272,7 +296,7 @@ void sys_err(int sys_call)
         break;
 
     case CHDIR:
-        perror("smash error: chdir failed\n");
+        perror("smash error: chdir failed");
         break;
 
     case KILL:
@@ -280,7 +304,7 @@ void sys_err(int sys_call)
         break;
 
     case WAITPID:
-        perror("smash error: waitpid failed\n");
+        perror("smash error: waitpid failed/n");
         break;
 
     case FORK:

@@ -138,9 +138,7 @@ int ExeCmd(char* lineSize,
 			return FAILURE;
 		}
 		char* sig_num_str = args[1] + 1;
-		cout  <<" '-' is -> " << *(args[1]) << " signum is " << sig_num_str << " job id is " << args[2] << endl;
 		bool valid_sig =((*(args[1])) == '-') && is_all_digits(sig_num_str);
-		cout << "valid sig " << valid_sig << endl;
 		if (!valid_sig || !is_all_digits(args[2])) {
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
 			return FAILURE;
@@ -174,7 +172,7 @@ int ExeCmd(char* lineSize,
 		string error_print[4] = {"smash error: fg: ",
 							 	"invalid arguments ",
 							 	"jobs list is empty ",
-							 	"does not exist "};
+							 	" does not exist "};
 		if (num_arg > 1 || (args[1] != NULL && !is_all_digits(args[1])))
 		{
 			cerr << error_print[0] << error_print[1] << endl;
@@ -194,6 +192,11 @@ int ExeCmd(char* lineSize,
 		{
 			job_id = atoi(args[1]);
 		}
+		if(job_index(job_id) == INVALID)
+			{
+				cerr << error_print[0] <<"job id "<<job_id<< error_print[3] << endl;
+				return FAILURE;
+			}
 		job fg_job = pop_job(job_id);
 		pid_t pid = fg_job.pid;
 		current_pid = pid;
@@ -220,7 +223,7 @@ int ExeCmd(char* lineSize,
 	else if (!strcmp(cmd, "bg")) 
 	{
 		string errors[5] = {": invalid arguments", 
-						   ": there are no jobs to resume",
+						   ": there are no stopped jobs to resume",
 						   " does not exist",
 						   "is already running in the background",
 						   ": job id ",
@@ -247,6 +250,10 @@ int ExeCmd(char* lineSize,
 				cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[2] << endl;
 				return FAILURE;
 			}
+		}
+		if(/*job exist in bg, in the list*/)
+		{
+			cerr << SMASH_ERROR << "job id " << job_id << errors[3] << endl;
 		}
 
 		pid_t pid = jobs[job_index(job_id)].pid;
@@ -375,7 +382,7 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 						return;
 					}
 					string args_str[MAXARGS];
-					for (int i; i < MAXARGS; i++) {
+					for (int i = 0 ; i < MAXARGS; i++) {
 						if (args[i] != NULL) {
 							args_str[i] = args[i];
 						}
