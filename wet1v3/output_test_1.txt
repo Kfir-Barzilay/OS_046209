@@ -2,4 +2,17 @@ smash > smash error: fg: job id 0 does not exist
 smash > smash error: fg: job id 1 does not exist 
 smash smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > [1] /bin/sleep 100 & : 2702 0 secs
 smash > smash > smash > [1] /bin/sleep 100 & : 2706 0 secs
-smash > smash > [1
+smash > smash > [1] /bin/sleep 100 & : 2706 0 secs
+smash > smash > [1] /bin/sleep 100 & : 2706 0 secs
+smash > smash > smash > does not exist 
+smash > smash > smash error: bg: there are no jobs to resume
+smash > smash > smash error: fg: job id 0 does not exist 
+smash > smash > smash > [1] /bin/sleep 100 & : 2703 0 secs
+smash > smash > smash > [1] /bin/sleep 100 & : 2709 0 secs
+smash > smash error: fg: job id 2 does not exist 
+smash > [1] /bin/sleep 100 & : 2709 0 secs
+smash > smash error: bg: there are no jobs to resume
+smash > [1] /bin/sleep 100 & : 2709 0 secs
+smash > smash error: bg: job id 10 does not exist
+smash > smash error: bg: job id 4 does not exist
+smash > smash error: bg: invalid arguments

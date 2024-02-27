@@ -1,0 +1,14 @@
+smash error: fg: job id 0 does not exist 
+smash error: fg: job id 1 does not exist 
+smash error: fg: job id 18 does not exist 
+smash error: fg: invalid arguments 
+smash error: bg: there are no jobs to resume
+smash error: fg: job id 3 does not exist 
+smash error: fg: job id 0 does not exist 
+smash error: bg: there are no jobs to resume
+smash error: fg: job id 0 does not exist 
+smash error: fg: job id 2 does not exist 
+smash error: bg: there are no jobs to resume
+smash error: bg: job id 10 does not exist
+smash error: bg: job id 4 does not exist
+smash error: bg: invalid arguments
