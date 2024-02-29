@@ -15,6 +15,8 @@
 #include "job.hpp"
 
 extern job jobs[MAXJOBS];
+extern pid_t smash_pid;
+
 using namespace std;
 
 #define STOPPED 3
@@ -215,6 +217,7 @@ void refresh()
         jobs[min_index] = jobs[i];
         jobs[i] = min_job;           
     }
+   // current_pid =smash_pid; //no proc in the fg
 }
 
 int insert_job(const job& a)

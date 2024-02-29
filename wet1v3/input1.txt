@@ -6,9 +6,40 @@ pwd useless arguments
 pwd 20 arguments test 2 3 sha-ger rty cvb jk tyu dfg cb yu fgh cvb ty fh ck 1 2
 cd -
 cd two args 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 cd too many argumats
 cd no/path
-cd /media/sf_OS_technion/OS_046209/wet1v3
+cd /media/sf_OS
 pwd
 cd ..
 pwd
@@ -139,3 +170,34 @@ jobs
 /bin/sleep 3 &
 jobs
 quit 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+smash > smash error: fg: job id 0 does not exist 
+smash > smash error: fg: job id 1 does not exist 
+smash > smash > smash > smash > smash > smash > smash error: fg: job id 18 does not exist 
+smash > smash error: fg: invalid arguments 
+smash > smash error: bg: there are no stopped jobs to resume
+smash > smash error: job id 3 is already running in the background
+/bin/sleep 100: 3
+smash > smash: caught ctrl-C
+smash > [3] /bin/sleep 100 & : 2695 100 secs
+[4] /bin/sleep 100 & : 2696 100 secs
+[5] /bin/sleep 100 & : 2697 100 secs
+smash > smash > [5] /bin/sleep 100 & : 2697 100 secs
+smash > smash > smash > smash error: bg: there are no stopped jobs to resume
+smash > smash > smash error: fg: job id 0 does not exist 
+smash > smash > smash > [1] /bin/sleep 100 & : 2700 0 secs
+smash > smash: caught ctrl-Z
+smash: caught ctrl-Z
+smash: caught ctrl-C
+smash: caught ctrl-C
+smash: caught ctrl-Z
+smash > smash > [1] /bin/sleep 100 & : 2706 0 secs
+smash > smash error: fg: job id 2 does not exist 
+smash > [1] /bin/sleep 100 & : 2706 0 secs
+smash > smash error: bg: there are no stopped jobs to resume
+smash > [1] /bin/sleep 100 & : 2706 0 secs
+smash > smash error: bg: job id 10 does not exist
+smash > smash error: bg: job id 4 does not exist
+smash > smash error: bg: invalid arguments

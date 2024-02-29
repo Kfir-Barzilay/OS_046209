@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 		sys_err(GETPID);
 		return FAILED;
 	}
+	current_pid = smash_pid;
 	//signal declaretions
 	//NOTE: the signal handlers and the function/s that sets the handler should be found in siganls.c
 	 /* add your code here */

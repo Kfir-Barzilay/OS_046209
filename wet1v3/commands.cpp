@@ -17,10 +17,20 @@ extern pid_t smash_pid;
 extern job jobs[MAXJOBS];
 extern string last_path;
 
-
+/*
 bool is_all_digits(const string& str) {
     for (char c : str) {
         if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}
+*/
+
+bool is_all_digits(const std::string& str) {
+    for (std::string::size_type i = 0; i < str.size(); ++i) {
+        if (!isdigit(str[i])) {
             return false;
         }
     }
@@ -217,6 +227,7 @@ int ExeCmd(char* lineSize,
 				return FAILURE;
 			}
 		}
+		current_pid = smash_pid;
 		return SUCCESS;
 	} 
 	/*************************************************/
@@ -225,7 +236,7 @@ int ExeCmd(char* lineSize,
 		string errors[5] = {": invalid arguments", 
 						   ": there are no stopped jobs to resume",
 						   " does not exist",
-						   "is already running in the background",
+						   " is already running in the background",
 						   ": job id ",
 						   };
   		if(num_arg > 1 || (args[1] != NULL && !is_all_digits(args[1])))
@@ -251,7 +262,7 @@ int ExeCmd(char* lineSize,
 				return FAILURE;
 			}
 		}
-		if(/*job exist in bg, in the list*/)
+		if(jobs[job_id].is_background/*job exist in bg, in the list*/)
 		{
 			cerr << SMASH_ERROR << "job id " << job_id << errors[3] << endl;
 		}
@@ -408,6 +419,7 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 					{
 						insert_job(pID, cmdString, args_str ,true, false);
 					}
+					current_pid = smash_pid;
 					
 	}
 }

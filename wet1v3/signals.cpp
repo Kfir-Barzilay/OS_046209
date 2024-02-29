@@ -45,8 +45,7 @@ void ctrl_c_handler(int sig)
         return;
     }
     
-   // cout << "smash pid is: " << smash_pid << "and pro pid is:" << current_pid << endl;
-    if((smash_pid != current_pid) && job_in_fg(current_pid))/*kill the child process that run in foreground*/
+    if(current_pid != smash_pid)/*kill the child process that run in foreground*/
     {
         kill_signal = kill(current_pid, SIGKILL);
         if( kill_signal == -1)
@@ -56,7 +55,6 @@ void ctrl_c_handler(int sig)
         }
         cout << error[0] << error[2] << current_pid << error[3] << endl;
     }
-    else
 
     fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
     if(fail_p == -1)
@@ -90,10 +88,10 @@ void ctrl_z_handler(int sig)
         sys_err(SIGPROCMASK);
         return;
     }
+    cout << "current pid " << current_pid << endl;
 
-    if((smash_pid != current_pid) && (job_in_fg(current_pid)))/*kill the child process that run in foreground*/
+    if(smash_pid != current_pid)/*kill the child process that run in foreground*/
     {
-       
         kill_signal = kill(current_pid, SIGSTOP);
         if( kill_signal == -1)
         {
@@ -105,8 +103,8 @@ void ctrl_z_handler(int sig)
 
     fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
     if( fail_p == -1)
-        {
-            sys_err(SIGPROCMASK);//the sigstop failed
-            return;
-        }
+    {
+        sys_err(SIGPROCMASK);//the sigstop failed
+        return;
+    }
 }
