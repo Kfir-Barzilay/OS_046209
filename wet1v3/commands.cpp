@@ -355,23 +355,36 @@ int ExeCmd(char* lineSize,
 	
 	else if (!strcmp(cmd, "diff"))
 	{
-  std::ifstream f1(args[1], std::ifstream::binary|std::ifstream::ate);
-  std::ifstream f2(args[2], std::ifstream::binary|std::ifstream::ate);
+		if (num_arg > 2){
+			smash_err(cmd, "invalid arguments");
+		}
+  	ifstream f1(args[1], ifstream::binary|ifstream::ate);
+  	ifstream f2(args[2], ifstream::binary|ifstream::ate);
 
   if (f1.fail() || f2.fail()) {
+	cout << "faild";
     return false; //file problem
   }
 
   if (f1.tellg() != f2.tellg()) {
-    return false; //size mismatch
+	cout << FAILED << endl;
+	return SUCCESS;
+     //size mismatch
   }
 
   //seek back to beginning and use std::equal to compare contents
-  f1.seekg(0, std::ifstream::beg);
-  f2.seekg(0, std::ifstream::beg);
-  return std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
-                    std::istreambuf_iterator<char>(),
-                    std::istreambuf_iterator<char>(f2.rdbuf()));
+  f1.seekg(0, ifstream::beg);
+  f2.seekg(0, ifstream::beg);
+  if(equal(istreambuf_iterator<char>(f1.rdbuf()),
+                istreambuf_iterator<char>(),
+                istreambuf_iterator<char>(f2.rdbuf())))
+	{
+		cout << SUCCESS << endl;
+	}
+	else{
+		cout << FAILED << endl;
+	}
+	return SUCCESS;
 }
  
 	/*************************************************/	
