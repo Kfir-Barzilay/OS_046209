@@ -209,6 +209,8 @@ int ExeCmd(char* lineSize,
 			}
 		job fg_job = pop_job(job_id);
 		pid_t pid = fg_job.pid;
+		fg_job.is_background = false;
+		fg_job.is_stopped = false;
 		current_pid = pid;
 		string command =fg_job.command; 
 		int status;
@@ -223,6 +225,7 @@ int ExeCmd(char* lineSize,
 									otherwise false*/
 		{
 			fg_job.is_stopped = true;
+			fg_job.is_background = true;
 			if(insert_job(fg_job) == FAILURE) {
 				return FAILURE;
 			}
@@ -400,7 +403,7 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 					}
                 	if(!is_background)
 					{
-						int is_stopped;
+						int is_stopped = false;
 						current_pid = pID;
 						int wait_pid =waitpid(current_pid, &is_stopped, WUNTRACED | WCONTINUED);
 						if(wait_pid == -1)
@@ -410,7 +413,6 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 						
 						if(WIFSTOPPED(is_stopped))// only occur when SIGSTOP sent
 						{
-							//do we need to enter the arguments also?
 							insert_job(current_pid, cmdString, args_str ,true, is_stopped);
 						}
 						

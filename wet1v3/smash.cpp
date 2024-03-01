@@ -14,8 +14,9 @@ main file. This file contains the main function of smash
 #define MAXARGS 20
 #define MAXJOBS 100
 
-pid_t current_pid;
-pid_t smash_pid;
+bool isTest = true;
+pid_t current_pid = -1;
+pid_t smash_pid = -1;
 job jobs[MAXJOBS]; //This represents the list of jobs. Please change to a preferred type (e.g array of char*)
 string last_path = "";
 
@@ -29,9 +30,6 @@ int main(int argc, char *argv[])
 {
     char cmdString[MAX_LINE_SIZE]; 	 
 
-	signal(SIGINT, ctrl_c_handler);
-    signal(SIGTSTP, ctrl_z_handler);
-
 
 	smash_pid = getpid();
 	if(smash_pid == -1)
@@ -40,10 +38,13 @@ int main(int argc, char *argv[])
 		return FAILED;
 	}
 	current_pid = smash_pid;
+	is (isTest) cout << "Smash PID is: " << current_pid << endl;
 	//signal declaretions
 	//NOTE: the signal handlers and the function/s that sets the handler should be found in siganls.c
 	 /* add your code here */
-	
+	signal(SIGINT, ctrl_c_handler);
+    signal(SIGTSTP, ctrl_z_handler);
+
 	/************************************/
 	//NOTE: the signal handlers and the function/s that sets the handler should be found in siganls.c
 	//set your signal handlers here
