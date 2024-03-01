@@ -29,7 +29,19 @@ char lineSize[MAX_LINE_SIZE];
 int main(int argc, char *argv[])
 {
     char cmdString[MAX_LINE_SIZE]; 	 
+	struct sigaction control_c = {0};
+	struct sigaction control_z = {0};
 
+	control_c.sa_handler = &ctrl_c_handler;
+	control_c.sa_flags = SA_RESTART;
+	control_z.sa_handler = &ctrl_z_handler;
+	control_z.sa_flags = SA_RESTART;
+	if(sigaction(SIGINT, &control_c, NULL) == INVALID) {
+		sys_err(SIGACT);
+	}
+	if(sigaction(SIGTSTP, &control_z, NULL) == INVALID) {
+		sys_err(SIGACT);
+	}
 
 	smash_pid = getpid();
 	if(smash_pid == -1)
@@ -42,8 +54,8 @@ int main(int argc, char *argv[])
 	//signal declaretions
 	//NOTE: the signal handlers and the function/s that sets the handler should be found in siganls.c
 	 /* add your code here */
-	signal(SIGINT, ctrl_c_handler);
-    signal(SIGTSTP, ctrl_z_handler);
+	//signal(SIGINT, ctrl_c_handler);
+    //signal(SIGTSTP, ctrl_z_handler);
 
 	/************************************/
 	//NOTE: the signal handlers and the function/s that sets the handler should be found in siganls.c
@@ -66,9 +78,9 @@ int main(int argc, char *argv[])
     	{
 	 	printf("smash > ");
 		fgets(lineSize, MAX_LINE_SIZE, stdin);
-		if(isTest) cout << "got input" << endl;
+		//if(isTest) cout << "got input" << endl;
 		strcpy(cmdString, lineSize);  
-		if(isTest) cout << "copied input" << endl;  	
+		//if(isTest) cout << "copied input" << endl;  	
 		cmdString[strlen(lineSize)-1]='\0';
 					// background command	
 	 	if(!BgCmd(lineSize)) continue; 

@@ -20,7 +20,8 @@ enum SYSERRORS {
     FOPEN,
     FCLOSE,
     SIGPROCMASK,
-    SIGFILLSET
+    SIGFILLSET,
+    SIGACT
 };
 
 class job

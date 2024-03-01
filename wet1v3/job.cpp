@@ -295,7 +295,7 @@ void sys_err(int sys_call)
     switch (sys_call)
     {
     case GETCWD:
-        perror("smash error: getcwd failed\n");
+        perror("smash error: getcwd failed");
         break;
 
     case CHDIR:
@@ -303,39 +303,43 @@ void sys_err(int sys_call)
         break;
 
     case KILL:
-        perror("smash error: kill failed\n");
+        perror("smash error: kill failed");
         break;
 
     case WAITPID:
-        perror("smash error: waitpid failed/n");
+        perror("smash error: waitpid failed");
         break;
 
     case FORK:
-        perror("smash error: fork failed\n");
+        perror("smash error: fork failed");
         break;
     
     case EXECV:
-       perror("smash error: execv failed\n");
+       perror("smash error: execv failed");
        break;
     
     case GETPID:
-        perror("smash error: getpid failed\n");
+        perror("smash error: getpid failed");
         break;
         
     case FOPEN:
-        perror("smash error: fopen failed\n");
+        perror("smash error: fopen failed");
         break;
 
     case FCLOSE:
-        perror("smash error: fclose failed\n");
+        perror("smash error: fclose failed");
         break; 
     
     case SIGPROCMASK:
-        perror("smash error: sigprocmask failed\n");
+        perror("smash error: sigprocmask failed");
         break;
     
     case SIGFILLSET:
-        perror("smash error: sigfillset failed\n");
+        perror("smash error: sigfillset failed");
+        break;
+
+    case SIGACT:
+        perror("smash error: sigaction failed");
         break;
 
     default:

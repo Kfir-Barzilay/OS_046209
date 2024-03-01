@@ -9,7 +9,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "signals.hpp"
-
+#include <sstream>
+#include <fstream>
+#include <iostream>
 
 #define MAX_LINE_SIZE 80
 

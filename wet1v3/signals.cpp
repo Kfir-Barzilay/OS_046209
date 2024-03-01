@@ -68,7 +68,6 @@ void ctrl_c_handler(int sig)
 void ctrl_z_handler(int sig)
 {   
     sigset_t signal_set;
-    sigemptyset(&signal_set);
     sigset_t old_signal_set;
     string error[] = {"smash: ", "caught ctrl-Z", " process ", " was stopped"};
     int kill_signal;
@@ -116,5 +115,4 @@ void ctrl_z_handler(int sig)
         sys_err(SIGPROCMASK);
         return;
     }
-    if (isTest) cout << "done with z handler" << endl;
 }

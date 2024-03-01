@@ -36,7 +36,6 @@ bool is_all_digits(const std::string& str) {
 int ExeCmd(char* lineSize,
 		   char* cmdString)
 {
-	if(isTest) cout << "in EXECMD..." << endl;
 	char* cmd; 
 	char* args[MAXARGS];
 	//char pwd[MAX_LINE_SIZE];
@@ -127,9 +126,9 @@ int ExeCmd(char* lineSize,
 	
 	else if (!strcmp(cmd, "jobs")) 
 	{
-		if(isTest) cout << "in jobs ...." << endl;
+		//if(isTest) cout << "in jobs ...." << endl;
 		print_all_jobs();
-		if(isTest) cout << "out of jobs... " << endl;
+		//if(isTest) cout << "out of jobs... " << endl;
 	}
 	
 	/*************************************************/
@@ -198,7 +197,8 @@ int ExeCmd(char* lineSize,
 		}
 		if(job_index(job_id) == INVALID)
 			{
-				cerr << error_print[0] <<"job id "<<job_id<< error_print[3] << endl;
+				cerr << error_print[0] <<"job id "<<job_id<< error_print[3];
+				cerr << endl;
 				return FAILURE;
 			}
 		job fg_job = pop_job(job_id);
@@ -215,11 +215,10 @@ int ExeCmd(char* lineSize,
 		fg_job.is_background = false;
 		fg_job.is_stopped = false;
 		current_pid = pid;
-		
 		string command =fg_job.command; 
+		cout << command << ": " << pid<< endl;
 		int status;
 		int wait = waitpid(pid, &status, WUNTRACED); //-------------------------------------
-		// do we need wuntraced or something else?
 		if(wait == -1)
 		{
 			sys_err(WAITPID);
@@ -352,10 +351,10 @@ int ExeCmd(char* lineSize,
 		first << first.rdbuff();
 		second << second.rdbuff();
 		if (!first.str().compare(second.str())) {
-			cout << FAILURE << endl;
+			cout << SUCCESS << endl;
 			return SUCCESS;
 		}
-		cout << SUCCESS << endl;
+		cout << FAILED << endl;
 		return SUCCESS;*/
 	}
  
@@ -375,7 +374,6 @@ int ExeCmd(char* lineSize,
 
 void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 {
-	if (isTest) cout << "into ExeExternal" <<endl;
 	int pID = fork();
     switch(pID) 
 	{
@@ -390,7 +388,7 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 						exit(1);
 					}
 					
-			        execv(args[0], args); /*running on cmd the command,
+			        execvp(args[0], args); /*running on cmd the command,
 										  return only if got error*/ 
 					sys_err(EXECV);
 					exit(1);
@@ -429,7 +427,6 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 					current_pid = smash_pid;
 					
 	}
-	if (isTest) cout << "out ExeExternal" <<endl;
 }
 //*****************************************************************************
 // function name: BgCmd
@@ -439,7 +436,6 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 //*****************************************************************************
 int BgCmd(char* lineSize)
 {
-	if (isTest) cout << "into BgCmd" << endl;
 	char* Command;
 	bool is_background = false;
 	string delimiters = " \t\n";
@@ -455,7 +451,6 @@ int BgCmd(char* lineSize)
 		Command = strtok(cmd, delimiters.c_str());
 		if(Command == NULL)
 		{
-			if (isTest) cout << "out BgCmd" << endl;
 			return SUCCESS;
 		}			
 		args[0] = Command;
@@ -468,10 +463,8 @@ int BgCmd(char* lineSize)
 		}
 		//cout << "lineSize " << lineSize << endl; ///////////////////////////////////////////
 		ExeExternal(args, lineSize, is_background);
-		if (isTest) cout << "out BgCmd" << endl;
 		return SUCCESS;
 	}
-	if (isTest) cout << "out BgCmd" << endl;
 	return -1;
 }
 
