@@ -67,7 +67,6 @@ void ctrl_c_handler(int sig)
 
 void ctrl_z_handler(int sig)
 {   
-    if (isTest) cout << "handeling Z" <<endl;
     sigset_t signal_set;
     sigemptyset(&signal_set);
     sigset_t old_signal_set;
