@@ -14,7 +14,7 @@ main file. This file contains the main function of smash
 #define MAXARGS 20
 #define MAXJOBS 100
 
-bool isTest = true;
+bool isTest = false;
 pid_t current_pid = -1;
 pid_t smash_pid = -1;
 job jobs[MAXJOBS]; //This represents the list of jobs. Please change to a preferred type (e.g array of char*)

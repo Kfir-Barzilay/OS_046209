@@ -1,0 +1,536 @@
+smash > smash pid is 4699
+smash > smash pid is 4699
+smash > smash pid is 4699
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > smash error: cd: OLDPWD not set
+smash > smash error: cd: too many arguments
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: cd: too many arguments
+smash error: chdir failed: No such file or directory
+smash error: chdir failed: No such file or directory
+smash > smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: kill: job-id 10 does not exist
+smash > smash error: kill: invalid arguments
+smash > smash error: kill: invalid arguments
+smash > [0] /bin/sleep 3 & : 4700 0 secs
+[1] /bin/sleep 8 & : 4701 0 secs
+[2] /bin/sleep 2 & : 4702 0 secs
+[3] /bin/sleep 13 & : 4703 0 secs
+[4] /bin/sleep 2 & : 4704 0 secs
+[5] /bin/sleep 8 & : 4705 0 secs
+[6] /bin/sleep 1 & : 4706 0 secs
+[7] /bin/sleep 3 & : 4707 0 secs
+smash > smash > [1] /bin/sleep 8 & : 4701 4 secs
+[3] /bin/sleep 13 & : 4703 4 secs
+[5] /bin/sleep 8 & : 4705 4 secs
+smash > smash > [1] /bin/sleep 8 & : 4701 4 secs
+[3] /bin/sleep 13 & : 4703 4 secs
+[5] /bin/sleep 8 & : 4705 4 secs
+[6] /bin/sleep 1 & : 4709 0 secs
+smash > smash > [3] /bin/sleep 13 & : 4703 8 secs
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > [0] /bin/sleep 3 & : 4714 0 secs
+[1] /bin/sleep 2 & : 4715 0 secs
+[2] /bin/sleep 2 & : 4716 0 secs
+[3] /bin/sleep 1 & : 4717 0 secs
+[4] /bin/sleep 8 & : 4718 0 secs
+[5] /bin/sleep 3 & : 4719 0 secs
+[6] /bin/sleep 2 & : 4720 0 secs
+[7] /bin/sleep 2 & : 4721 0 secs
+[8] /bin/sleep 1 & : 4722 0 secs
+[9] /bin/sleep 8 & : 4723 0 secs
+[10] /bin/sleep 3 & : 4724 0 secs
+[11] /bin/sleep 2 & : 4725 0 secs
+[12] /bin/sleep 2 & : 4726 0 secs
+[13] /bin/sleep 1 & : 4727 0 secs
+[14] /bin/sleep 3 & : 4728 0 secs
+[15] /bin/sleep 100 & : 4729 0 secs
+[16] /bin/sleep 2 & : 4730 0 secs
+[17] /bin/sleep 2 & : 4731 0 secs
+[18] /bin/sleep 1 & : 4732 0 secs
+[19] /bin/sleep 3 & : 4733 0 secs
+[20] /bin/sleep 3 & : 4734 0 secs
+[21] /bin/sleep 8 & : 4735 0 secs
+[22] /bin/sleep 2 & : 4736 0 secs
+[23] /bin/sleep 1 & : 4737 0 secs
+[24] /bin/sleep 3 & : 4738 0 secs
+[25] /bin/sleep 3 & : 4739 0 secs
+[26] /bin/sleep 2 & : 4740 0 secs
+[27] /bin/sleep 2 & : 4741 0 secs
+[28] /bin/sleep 100 & : 4742 0 secs
+[29] /bin/sleep 3 & : 4743 0 secs
+[30] /bin/sleep 3 & : 4744 0 secs
+[31] /bin/sleep 2 & : 4745 0 secs
+[32] /bin/sleep 2 & : 4746 0 secs
+[33] /bin/sleep 1 & : 4747 0 secs
+[34] /bin/sleep 2   & : 4748 0 secs
+[35] /bin/sleep 3 & : 4749 0 secs
+[36] /bin/sleep 2   & : 4750 0 secs
+[37] /bin/sleep 2 & : 4751 0 secs
+[38] /bin/sleep 1 & : 4752 0 secs
+[39] /bin/sleep   3 & : 4753 0 secs
+[40] /bin/sleep 3 & : 4754 0 secs
+[41] /bin/sleep 2 & : 4755 0 secs
+[42] /bin/sleep 2 & : 4756 0 secs
+[43] /bin/sleep 1 & : 4757 0 secs
+[44] /bin/sleep 3 & : 4758 0 secs
+[45] /bin/sleep 3 & : 4759 0 secs
+[46] /bin/sleep 2 & : 4760 0 secs
+[47] /bin/sleep 2 & : 4761 0 secs
+[48] /bin/sleep             1 & : 4762 0 secs
+[49] /bin/sleep 8 & : 4763 0 secs
+[50] /bin/sleep 3 & : 4764 0 secs
+[51] /bin/sleep 2 & : 4765 0 secs
+[52] /bin/sleep 2 & : 4766 0 secs
+[53] /bin/sleep 1   & : 4767 0 secs
+[54] /bin/sleep 3 & : 4768 0 secs
+[55] /bin/sleep 3 & : 4769 0 secs
+[56] /bin/sleep 2 & : 4770 0 secs
+[57] /bin/sleep 2 & : 4771 0 secs
+[58] /bin/sleep 1 & : 4772 0 secs
+[59] /bin/sleep 3 & : 4773 0 secs
+[60] /bin/sleep 3 & : 4774 0 secs
+[61] /bin/sleep 2 & : 4775 0 secs
+[62] /bin/sleep 2 & : 4776 0 secs
+[63] /bin/sleep 1 & : 4777 0 secs
+[64] /bin/sleep 3 & : 4778 0 secs
+[65] /bin/sleep 3 & : 4779 0 secs
+[66] /bin/sleep 2 & : 4780 0 secs
+[67] /bin/sleep 2 & : 4781 0 secs
+[68] /bin/sleep 1 & : 4782 0 secs
+[69] /bin/sleep 3 & : 4783 0 secs
+[70] /bin/sleep 3 & : 4784 0 secs
+[71] /bin/sleep 8 & : 4785 0 secs
+[72] /bin/sleep 2 & : 4786 0 secs
+[73] /bin/sleep 100     & : 4787 0 secs
+[74] /bin/sleep 3 & : 4788 0 secs
+[75] /bin/sleep 3 & : 4789 0 secs
+[76] /bin/sleep 2 & : 4790 0 secs
+[77] /bin/sleep 2 & : 4791 0 secs
+[78] /bin/sleep 1 & : 4792 0 secs
+[79] /bin/sleep 3 & : 4793 0 secs
+[80] /bin/sleep 3 & : 4794 0 secs
+[81] /bin/sleep 2 & : 4795 0 secs
+[82] /bin/sleep 2 & : 4796 0 secs
+[83] /bin/sleep 1 & : 4797 0 secs
+[84] /bin/sleep 3      & : 4798 0 secs
+[85] /bin/sleep 3 & : 4799 0 secs
+[86] /bin/sleep 2 & : 4800 0 secs
+[87] /bin/sleep 2 & : 4801 0 secs
+[88] /bin/sleep     8 & : 4802 0 secs
+[89] /bin/sleep 3 & : 4803 0 secs
+[90] /bin/sleep 3 & : 4804 0 secs
+[91] /bin/sleep 2 & : 4805 0 secs
+[92] /bin/sleep 2 & : 4806 0 secs
+[93] /bin/sleep 1 & : 4807 0 secs
+[94] /bin/sleep 3 & : 4808 0 secs
+[95] /bin/sleep 3 & : 4809 0 secs
+[96] /bin/sleep 2 & : 4810 0 secs
+[97] /bin/sleep 2 & : 4811 0 secs
+[98] /bin/sleep 1 & : 4812 0 secs
+[99] /bin/sleep 3 & : 4813 0 secs
+smash > smash pid is 4851
+smash > smash pid is 4851
+smash > smash pid is 4851
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > smash error: cd: OLDPWD not set
+smash > smash error: cd: too many arguments
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: cd: too many arguments
+smash error: chdir failed: No such file or directory
+smash error: chdir failed: No such file or directory
+smash > smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: kill: job-id 10 does not exist
+smash > smash error: kill: invalid arguments
+smash > smash error: kill: invalid arguments
+smash > [0] /bin/sleep 3 & : 4852 0 secs
+[1] /bin/sleep 8 & : 4853 0 secs
+[2] /bin/sleep 2 & : 4854 0 secs
+[3] /bin/sleep 13 & : 4855 0 secs
+[4] /bin/sleep 2 & : 4856 0 secs
+[5] /bin/sleep 8 & : 4857 0 secs
+[6] /bin/sleep 1 & : 4858 0 secs
+[7] /bin/sleep 3 & : 4859 0 secs
+smash > smash > [1] /bin/sleep 8 & : 4853 4 secs
+[3] /bin/sleep 13 & : 4855 4 secs
+[5] /bin/sleep 8 & : 4857 4 secs
+smash > smash > [1] /bin/sleep 8 & : 4853 4 secs
+[3] /bin/sleep 13 & : 4855 4 secs
+[5] /bin/sleep 8 & : 4857 4 secs
+[6] /bin/sleep 1 & : 4863 0 secs
+smash > smash > [3] /bin/sleep 13 & : 4855 8 secs
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > [0] /bin/sleep 3 & : 4866 0 secs
+[1] /bin/sleep 2 & : 4867 0 secs
+[2] /bin/sleep 2 & : 4868 0 secs
+[3] /bin/sleep 1 & : 4869 0 secs
+[4] /bin/sleep 8 & : 4870 0 secs
+[5] /bin/sleep 3 & : 4871 0 secs
+[6] /bin/sleep 2 & : 4872 0 secs
+[7] /bin/sleep 2 & : 4873 0 secs
+[8] /bin/sleep 1 & : 4874 0 secs
+[9] /bin/sleep 8 & : 4875 0 secs
+[10] /bin/sleep 3 & : 4876 0 secs
+[11] /bin/sleep 2 & : 4877 0 secs
+[12] /bin/sleep 2 & : 4878 0 secs
+[13] /bin/sleep 1 & : 4879 0 secs
+[14] /bin/sleep 3 & : 4880 0 secs
+[15] /bin/sleep 100 & : 4881 0 secs
+[16] /bin/sleep 2 & : 4882 0 secs
+[17] /bin/sleep 2 & : 4883 0 secs
+[18] /bin/sleep 1 & : 4884 0 secs
+[19] /bin/sleep 3 & : 4885 0 secs
+[20] /bin/sleep 3 & : 4886 0 secs
+[21] /bin/sleep 8 & : 4887 0 secs
+[22] /bin/sleep 2 & : 4888 0 secs
+[23] /bin/sleep 1 & : 4889 0 secs
+[24] /bin/sleep 3 & : 4890 0 secs
+[25] /bin/sleep 3 & : 4891 0 secs
+[26] /bin/sleep 2 & : 4892 0 secs
+[27] /bin/sleep 2 & : 4893 0 secs
+[28] /bin/sleep 100 & : 4894 0 secs
+[29] /bin/sleep 3 & : 4895 0 secs
+[30] /bin/sleep 3 & : 4896 0 secs
+[31] /bin/sleep 2 & : 4897 0 secs
+[32] /bin/sleep 2 & : 4898 0 secs
+[33] /bin/sleep 1 & : 4899 0 secs
+[34] /bin/sleep 2   & : 4900 0 secs
+[35] /bin/sleep 3 & : 4901 0 secs
+[36] /bin/sleep 2   & : 4902 0 secs
+[37] /bin/sleep 2 & : 4903 0 secs
+[38] /bin/sleep 1 & : 4904 0 secs
+[39] /bin/sleep   3 & : 4905 0 secs
+[40] /bin/sleep 3 & : 4906 0 secs
+[41] /bin/sleep 2 & : 4907 0 secs
+[42] /bin/sleep 2 & : 4908 0 secs
+[43] /bin/sleep 1 & : 4909 0 secs
+[44] /bin/sleep 3 & : 4910 0 secs
+[45] /bin/sleep 3 & : 4911 0 secs
+[46] /bin/sleep 2 & : 4912 0 secs
+[47] /bin/sleep 2 & : 4913 0 secs
+[48] /bin/sleep             1 & : 4914 0 secs
+[49] /bin/sleep 8 & : 4915 0 secs
+[50] /bin/sleep 3 & : 4916 0 secs
+[51] /bin/sleep 2 & : 4917 0 secs
+[52] /bin/sleep 2 & : 4918 0 secs
+[53] /bin/sleep 1   & : 4919 0 secs
+[54] /bin/sleep 3 & : 4920 0 secs
+[55] /bin/sleep 3 & : 4921 0 secs
+[56] /bin/sleep 2 & : 4922 0 secs
+[57] /bin/sleep 2 & : 4923 0 secs
+[58] /bin/sleep 1 & : 4924 0 secs
+[59] /bin/sleep 3 & : 4925 0 secs
+[60] /bin/sleep 3 & : 4926 0 secs
+[61] /bin/sleep 2 & : 4927 0 secs
+[62] /bin/sleep 2 & : 4928 0 secs
+[63] /bin/sleep 1 & : 4929 0 secs
+[64] /bin/sleep 3 & : 4930 0 secs
+[65] /bin/sleep 3 & : 4931 0 secs
+[66] /bin/sleep 2 & : 4932 0 secs
+[67] /bin/sleep 2 & : 4933 0 secs
+[68] /bin/sleep 1 & : 4934 0 secs
+[69] /bin/sleep 3 & : 4935 0 secs
+[70] /bin/sleep 3 & : 4936 0 secs
+[71] /bin/sleep 8 & : 4937 0 secs
+[72] /bin/sleep 2 & : 4938 0 secs
+[73] /bin/sleep 100     & : 4939 0 secs
+[74] /bin/sleep 3 & : 4940 0 secs
+[75] /bin/sleep 3 & : 4941 0 secs
+[76] /bin/sleep 2 & : 4942 0 secs
+[77] /bin/sleep 2 & : 4943 0 secs
+[78] /bin/sleep 1 & : 4944 0 secs
+[79] /bin/sleep 3 & : 4945 0 secs
+[80] /bin/sleep 3 & : 4946 0 secs
+[81] /bin/sleep 2 & : 4947 0 secs
+[82] /bin/sleep 2 & : 4948 0 secs
+[83] /bin/sleep 1 & : 4949 0 secs
+[84] /bin/sleep 3      & : 4950 0 secs
+[85] /bin/sleep 3 & : 4951 0 secs
+[86] /bin/sleep 2 & : 4952 0 secs
+[87] /bin/sleep 2 & : 4953 0 secs
+[88] /bin/sleep     8 & : 4954 0 secs
+[89] /bin/sleep 3 & : 4955 0 secs
+[90] /bin/sleep 3 & : 4956 0 secs
+[91] /bin/sleep 2 & : 4957 0 secs
+[92] /bin/sleep 2 & : 4958 0 secs
+[93] /bin/sleep 1 & : 4959 0 secs
+[94] /bin/sleep 3 & : 4960 0 secs
+[95] /bin/sleep 3 & : 4961 0 secs
+[96] /bin/sleep 2 & : 4962 0 secs
+[97] /bin/sleep 2 & : 4963 0 secs
+[98] /bin/sleep 1 & : 4964 0 secs
+[99] /bin/sleep 3 & : 4965 0 secs
+smash > smash pid is 5059
+smash > smash pid is 5059
+smash > smash pid is 5059
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > smash error: cd: OLDPWD not set
+smash > smash error: cd: too many arguments
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: cd: too many arguments
+smash error: chdir failed: No such file or directory
+smash error: chdir failed: No such file or directory
+smash > smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: kill: job-id 10 does not exist
+smash > smash error: kill: invalid arguments
+smash > smash error: kill: invalid arguments
+smash > [0] /bin/sleep 3 & : 5060 0 secs
+[1] /bin/sleep 8 & : 5061 0 secs
+[2] /bin/sleep 2 & : 5062 0 secs
+[3] /bin/sleep 13 & : 5063 0 secs
+[4] /bin/sleep 2 & : 5064 0 secs
+[5] /bin/sleep 8 & : 5065 0 secs
+[6] /bin/sleep 1 & : 5066 0 secs
+[7] /bin/sleep 3 & : 5067 0 secs
+smash > smash > [1] /bin/sleep 8 & : 5061 4 secs
+[3] /bin/sleep 13 & : 5063 4 secs
+[5] /bin/sleep 8 & : 5065 4 secs
+smash > smash > [1] /bin/sleep 8 & : 5061 4 secs
+[3] /bin/sleep 13 & : 5063 4 secs
+[5] /bin/sleep 8 & : 5065 4 secs
+[6] /bin/sleep 1 & : 5069 0 secs
+smash > smash > [3] /bin/sleep 13 & : 5063 8 secs
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > [0] /bin/sleep 3 & : 5072 0 secs
+[1] /bin/sleep 2 & : 5073 0 secs
+[2] /bin/sleep 2 & : 5074 0 secs
+[3] /bin/sleep 1 & : 5075 0 secs
+[4] /bin/sleep 8 & : 5076 0 secs
+[5] /bin/sleep 3 & : 5077 0 secs
+[6] /bin/sleep 2 & : 5078 0 secs
+[7] /bin/sleep 2 & : 5079 0 secs
+[8] /bin/sleep 1 & : 5080 0 secs
+[9] /bin/sleep 8 & : 5081 0 secs
+[10] /bin/sleep 3 & : 5082 0 secs
+[11] /bin/sleep 2 & : 5083 0 secs
+[12] /bin/sleep 2 & : 5084 0 secs
+[13] /bin/sleep 1 & : 5085 0 secs
+[14] /bin/sleep 3 & : 5086 0 secs
+[15] /bin/sleep 100 & : 5087 0 secs
+[16] /bin/sleep 2 & : 5088 0 secs
+[17] /bin/sleep 2 & : 5089 0 secs
+[18] /bin/sleep 1 & : 5090 0 secs
+[19] /bin/sleep 3 & : 5091 0 secs
+[20] /bin/sleep 3 & : 5092 0 secs
+[21] /bin/sleep 8 & : 5093 0 secs
+[22] /bin/sleep 2 & : 5094 0 secs
+[23] /bin/sleep 1 & : 5095 0 secs
+[24] /bin/sleep 3 & : 5096 0 secs
+[25] /bin/sleep 3 & : 5097 0 secs
+[26] /bin/sleep 2 & : 5098 0 secs
+[27] /bin/sleep 2 & : 5099 0 secs
+[28] /bin/sleep 100 & : 5100 0 secs
+[29] /bin/sleep 3 & : 5101 0 secs
+[30] /bin/sleep 3 & : 5102 0 secs
+[31] /bin/sleep 2 & : 5103 0 secs
+[32] /bin/sleep 2 & : 5104 0 secs
+[33] /bin/sleep 1 & : 5105 0 secs
+[34] /bin/sleep 2   & : 5106 0 secs
+[35] /bin/sleep 3 & : 5107 0 secs
+[36] /bin/sleep 2   & : 5108 0 secs
+[37] /bin/sleep 2 & : 5109 0 secs
+[38] /bin/sleep 1 & : 5110 0 secs
+[39] /bin/sleep   3 & : 5111 0 secs
+[40] /bin/sleep 3 & : 5112 0 secs
+[41] /bin/sleep 2 & : 5113 0 secs
+[42] /bin/sleep 2 & : 5114 0 secs
+[43] /bin/sleep 1 & : 5115 0 secs
+[44] /bin/sleep 3 & : 5116 0 secs
+[45] /bin/sleep 3 & : 5117 0 secs
+[46] /bin/sleep 2 & : 5118 0 secs
+[47] /bin/sleep 2 & : 5119 0 secs
+[48] /bin/sleep             1 & : 5120 0 secs
+[49] /bin/sleep 8 & : 5121 0 secs
+[50] /bin/sleep 3 & : 5122 0 secs
+[51] /bin/sleep 2 & : 5123 0 secs
+[52] /bin/sleep 2 & : 5124 0 secs
+[53] /bin/sleep 1   & : 5125 0 secs
+[54] /bin/sleep 3 & : 5126 0 secs
+[55] /bin/sleep 3 & : 5127 0 secs
+[56] /bin/sleep 2 & : 5128 0 secs
+[57] /bin/sleep 2 & : 5129 0 secs
+[58] /bin/sleep 1 & : 5130 0 secs
+[59] /bin/sleep 3 & : 5131 0 secs
+[60] /bin/sleep 3 & : 5132 0 secs
+[61] /bin/sleep 2 & : 5133 0 secs
+[62] /bin/sleep 2 & : 5134 0 secs
+[63] /bin/sleep 1 & : 5135 0 secs
+[64] /bin/sleep 3 & : 5136 0 secs
+[65] /bin/sleep 3 & : 5137 0 secs
+[66] /bin/sleep 2 & : 5138 0 secs
+[67] /bin/sleep 2 & : 5139 0 secs
+[68] /bin/sleep 1 & : 5140 0 secs
+[69] /bin/sleep 3 & : 5141 0 secs
+[70] /bin/sleep 3 & : 5142 0 secs
+[71] /bin/sleep 8 & : 5143 0 secs
+[72] /bin/sleep 2 & : 5144 0 secs
+[73] /bin/sleep 100     & : 5145 0 secs
+[74] /bin/sleep 3 & : 5146 0 secs
+[75] /bin/sleep 3 & : 5147 0 secs
+[76] /bin/sleep 2 & : 5148 0 secs
+[77] /bin/sleep 2 & : 5149 0 secs
+[78] /bin/sleep 1 & : 5150 0 secs
+[79] /bin/sleep 3 & : 5151 0 secs
+[80] /bin/sleep 3 & : 5152 0 secs
+[81] /bin/sleep 2 & : 5153 0 secs
+[82] /bin/sleep 2 & : 5154 0 secs
+[83] /bin/sleep 1 & : 5155 0 secs
+[84] /bin/sleep 3      & : 5156 0 secs
+[85] /bin/sleep 3 & : 5157 0 secs
+[86] /bin/sleep 2 & : 5158 0 secs
+[87] /bin/sleep 2 & : 5159 0 secs
+[88] /bin/sleep     8 & : 5160 0 secs
+[89] /bin/sleep 3 & : 5161 0 secs
+[90] /bin/sleep 3 & : 5162 0 secs
+[91] /bin/sleep 2 & : 5163 0 secs
+[92] /bin/sleep 2 & : 5164 0 secs
+[93] /bin/sleep 1 & : 5165 0 secs
+[94] /bin/sleep 3 & : 5166 0 secs
+[95] /bin/sleep 3 & : 5167 0 secs
+[96] /bin/sleep 2 & : 5168 0 secs
+[97] /bin/sleep 2 & : 5169 0 secs
+[98] /bin/sleep 1 & : 5170 0 secs
+[99] /bin/sleep 3 & : 5171 0 secs
+smash > smash pid is 5213
+smash > smash pid is 5213
+smash > smash pid is 5213
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > smash error: cd: OLDPWD not set
+smash > smash error: cd: too many arguments
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: cd: too many arguments
+smash error: chdir failed: No such file or directory
+smash error: chdir failed: No such file or directory
+smash > smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > /media/sf_OS_technion/OS_046209/wet1v3
+smash > smash > /media/sf_OS_technion/OS_046209
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash error: kill: job-id 10 does not exist
+smash > smash error: kill: invalid arguments
+smash > smash error: kill: invalid arguments
+smash > [1] /bin/sleep 3 & : 5214 0 secs
+[2] /bin/sleep 8 & : 5215 0 secs
+[3] /bin/sleep 2 & : 5216 0 secs
+[4] /bin/sleep 13 & : 5217 0 secs
+[5] /bin/sleep 2 & : 5218 0 secs
+[6] /bin/sleep 8 & : 5219 0 secs
+[7] /bin/sleep 1 & : 5220 0 secs
+[8] /bin/sleep 3 & : 5221 0 secs
+smash > smash > [2] /bin/sleep 8 & : 5215 4 secs
+[4] /bin/sleep 13 & : 5217 4 secs
+[6] /bin/sleep 8 & : 5219 4 secs
+smash > smash > [2] /bin/sleep 8 & : 5215 4 secs
+[4] /bin/sleep 13 & : 5217 4 secs
+[6] /bin/sleep 8 & : 5219 4 secs
+[7] /bin/sleep 1 & : 5223 0 secs
+smash > smash > [4] /bin/sleep 13 & : 5217 8 secs
+smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > [1] /bin/sleep 3 & : 5226 0 secs
+[2] /bin/sleep 2 & : 5227 0 secs
+[3] /bin/sleep 2 & : 5228 0 secs
+[4] /bin/sleep 1 & : 5229 0 secs
+[5] /bin/sleep 8 & : 5230 0 secs
+[6] /bin/sleep 3 & : 5231 0 secs
+[7] /bin/sleep 2 & : 5232 0 secs
+[8] /bin/sleep 2 & : 5233 0 secs
+[9] /bin/sleep 1 & : 5234 0 secs
+[10] /bin/sleep 8 & : 5235 0 secs
+[11] /bin/sleep 3 & : 5236 0 secs
+[12] /bin/sleep 2 & : 5237 0 secs
+[13] /bin/sleep 2 & : 5238 0 secs
+[14] /bin/sleep 1 & : 5239 0 secs
+[15] /bin/sleep 3 & : 5240 0 secs
+[16] /bin/sleep 100 & : 5241 0 secs
+[17] /bin/sleep 2 & : 5242 0 secs
+[18] /bin/sleep 2 & : 5243 0 secs
+[19] /bin/sleep 1 & : 5244 0 secs
+[20] /bin/sleep 3 & : 5245 0 secs
+[21] /bin/sleep 3 & : 5246 0 secs
+[22] /bin/sleep 8 & : 5247 0 secs
+[23] /bin/sleep 2 & : 5248 0 secs
+[24] /bin/sleep 1 & : 5249 0 secs
+[25] /bin/sleep 3 & : 5250 0 secs
+[26] /bin/sleep 3 & : 5251 0 secs
+[27] /bin/sleep 2 & : 5252 0 secs
+[28] /bin/sleep 2 & : 5253 0 secs
+[29] /bin/sleep 100 & : 5254 0 secs
+[30] /bin/sleep 3 & : 5255 0 secs
+[31] /bin/sleep 3 & : 5256 0 secs
+[32] /bin/sleep 2 & : 5257 0 secs
+[33] /bin/sleep 2 & : 5258 0 secs
+[34] /bin/sleep 1 & : 5259 0 secs
+[35] /bin/sleep 2   & : 5260 0 secs
+[36] /bin/sleep 3 & : 5261 0 secs
+[37] /bin/sleep 2   & : 5262 0 secs
+[38] /bin/sleep 2 & : 5263 0 secs
+[39] /bin/sleep 1 & : 5264 0 secs
+[40] /bin/sleep   3 & : 5265 0 secs
+[41] /bin/sleep 3 & : 5266 0 secs
+[42] /bin/sleep 2 & : 5267 0 secs
+[43] /bin/sleep 2 & : 5268 0 secs
+[44] /bin/sleep 1 & : 5269 0 secs
+[45] /bin/sleep 3 & : 5270 0 secs
+[46] /bin/sleep 3 & : 5271 0 secs
+[47] /bin/sleep 2 & : 5272 0 secs
+[48] /bin/sleep 2 & : 5273 0 secs
+[49] /bin/sleep             1 & : 5274 0 secs
+[50] /bin/sleep 8 & : 5275 0 secs
+[51] /bin/sleep 3 & : 5276 0 secs
+[52] /bin/sleep 2 & : 5277 0 secs
+[53] /bin/sleep 2 & : 5278 0 secs
+[54] /bin/sleep 1   & : 5279 0 secs
+[55] /bin/sleep 3 & : 5280 0 secs
+[56] /bin/sleep 3 & : 5281 0 secs
+[57] /bin/sleep 2 & : 5282 0 secs
+[58] /bin/sleep 2 & : 5283 0 secs
+[59] /bin/sleep 1 & : 5284 0 secs
+[60] /bin/sleep 3 & : 5285 0 secs
+[61] /bin/sleep 3 & : 5286 0 secs
+[62] /bin/sleep 2 & : 5287 0 secs
+[63] /bin/sleep 2 & : 5288 0 secs
+[64] /bin/sleep 1 & : 5289 0 secs
+[65] /bin/sleep 3 & : 5290 0 secs
+[66] /bin/sleep 3 & : 5291 0 secs
+[67] /bin/sleep 2 & : 5292 0 secs
+[68] /bin/sleep 2 & : 5293 0 secs
+[69] /bin/sleep 1 & : 5294 0 secs
+[70] /bin/sleep 3 & : 5295 0 secs
+[71] /bin/sleep 3 & : 5296 0 secs
+[72] /bin/sleep 8 & : 5297 0 secs
+[73] /bin/sleep 2 & : 5298 0 secs
+[74] /bin/sleep 100     & : 5299 0 secs
+[75] /bin/sleep 3 & : 5300 0 secs
+[76] /bin/sleep 3 & : 5301 0 secs
+[77] /bin/sleep 2 & : 5302 0 secs
+[78] /bin/sleep 2 & : 5303 0 secs
+[79] /bin/sleep 1 & : 5304 0 secs
+[80] /bin/sleep 3 & : 5305 0 secs
+[81] /bin/sleep 3 & : 5306 0 secs
+[82] /bin/sleep 2 & : 5307 0 secs
+[83] /bin/sleep 2 & : 5308 0 secs
+[84] /bin/sleep 1 & : 5309 0 secs
+[85] /bin/sleep 3      & : 5310 0 secs
+[86] /bin/sleep 3 & : 5311 0 secs
+[87] /bin/sleep 2 & : 5312 0 secs
+[88] /bin/sleep 2 & : 5313 0 secs
+[89] /bin/sleep     8 & : 5314 0 secs
+[90] /bin/sleep 3 & : 5315 0 secs
+[91] /bin/sleep 3 & : 5316 0 secs
+[92] /bin/sleep 2 & : 5317 0 secs
+[93] /bin/sleep 2 & : 5318 0 secs
+[94] /bin/sleep 1 & : 5319 0 secs
+[95] /bin/sleep 3 & : 5320 0 secs
+[96] /bin/sleep 3 & : 5321 0 secs
+[97] /bin/sleep 2 & : 5322 0 secs
+[98] /bin/sleep 2 & : 5323 0 secs
+[99] /bin/sleep 1 & : 5324 0 secs
+[100] /bin/sleep 3 & : 5325 0 secs

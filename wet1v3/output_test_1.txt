@@ -1,18 +1,28 @@
-smash > smash error: fg: job id 0 does not exist 
-smash > smash error: fg: job id 1 does not exist 
-smash smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > smash > [1] /bin/sleep 100 & : 2702 0 secs
-smash > smash > smash > [1] /bin/sleep 100 & : 2706 0 secs
-smash > smash > [1] /bin/sleep 100 & : 2706 0 secs
-smash > smash > [1] /bin/sleep 100 & : 2706 0 secs
-smash > smash > smash > does not exist 
-smash > smash > smash error: bg: there are no jobs to resume
-smash > smash > smash error: fg: job id 0 does not exist 
-smash > smash > smash > [1] /bin/sleep 100 & : 2703 0 secs
-smash > smash > smash > [1] /bin/sleep 100 & : 2709 0 secs
-smash > smash error: fg: job id 2 does not exist 
-smash > [1] /bin/sleep 100 & : 2709 0 secs
-smash > smash error: bg: there are no jobs to resume
-smash > [1] /bin/sleep 100 & : 2709 0 secs
-smash > smash error: bg: job id 10 does not exist
-smash > smash error: bg: job id 4 does not exist
-smash > smash error: bg: invalid arguments
+smash > smash error: fg: jobs list is empty
+smash > smash error: fg: job id 2  does not exist
+smash > smash > smash > smash > smash > smash > smash error: fg: job id 18  does not exist
+smash > smash error: fg: invalid arguments
+smash > smash error: bg: there are no stopped jobs to resume
+smash > smash error: bg: job-id 4 is already running in the background
+/bin/sleep 100: 4
+smash > /bin/sleep 100: 5015
+smash: caught ctrl-Z
+smash:  process 5015 was stopped
+smash > [0] /bin/sleep 100 & : 5013 2 secs
+[1] /bin/sleep 100 & : 5014 2 secs
+[2] /bin/sleep 100 & : 5015 0 secs (stopped)
+[3] /bin/sleep 100 & : 5016 2 secs
+[4] /bin/sleep 100 & : 5017 2 secs
+smash > /bin/sleep 100: 5017
+smash: caught ctrl-C
+smash:  process 5017 was killed
+smash > [0] /bin/sleep 100 & : 5013 4 secs
+[1] /bin/sleep 100 & : 5014 4 secs
+[2] /bin/sleep 100 & : 5015 2 secs (stopped)
+[3] /bin/sleep 100 & : 5016 4 secs
+smash > /bin/sleep 100: 5016
+smash: caught ctrl-C
+smash:  process 5016 was killed
+smash > [0] /bin/sleep 100 & : 5013 6 secs
+[1] /bin/sleep 100 & : 5014 6 secs
+[2] /bin/sleep 100 & : 5015 4 secs (stopped)

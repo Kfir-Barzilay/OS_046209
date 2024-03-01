@@ -84,7 +84,7 @@ int ExeCmd(char* lineSize,
 	{
 		//---arg check
 		if(num_arg > 1) {//too much arguments passed
-            cerr << SMASH_ERROR << "cd: too many arguments" << endl;
+            smash_err("cd" , "too many arguments");
 			return FAILURE;
 		}
 
@@ -98,7 +98,7 @@ int ExeCmd(char* lineSize,
         if (args[1] != NULL && *args[1] == '-') //changing to last cd
         {
 			if (last_path == "") {
-				cerr << SMASH_ERROR << "cd: OLDPWD not set" << endl;
+				smash_err("cd", "OLDPWD not set");
 				free(current_path);
                 return FAILURE;
 			}
@@ -126,24 +126,21 @@ int ExeCmd(char* lineSize,
 	
 	else if (!strcmp(cmd, "jobs")) 
 	{
-		//if(isTest) cout << "in jobs ...." << endl;
 		print_all_jobs();
-		//if(isTest) cout << "out of jobs... " << endl;
 	}
 	
 	/*************************************************/
 	else if (!strcmp(cmd, "kill"))
 	{
-		if(isTest) cout << "in kill..." << endl;
 		//-------checks the input
 		if (num_arg != 2 || args[1] == NULL || args[2] == NULL) {
-			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
+			smash_err(cmd, "invalid arguments");
 			return FAILURE;
 		}
 		char* sig_num_str = args[1] + 1;
 		bool valid_sig =((*(args[1])) == '-') && is_all_digits(sig_num_str);
 		if (!valid_sig || !is_all_digits(args[2])) {
-			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
+			smash_err(cmd, "invalid arguments");
 			return FAILURE;
 		}
 		int job_id = atoi(args[2]);
@@ -151,8 +148,10 @@ int ExeCmd(char* lineSize,
 		//-------get job pid
 		if (job_index(job_id) == INVALID)
 		{ //job doesnt exist
-			cerr << SMASH_ERROR << "kill: job-id " << args[2];
-			cerr << " does not exist" << endl;
+			string err_msg = "job-id ";
+			err_msg += args[2];
+			err_msg += " does not exist";
+			smash_err(cmd, err_msg);
 			return FAILURE;
 		}
 		pid_t job_pid = jobs[job_index(job_id)].pid;
@@ -160,8 +159,10 @@ int ExeCmd(char* lineSize,
 		int kill_p = kill(job_pid,signal);
 		if (kill_p == 0)
 		{
-			cout << "signal number " << args[1] << " was sent to pid ";
-			cout << job_pid << endl;
+			string err_msg = "kill: signal number ";
+			err_msg += sig_num_str;
+			err_msg += " was sent to pid";
+			cout << err_msg;
 			return SUCCESS;
 		}
 		sys_err(KILL);
@@ -178,7 +179,7 @@ int ExeCmd(char* lineSize,
 							 	" does not exist "};
 		if (num_arg > 1 || (args[1] != NULL && !is_all_digits(args[1])))
 		{
-			cerr << error_print[0] << error_print[1] << endl;
+			smash_err(cmd , "invalid arguments");
 			return FAILURE;
 		}
 		int job_id;
@@ -187,7 +188,7 @@ int ExeCmd(char* lineSize,
 			job_id = max_job_id();
 			if (job_id == INVALID) 
 			{
-				cerr << error_print[0] << error_print[2] << endl;
+				smash_err(cmd , "jobs list is empty");
 				return FAILURE;
 			}
 		}
@@ -197,8 +198,10 @@ int ExeCmd(char* lineSize,
 		}
 		if(job_index(job_id) == INVALID)
 			{
-				cerr << error_print[0] <<"job id "<<job_id<< error_print[3];
-				cerr << endl;
+				string err_msg = "job id ";
+				err_msg += args[1];
+				err_msg += "  does not exist";
+				smash_err(cmd, err_msg);
 				return FAILURE;
 			}
 		job fg_job = pop_job(job_id);
@@ -243,20 +246,27 @@ int ExeCmd(char* lineSize,
 						   ": there are no stopped jobs to resume",
 						   " does not exist",
 						   " is already running in the background",
-						   ": job id ",
+						   ": job-id ",
 						   };
-  		if(num_arg > 1 || (args[1] != NULL && !is_all_digits(args[1])))
+		if (num_arg == 0) {}
+		else if((num_arg > 1) || (args[1] == NULL))
 		{
-			cerr << SMASH_ERROR << cmd << errors[0] << endl;
+			smash_err(cmd , "invalid arguments");
 			return FAILURE;
 		}
-		int job_id;
+		else if(!is_all_digits(args[1]))
+		{
+			smash_err(cmd , "invalid arguments 2");
+			return FAILURE;
+		}
+		
+		int job_id = INVALID;
 		if(num_arg == 0) 
 		{
 			job_id = highest_stopped_id();
 			if(job_id == INVALID)
 			{
-				cerr << SMASH_ERROR << cmd << errors[1] << endl;
+				smash_err(cmd , "there are no stopped jobs to resume");
 				return FAILURE;
 			}
 		}
@@ -264,13 +274,21 @@ int ExeCmd(char* lineSize,
 			job_id = atoi(args[1]);
 			if(job_index(job_id) == INVALID)
 			{
-				cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[2] << endl;
+				string err_msg = "job-id ";
+				err_msg += args[1];
+				err_msg += " does not exist";
+				smash_err(cmd, err_msg);
+				//cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[2] << endl;
 				return FAILURE;
 			}
 		}
 		if(jobs[job_id].is_background/*job exist in bg, in the list*/)
 		{
-			cerr << SMASH_ERROR << "job id " << job_id << errors[3] << endl;
+			string err_msg = "job-id ";
+				err_msg += args[1];
+				err_msg += " is already running in the background";
+				smash_err(cmd, err_msg);
+			//cerr << SMASH_ERROR << "job-id " << job_id << errors[3] << endl;
 		}
 
 		pid_t pid = jobs[job_index(job_id)].pid;
@@ -336,27 +354,25 @@ int ExeCmd(char* lineSize,
 	/*************************************************/
 	
 	else if (!strcmp(cmd, "diff"))
-	{/*
-		string arg_err =  "smash error: diff: invalid arguments";
-		if (num_arg != 2 || args[1] == NULL || args[2] == NULL)
-		{
-			cerr << arg_err << endl;
-			return FAILURE;
-		}
-		ifstream file1(args[1]);
-    	ifstream file2(args[2]);
+	{
+  std::ifstream f1(args[1], std::ifstream::binary|std::ifstream::ate);
+  std::ifstream f2(args[2], std::ifstream::binary|std::ifstream::ate);
 
-		stringstream first;
-		stringstream second;
-		first << first.rdbuff();
-		second << second.rdbuff();
-		if (!first.str().compare(second.str())) {
-			cout << SUCCESS << endl;
-			return SUCCESS;
-		}
-		cout << FAILED << endl;
-		return SUCCESS;*/
-	}
+  if (f1.fail() || f2.fail()) {
+    return false; //file problem
+  }
+
+  if (f1.tellg() != f2.tellg()) {
+    return false; //size mismatch
+  }
+
+  //seek back to beginning and use std::equal to compare contents
+  f1.seekg(0, std::ifstream::beg);
+  f2.seekg(0, std::ifstream::beg);
+  return std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
+                    std::istreambuf_iterator<char>(),
+                    std::istreambuf_iterator<char>(f2.rdbuf()));
+}
  
 	/*************************************************/	
 	else // external command

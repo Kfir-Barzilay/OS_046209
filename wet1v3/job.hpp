@@ -66,4 +66,5 @@ void remove_by_id(int job_id);
 void remove_by_index(int index);
 void print_all_jobs();
 void sys_err(int sys_call);
+void smash_err(string cmd , string error_msg);
 

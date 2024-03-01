@@ -158,7 +158,7 @@ bool job_in_fg(pid_t pid)
 //return max job id, returns -1 if the list is empty
 int max_job_id()
 {
-    int max = 0;
+    int max = INVALID;
     for (int i = 0; i < MAXJOBS ; i++) {
         max = (jobs[i].job_id > max) ? jobs[i].job_id : max;
     }
@@ -245,7 +245,8 @@ int insert_job(pid_t pid,
     if (jobs[MAXJOBS - 1].job_id != INVALID) {//full list
         return FAILED;
     }
-    int id = max_job_id() + 1;
+    int id = max_job_id();
+    id = (id == INVALID) ? 1 : id + 1;
     jobs[MAXJOBS - 1] = job(id,
                             pid,
                             command,
@@ -346,4 +347,9 @@ void sys_err(int sys_call)
         cout << "something aint good for " << sys_call << endl; //debug line
         break;
     }
+}
+
+void smash_err (string cmd, string error_msg)
+{
+    cerr << "smash error: " << cmd << ": " << error_msg << endl;
 }
