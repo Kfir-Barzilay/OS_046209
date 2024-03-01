@@ -19,4 +19,4 @@ g++ -std=c++11 -Wall -Werror -pedantic-errors -DNDEBUG *.cpp -o smash
 # Run the compiled executable with input redirection
 #echo "Running ./smash with input from input1.txt..."
 #./smash < input2.txt >> outputs_tests.txt 2>&1
-./smash
+#./smash

@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
     	{
 	 	printf("smash > ");
 		fgets(lineSize, MAX_LINE_SIZE, stdin);
-		//if(isTest) cout << "got input" << endl;
+		if(lineSize[0] == '\n') continue;
 		strcpy(cmdString, lineSize);  
 		//if(isTest) cout << "copied input" << endl;  	
 		cmdString[strlen(lineSize)-1]='\0';
