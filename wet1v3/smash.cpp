@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 		return FAILED;
 	}
 	current_pid = smash_pid;
-	is (isTest) cout << "Smash PID is: " << current_pid << endl;
+	if (isTest) cout << "Smash PID is: " << current_pid << endl;
 	//signal declaretions
 	//NOTE: the signal handlers and the function/s that sets the handler should be found in siganls.c
 	 /* add your code here */
@@ -66,7 +66,9 @@ int main(int argc, char *argv[])
     	{
 	 	printf("smash > ");
 		fgets(lineSize, MAX_LINE_SIZE, stdin);
-		strcpy(cmdString, lineSize);    	
+		if(isTest) cout << "got input" << endl;
+		strcpy(cmdString, lineSize);  
+		if(isTest) cout << "copied input" << endl;  	
 		cmdString[strlen(lineSize)-1]='\0';
 					// background command	
 	 	if(!BgCmd(lineSize)) continue; 

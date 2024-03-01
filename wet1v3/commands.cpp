@@ -11,22 +11,12 @@
 #define FAILURE 1
 
 using namespace std;
-
+extern bool isTest; 
 extern pid_t current_pid;
 extern pid_t smash_pid;
 extern job jobs[MAXJOBS];
 extern string last_path;
 
-/*
-bool is_all_digits(const string& str) {
-    for (char c : str) {
-        if (!isdigit(c)) {
-            return false;
-        }
-    }
-    return true;
-}
-*/
 
 bool is_all_digits(const std::string& str) {
     for (std::string::size_type i = 0; i < str.size(); ++i) {
@@ -46,6 +36,7 @@ bool is_all_digits(const std::string& str) {
 int ExeCmd(char* lineSize,
 		   char* cmdString)
 {
+	if(isTest) cout << "in EXECMD..." << endl;
 	char* cmd; 
 	char* args[MAXARGS];
 	//char pwd[MAX_LINE_SIZE];
@@ -136,12 +127,15 @@ int ExeCmd(char* lineSize,
 	
 	else if (!strcmp(cmd, "jobs")) 
 	{
+		if(isTest) cout << "in jobs ...." << endl;
 		print_all_jobs();
+		if(isTest) cout << "out of jobs... " << endl;
 	}
 	
 	/*************************************************/
 	else if (!strcmp(cmd, "kill"))
 	{
+		if(isTest) cout << "in kill..." << endl;
 		//-------checks the input
 		if (num_arg != 2 || args[1] == NULL || args[2] == NULL) {
 			cerr << SMASH_ERROR << "kill: invalid arguments" << endl;
@@ -209,9 +203,19 @@ int ExeCmd(char* lineSize,
 			}
 		job fg_job = pop_job(job_id);
 		pid_t pid = fg_job.pid;
+		if(fg_job.is_stopped)
+		{
+			int kill_pp = kill(pid, SIGCONT);
+			if(kill_pp == INVALID)
+			{
+				sys_err(KILL);
+				return FAILURE;
+			}
+		}
 		fg_job.is_background = false;
 		fg_job.is_stopped = false;
 		current_pid = pid;
+		
 		string command =fg_job.command; 
 		int status;
 		int wait = waitpid(pid, &status, WUNTRACED); //-------------------------------------
@@ -221,7 +225,8 @@ int ExeCmd(char* lineSize,
 			sys_err(WAITPID);
 			return FAILURE;
 		} 
-		if(WIFSTOPPED(status))/* return true if the process stoped,
+		current_pid = smash_pid;
+		if(WIFSTOPPED(status))/* return true if the process stopped,
 									otherwise false*/
 		{
 			fg_job.is_stopped = true;
@@ -230,7 +235,6 @@ int ExeCmd(char* lineSize,
 				return FAILURE;
 			}
 		}
-		current_pid = smash_pid;
 		return SUCCESS;
 	} 
 	/*************************************************/
@@ -371,6 +375,7 @@ int ExeCmd(char* lineSize,
 
 void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 {
+	if (isTest) cout << "into ExeExternal" <<endl;
 	int pID = fork();
     switch(pID) 
 	{
@@ -424,6 +429,7 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 					current_pid = smash_pid;
 					
 	}
+	if (isTest) cout << "out ExeExternal" <<endl;
 }
 //*****************************************************************************
 // function name: BgCmd
@@ -433,6 +439,7 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 //*****************************************************************************
 int BgCmd(char* lineSize)
 {
+	if (isTest) cout << "into BgCmd" << endl;
 	char* Command;
 	bool is_background = false;
 	string delimiters = " \t\n";
@@ -448,6 +455,7 @@ int BgCmd(char* lineSize)
 		Command = strtok(cmd, delimiters.c_str());
 		if(Command == NULL)
 		{
+			if (isTest) cout << "out BgCmd" << endl;
 			return SUCCESS;
 		}			
 		args[0] = Command;
@@ -460,9 +468,11 @@ int BgCmd(char* lineSize)
 		}
 		//cout << "lineSize " << lineSize << endl; ///////////////////////////////////////////
 		ExeExternal(args, lineSize, is_background);
+		if (isTest) cout << "out BgCmd" << endl;
 		return SUCCESS;
 	}
-		return -1;
+	if (isTest) cout << "out BgCmd" << endl;
+	return -1;
 }
 
 
