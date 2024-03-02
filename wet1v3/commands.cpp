@@ -59,7 +59,7 @@ int ExeCmd(char* lineSize,
 // ARE IN THIS CHAIN OF IF COMMANDS. PLEASE ADD
 // MORE IF STATEMENTS AS REQUIRED
 /*************************************************/
-	
+	refresh();
 	if (!strcmp(cmd, "showpid"))  //V
 	{
 		cout << "smash pid is " << smash_pid << endl;
@@ -126,14 +126,12 @@ int ExeCmd(char* lineSize,
 	
 	else if (!strcmp(cmd, "jobs")) 
 	{
-		refresh();
 		print_all_jobs();
 	}
 	
 	/*************************************************/
 	else if (!strcmp(cmd, "kill"))
 	{
-		refresh();
 		//-------checks the input
 		if (num_arg != 2 || args[1] == NULL || args[2] == NULL) {
 			smash_err(cmd, "invalid arguments");
@@ -175,7 +173,6 @@ int ExeCmd(char* lineSize,
 
 	else if (!strcmp(cmd, "fg")) 
 	{
-		refresh();
 		/*
 		string error_print[4] = {"smash error: fg: ",
 							 	"invalid arguments ",
@@ -245,7 +242,6 @@ int ExeCmd(char* lineSize,
 	/*************************************************/
 	else if (!strcmp(cmd, "bg")) 
 	{
-		refresh();
 		string errors[5] = {": invalid arguments", 
 						   ": there are no stopped jobs to resume",
 						   " does not exist",
@@ -317,7 +313,6 @@ int ExeCmd(char* lineSize,
 	/*************************************************/
 	else if (!strcmp(cmd, "quit"))
 	{
-		refresh();
 		//-----kill all processes if needed
 		if (args[1] != NULL && !strcmp(args[1], "kill")) { 
 			for (int i = 0; i < MAXJOBS; i++) {
