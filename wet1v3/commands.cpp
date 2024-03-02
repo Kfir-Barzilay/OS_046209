@@ -126,12 +126,14 @@ int ExeCmd(char* lineSize,
 	
 	else if (!strcmp(cmd, "jobs")) 
 	{
+		refresh();
 		print_all_jobs();
 	}
 	
 	/*************************************************/
 	else if (!strcmp(cmd, "kill"))
 	{
+		refresh();
 		//-------checks the input
 		if (num_arg != 2 || args[1] == NULL || args[2] == NULL) {
 			smash_err(cmd, "invalid arguments");
@@ -159,10 +161,10 @@ int ExeCmd(char* lineSize,
 		int kill_p = kill(job_pid,signal);
 		if (kill_p == 0)
 		{
-			string err_msg = "kill: signal number ";
+			string err_msg = "signal number ";
 			err_msg += sig_num_str;
-			err_msg += " was sent to pid";
-			cout << err_msg;
+			err_msg += " was sent to pid ";
+			cout << err_msg << job_pid << endl;
 			return SUCCESS;
 		}
 		sys_err(KILL);
@@ -173,10 +175,13 @@ int ExeCmd(char* lineSize,
 
 	else if (!strcmp(cmd, "fg")) 
 	{
+		refresh();
+		/*
 		string error_print[4] = {"smash error: fg: ",
 							 	"invalid arguments ",
 							 	"jobs list is empty ",
 							 	" does not exist "};
+		*/
 		if (num_arg > 1 || (args[1] != NULL && !is_all_digits(args[1])))
 		{
 			smash_err(cmd , "invalid arguments");
@@ -200,7 +205,7 @@ int ExeCmd(char* lineSize,
 			{
 				string err_msg = "job id ";
 				err_msg += args[1];
-				err_msg += "  does not exist";
+				err_msg += " does not exist";
 				smash_err(cmd, err_msg);
 				return FAILURE;
 			}
@@ -215,13 +220,12 @@ int ExeCmd(char* lineSize,
 				return FAILURE;
 			}
 		}
-		fg_job.is_background = false;
 		fg_job.is_stopped = false;
 		current_pid = pid;
 		string command =fg_job.command; 
-		cout << command << ": " << pid<< endl;
+		cout << command << " : " << pid << endl;
 		int status;
-		int wait = waitpid(pid, &status, WUNTRACED); //-------------------------------------
+		int wait = waitpid(pid, &status, WUNTRACED); 
 		if(wait == -1)
 		{
 			sys_err(WAITPID);
@@ -232,7 +236,6 @@ int ExeCmd(char* lineSize,
 									otherwise false*/
 		{
 			fg_job.is_stopped = true;
-			fg_job.is_background = true;
 			if(insert_job(fg_job) == FAILURE) {
 				return FAILURE;
 			}
@@ -242,6 +245,7 @@ int ExeCmd(char* lineSize,
 	/*************************************************/
 	else if (!strcmp(cmd, "bg")) 
 	{
+		refresh();
 		string errors[5] = {": invalid arguments", 
 						   ": there are no stopped jobs to resume",
 						   " does not exist",
@@ -256,7 +260,7 @@ int ExeCmd(char* lineSize,
 		}
 		else if(!is_all_digits(args[1]))
 		{
-			smash_err(cmd , "invalid arguments 2");
+			smash_err(cmd , "invalid arguments");
 			return FAILURE;
 		}
 		
@@ -278,17 +282,17 @@ int ExeCmd(char* lineSize,
 				err_msg += args[1];
 				err_msg += " does not exist";
 				smash_err(cmd, err_msg);
-				//cerr<<SMASH_ERROR<<cmd<<errors[4]<<job_id << errors[2] << endl;
+				
 				return FAILURE;
 			}
 		}
-		if(jobs[job_id].is_background/*job exist in bg, in the list*/)
+		if	(!jobs[job_index(job_id)].is_stopped)
 		{
 			string err_msg = "job-id ";
 				err_msg += args[1];
 				err_msg += " is already running in the background";
 				smash_err(cmd, err_msg);
-			//cerr << SMASH_ERROR << "job-id " << job_id << errors[3] << endl;
+				return FAILURE;
 		}
 
 		pid_t pid = jobs[job_index(job_id)].pid;
@@ -300,7 +304,7 @@ int ExeCmd(char* lineSize,
 		}
 		jobs[job_index(job_id)].is_stopped = false;
 		string command = jobs[job_index(job_id)].command;
-		cout << command << ": " << job_id << endl;
+		cout << command << " : " << pid << endl;
 		int kill_p = kill(pid, SIGCONT);
 		if(kill_p == -1)
 		{
@@ -313,8 +317,9 @@ int ExeCmd(char* lineSize,
 	/*************************************************/
 	else if (!strcmp(cmd, "quit"))
 	{
+		refresh();
 		//-----kill all processes if needed
-		if (args[1] != NULL && !strcmp(args[1], "kill")) { //-------------------------------------------------need help
+		if (args[1] != NULL && !strcmp(args[1], "kill")) { 
 			for (int i = 0; i < MAXJOBS; i++) {
                 if (jobs[i].job_id == INVALID){}
                 else
@@ -322,7 +327,7 @@ int ExeCmd(char* lineSize,
                     pid_t job_pid = jobs[i].pid;
                     time_t sig_time;
 					time(&sig_time);
-                    cout << "Sending SIGTERM... "; 
+                    cout <<  "Sending SIGTERM... "; 
                     int kill_p = kill(job_pid , SIGTERM);
                     if(kill_p == -1)
                     {
@@ -362,7 +367,7 @@ int ExeCmd(char* lineSize,
   	ifstream f2(args[2], ifstream::binary|ifstream::ate);
 
   if (f1.fail() || f2.fail()) {
-	cout << "faild";
+	cout << FAILED << endl;
     return false; //file problem
   }
 
@@ -437,7 +442,9 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 					{
 						int is_stopped = false;
 						current_pid = pID;
-						int wait_pid =waitpid(current_pid, &is_stopped, WUNTRACED | WCONTINUED);
+						int wait_pid =waitpid(current_pid, 
+											&is_stopped, 
+											WUNTRACED | WCONTINUED);
 						if(wait_pid == -1)
 						{
 							sys_err(WAITPID);
@@ -445,7 +452,11 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 						
 						if(WIFSTOPPED(is_stopped))// only occur when SIGSTOP sent
 						{
-							insert_job(current_pid, cmdString, args_str ,true, is_stopped);
+							insert_job(current_pid,
+										cmdString, 
+										args_str ,
+										false , 
+										is_stopped);
 						}
 						
 					}

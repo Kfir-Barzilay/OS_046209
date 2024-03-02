@@ -198,6 +198,8 @@ void refresh()
                     break;
                 } else if (WIFSTOPPED(status)) {
                     jobs[i].is_stopped = true;
+                }   else if (WIFCONTINUED(status)) { //doesnt works :(
+                jobs[i].is_stopped = false;
                 }
             } else {
                 // Child process is still running

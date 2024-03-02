@@ -18,7 +18,7 @@ void ctrl_c_handler(int sig)
 {
     sigset_t signal_set;
     sigset_t old_signal_set;
-    string error[] = {"smash: ", "caught ctrl-C", " process ", " was killed"};
+    string error[] = {"smash: ", "caught ctrl-C", "process ", " was killed"};
     int kill_signal;
 
     /* initializes mask_set with all possible signals */
@@ -69,7 +69,7 @@ void ctrl_z_handler(int sig)
 {   
     sigset_t signal_set;
     sigset_t old_signal_set;
-    string error[] = {"smash: ", "caught ctrl-Z", " process ", " was stopped"};
+    string error[] = {"smash: ", "caught ctrl-Z", "process ", " was stopped"};
     int kill_signal;
 
     /* initializes mask_set with all possible signals */
@@ -99,7 +99,6 @@ void ctrl_z_handler(int sig)
     
     if(current_pid != smash_pid)/*kill the child process that run in foreground*/
     {
-        if (isTest) cout << "stopping process: " << current_pid << endl;
         kill_signal = kill(current_pid, SIGSTOP);
         if( kill_signal == -1)
         {
