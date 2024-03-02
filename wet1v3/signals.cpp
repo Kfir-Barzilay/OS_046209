@@ -29,9 +29,12 @@ void ctrl_c_handler(int sig)
         return;
     }
 
-    /* changes the signal mask of the call process. It blocks all signals specified in mask_set,
-    and the previous signal mask is stored in old_set.SIG_SETMASK is a flag indicating that the 
-    set of signals specified by mask_set should be the new set of blocked signals for the process. */
+    /* changes the signal mask of the call process. 
+    It blocks all signals specified in mask_set,
+    and the previous signal mask is stored in old_set.
+    SIG_SETMASK is a flag indicating that the 
+    set of signals specified by mask_set should be the new set of blocked 
+    signals for the process. */
     fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
     cout << error[0] << error[1] << endl;
     if(fail_p == -1)
@@ -46,7 +49,7 @@ void ctrl_c_handler(int sig)
         return;
     }
     
-    if(current_pid != smash_pid)/*kill the child process that run in foreground*/
+    if(current_pid != smash_pid)/*kill the child process that run in fg*/
     {
         kill_signal = kill(current_pid, SIGKILL);
         if( kill_signal == -1)
@@ -80,9 +83,12 @@ void ctrl_z_handler(int sig)
         return;
     }
 
-    /* changes the signal mask of the call process. It blocks all signals specified in mask_set,
-    and the previous signal mask is stored in old_set.SIG_SETMASK is a flag indicating that the 
-    set of signals specified by mask_set should be the new set of blocked signals for the process. */
+    /* changes the signal mask of the call process. 
+    It blocks all signals specified in mask_set,
+    and the previous signal mask is stored in old_set.
+    SIG_SETMASK is a flag indicating that the 
+    set of signals specified by mask_set should be the new set
+    of blocked signals for the process. */
     fail_p = sigprocmask(SIG_SETMASK, &signal_set, &old_signal_set);
     cout << error[0] << error[1] << endl;
     if(fail_p == -1)
@@ -97,7 +103,7 @@ void ctrl_z_handler(int sig)
         return;
     }
     
-    if(current_pid != smash_pid)/*kill the child process that run in foreground*/
+    if(current_pid != smash_pid)/*kill the child process that run in fg*/
     {
         kill_signal = kill(current_pid, SIGSTOP);
         if( kill_signal == -1)

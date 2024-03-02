@@ -320,23 +320,35 @@ int ExeCmd(char* lineSize,
                 else
                 {
                     pid_t job_pid = jobs[i].pid;
+					string command = jobs[i].command;
+					cout <<"[" << jobs[i].job_id << "] " << command;
+					if (jobs[i].is_background) {
+						cout << " &";
+					}
+					cout <<  " - Sending SIGTERM... "; 
                     time_t sig_time;
 					time(&sig_time);
-                    cout <<  "Sending SIGTERM... "; 
                     int kill_p = kill(job_pid , SIGTERM);
-                    if(kill_p == -1)
+					if(kill_p == -1)
                     {
                         sys_err(KILL);
                         return FAILURE;
                     }
-                    if ((time(NULL) - sig_time)  > 5) {
+					int status;
+    				pid_t result = waitpid(job_pid, &status, WNOHANG);
+					while (result > 0 && (time(NULL) - sig_time<5)) 
+					{
+						pid_t result = waitpid(job_pid, &status, WNOHANG);
+					}
+					
+                    if (result > 0) {
+						cout << "(5 sec passed) Sending SIGKILL... ";
 						kill_p = kill(job_pid, SIGKILL);
 						if(kill_p == INVALID)
 						{
 							sys_err(KILL);
 							return FAILURE;
-						}
-						cout << "(5 sec passed) Sending SIGKILL... ";
+						}		
 					}
 					cout << "Done." << endl;
 				}
@@ -445,7 +457,7 @@ void ExeExternal(char* args[MAXARGS], char* cmdString, bool is_background)
 							sys_err(WAITPID);
 						} 
 						
-						if(WIFSTOPPED(is_stopped))// only occur when SIGSTOP sent
+						if(WIFSTOPPED(is_stopped))//occur when SIGSTOP sent
 						{
 							insert_job(current_pid,
 										cmdString, 
@@ -489,14 +501,13 @@ int BgCmd(char* lineSize)
 			return SUCCESS;
 		}			
 		args[0] = Command;
-		//cout << "command " << Command << endl; /////////////////////////////////////////
+		
 		for(int i = 1; i < MAXARGS; i++)
 		{
 			//NULL indicates using the same string
-
 			args[i] = strtok(NULL, delimiters.c_str());
 		}
-		//cout << "lineSize " << lineSize << endl; ///////////////////////////////////////////
+		
 		ExeExternal(args, lineSize, is_background);
 		return SUCCESS;
 	}

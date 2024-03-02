@@ -189,7 +189,7 @@ void refresh()
         if (jobs[i].pid > 0) {
             pid_t result = waitpid(jobs[i].pid, &status, WNOHANG | WUNTRACED);
             if (result == -1) {
-                sys_err(WAITPID); //-------------------------------------------
+                sys_err(WAITPID); //----------------------
                 return;
             } else if (result > 0) {
                 // Child process state has changed
