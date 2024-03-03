@@ -159,6 +159,9 @@ int ExeCmd(char* lineSize,
 		int kill_p = kill(job_pid,signal);
 		if (kill_p == 0)
 		{
+			if (signal == 18) { //SICONT wont be detected using wait
+				jobs[job_index(job_id)].is_stopped = false;
+			}
 			string err_msg = "signal number ";
 			err_msg += sig_num_str;
 			err_msg += " was sent to pid ";
@@ -336,9 +339,17 @@ int ExeCmd(char* lineSize,
                     }
 					int status;
     				pid_t result = waitpid(job_pid, &status, WNOHANG);
+					if (result == INVALID) {
+						sys_err(WAITPID);
+						return FAILURE;
+					}
 					while (result > 0 && (time(NULL) - sig_time<5)) 
 					{
-						pid_t result = waitpid(job_pid, &status, WNOHANG);
+						result = waitpid(job_pid, &status, WNOHANG);
+						if (result == INVALID) {
+							sys_err(WAITPID);
+							return FAILURE;
+						}
 					}
 					
                     if (result > 0) {
