@@ -14,6 +14,7 @@ smash.o: smash.cpp commands.hpp
 signals.o: signals.cpp signals.hpp
 # Cleaning old files before new make
 clean:
-	$(RM) $(TARGET) *.o *~ "#"* core.*
+	$(RM) $(TARGET) *.o *~ "#"* core.* smash
+
 
 

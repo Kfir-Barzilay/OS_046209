@@ -1,0 +1,59 @@
+Certainly! It looks like you're dealing with multithreading and some other basic functions in C. Here's an explanation for each of the commands you've listed:
+
+1. **pthread_create(2):**
+   - **Description:** This function is used to create a new thread.
+   - **Parameters:**
+     - `pthread_t *thread`: A pointer to a pthread_t structure where the thread ID will be stored.
+     - `const pthread_attr_t *attr`: A pointer to a pthread_attr_t structure that contains attributes for the new thread.
+     - `void *(*start_routine) (void *)`: A function pointer to the function that will be executed by the new thread.
+     - `void *arg`: A pointer to the argument that will be passed to the `start_routine`.
+   - **Return Value:** If successful, it returns 0; otherwise, it returns an error number.
+
+2. **pthread_join(2):**
+   - **Description:** This function is used to wait for a thread to terminate.
+   - **Parameters:**
+     - `pthread_t thread`: The thread ID of the thread to wait for.
+     - `void **retval`: A pointer to a location where the exit status of the terminated thread can be stored.
+   - **Return Value:** If successful, it returns 0; otherwise, it returns an error number.
+
+3. **pthread_exit(2):**
+   - **Description:** This function is used to terminate the calling thread and return a value to the thread that joined it.
+   - **Parameters:**
+     - `void *retval`: A pointer to the exit status of the thread.
+   - **Return Value:** This function does not return to the caller.
+
+4. **pthread_mutex_init(2):**
+   - **Description:** This function is used to initialize a mutex (mutual exclusion object).
+   - **Parameters:**
+     - `pthread_mutex_t *mutex`: A pointer to the mutex object to be initialized.
+     - `const pthread_mutexattr_t *attr`: A pointer to a mutex attributes object. If NULL, default attributes are used.
+   - **Return Value:** If successful, it returns 0; otherwise, it returns an error number.
+
+5. **pthread_mutex_lock(2):**
+   - **Description:** This function is used to lock a mutex, making the calling thread the owner of the mutex.
+   - **Parameters:**
+     - `pthread_mutex_t *mutex`: A pointer to the mutex object to be locked.
+   - **Return Value:** If successful, it returns 0; otherwise, it returns an error number.
+
+6. **pthread_mutex_unlock(2):**
+   - **Description:** This function is used to unlock a mutex that was previously locked by the calling thread.
+   - **Parameters:**
+     - `pthread_mutex_t *mutex`: A pointer to the mutex object to be unlocked.
+   - **Return Value:** If successful, it returns 0; otherwise, it returns an error number.
+
+7. **pthread_mutex_destroy(2):**
+   - **Description:** This function is used to destroy a mutex, releasing any resources associated with it.
+   - **Parameters:**
+     - `pthread_mutex_t *mutex`: A pointer to the mutex object to be destroyed.
+   - **Return Value:** If successful, it returns 0; otherwise, it returns an error number.
+
+8. **rand(3):**
+   - **Description:** This function generates a pseudo-random integer.
+   - **Parameters:** None.
+   - **Return Value:** A pseudo-random integer in the range [0, RAND_MAX].
+
+9. **usleep(3):**
+   - **Description:** This function suspends the execution of the calling thread for a specified number of microseconds.
+   - **Parameters:**
+     - `useconds_t usec`: The number of microseconds to sleep.
+   - **Return Value:** 0 on success, or -1 on error.
