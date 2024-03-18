@@ -1,26 +1,37 @@
 
-#define EMPTY -1
-#define ERROR -1
+/*-----------------------------includes--------------------------------*/
 
-rwlock::rwlock(/* args */)
+#include "rwlock.hpp"
+
+/*-----------------------------defines---------------------------------*/
+
+#define EMPTY 0
+
+rwlock::rwlock(int num_of_readers)
 {
-    this->atm_id = EMPTY;
-    counter = 0;
-    int result = sem_init(&(this->sem) , 1);
-    if (result == ERROR) {
-        sys_error("sem_init");
-        return FAILURE;
-    }
+    this->read_counter = EMPTY;
+    this->write_counter = EMPTY;
+    sem_init(&(this->read_sem), 0, num_of_readers);
+    sem_init(&(this->write_sem), 0, 1);
 }
 
-rwlock::~rwlock()
+void rwlock::read_down()
 {
+    
 }
 
-rwlock::lock(char op) 
+void rwlock::read_up()
 {
-    if (accessing_atm_id == this->atm_id)
-    {
 
-    }
+}
+
+void rwlock::write_lock()
+{
+    
+
+}
+
+void rwlock::write_unlock()
+{
+
 }
