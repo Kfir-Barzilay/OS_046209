@@ -4,12 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "account.cpp"
+#include "rwlock.hpp"
 
 /*-----------------------------defines---------------------------------*/
 #define DEBUG 0
-
+#define MASTER_PASSWORD -1
 
 
 using namespace std;
@@ -29,7 +28,7 @@ typedef class account
     int password;
     int balance;
     int valid;
-    rwlock::rwlock lock;
+    rwlock_t lock;
     public:
     /**
     * @field id - Key that is uniqe to each account.
@@ -86,6 +85,11 @@ typedef class account
     * @brief - write unlock the account.
     */
     void write_unlock();
+
+    /**
+     * @return - the password of account 
+    */
+    int get_password();
 } account_t;
 
 /**

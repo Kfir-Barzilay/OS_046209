@@ -4,12 +4,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "rwlock.hpp"
+#include "account.hpp"
+#include "bank.hpp"
 
-#include "ATM.cpp"
 
 /*-----------------------------defines---------------------------------*/
+#define SLEEP_TIME 1 
 #define SUCCESS 0
 #define FAIL -1
+
+using namespace std;
 
 typedef class ATM
 {
@@ -48,7 +53,7 @@ public:
      * @param amount - the amount of money you want to add to the account
      * @return - '0' on success and '-1' if failed. The func will log print if needed.
     */
-    int deposit(int id, int password, int amount);
+    int deposit(bank_t& bank, int id, int password, int amount);
     
     /**
      * @brief make a withdraw from account 'id' with password and the amount.
@@ -57,7 +62,7 @@ public:
      * @param amount - the amount of money you want to withdraw
      * @return - '0' on success and '-1' if failed. The func will log print.
     */
-    int withdraw(int id, , int password, int amount);
+    int withdraw(bank_t& bank, int id, , int password, int amount);
     
     /**
      * @brief check the balance in account 'id' and the entering password
@@ -65,7 +70,7 @@ public:
      * @param password - the password need for access
      * @return - the balance in account, '-1' if failed. The func will log print.
     */
-    int balance_check(int id, int password);
+    int balance_check(bank_t& bank,int id, int password);
     
     /**
      * @brief closing the account on the ATM
@@ -73,7 +78,7 @@ public:
      * @param password - the password needed to access the account
      * @param return - '0' on success and '-1' if failed. The func will log print.
     */
-    int quit_account(int id, int password);
+    int quit_account(bank_t& bank,int id, int password);
     
     /**
      * @brief make a transaction from account 'id-sender' to account 'id-receiver'
@@ -85,7 +90,8 @@ public:
      *                 give the id-receiver account
      * @return - '0' on success or '-1' if failed
     */
-    int transaction(int id_sender,
+    int transaction(bank_t& bank,
+                int id_sender,
                 int password_sender, 
                 int id_receiver, 
                 int password_receiver, 
@@ -103,6 +109,8 @@ public:
     */
     void printLog(string error);
 };
+
+void sleep_ms(int sleep_time_ms);
 
 #endif /*ATM_CLASS_H*/
 

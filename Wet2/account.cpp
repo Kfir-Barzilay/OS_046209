@@ -46,3 +46,16 @@ void account::write_unlock()
 {
     this->lock.write_unlock();
 }
+
+int account::get_password()
+{
+    return this->password;
+}
+
+void sysError(string sys_call)
+{
+    string error = "Bank error: ";
+    error += sys_call;
+    error += " failed";
+    perror(error);
+}

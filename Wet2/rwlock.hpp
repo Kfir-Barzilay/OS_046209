@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <semaphore>
+#include <semaphore.h>
 #include <mutex>
 /*-----------------------------defines---------------------------------*/
 #define SUCCESS 0 
 #define FAIL -1
 
-using namespace std
+using namespace std;
 typedef class rwlock
 {
 public:
@@ -27,7 +27,7 @@ public:
     int write_counter;
     sem_t read_sem;
     sem_t write_sem;
-    mutex mtx;
+
     /**
      * @brief Constructor.
      * @param num_of_readers - max number of readers that can read from account
@@ -53,7 +53,7 @@ public:
      * @brief an ATM finished to write to tha account
     */
     void write_unlock();
-};
+} rwlock_t ;
 
 #endif /*RWLOCK_CLASS_H*/
 
