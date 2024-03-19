@@ -1,5 +1,10 @@
+#ifndef MAIN_CPP
+#define MAIN_CPP
 #include "bank.hpp"
-
+#include "ATM.hpp"
+#include "account.hpp"
+#include "rwlock.hpp"
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,14 +12,22 @@
 #include <chrono>
 #include <random>
 
-#define FAIL 1
+
 
 using namespace std;
 
+/* global */
+pthread_mutex_t log_mutex;
+
 int main(int argc, char *argv[])
 {
+    /*---------- init new file ----------*/
+    remove(LOG_FILE);
+    ofstream outputFile(LOG_FILE);
+    outputFile.close();
+
     /* ------------ init bank -----------*/
-    bank_t bank = bank();
+    bank_t bank;
     pthread_t bank_thread;
     if(pthread_create(&bank_thread) != 0)
     {
@@ -25,7 +38,7 @@ int main(int argc, char *argv[])
     {
         while(true)
         {
-            bank.take_money();
+            bank.commissions();
 
             sleep(3);
             //if(/* some statment to end the bank thread*/)
@@ -144,3 +157,6 @@ int main(int argc, char *argv[])
     }
     return SUCCESS;
 }
+
+
+#endif /*MAIN_CPP*/

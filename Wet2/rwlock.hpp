@@ -1,11 +1,11 @@
 #ifndef RWLOCK_CLASS_H
 #define RWLOCK_CLASS_H
 /*-----------------------------includes--------------------------------*/
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <semaphore.h>
-#include <mutex>
+#include <string>
+#include <pthread.h>
 /*-----------------------------defines---------------------------------*/
 #define SUCCESS 0 
 #define FAIL -1
@@ -15,24 +15,18 @@ typedef class rwlock
 {
 public:
     /**
-     * @feild read_counter  -> count how many ATM's read from the account
-     * @feild write_counter -> count the writers
-     * @feild read_sem      -> semaphore lock specified for read, no one can 
-     *                         write as long there are ATM's that read
-     * @feild write_sem     -> semaphore lock specified for write, no one can 
-     *                         read as long someone write
-     * @feild mtx           -> mutex to make the semaphore actions as atomic
+     * @feild rd_counter  -> count how many ATM's read from the account
+     * @feild rd_lock - mutex lock for readers.
+     * @feild rd_lock - writer lock for writers.
     */
-    int read_counter;
-    int write_counter;
-    sem_t read_sem;
-    sem_t write_sem;
+    int rd_counter;
+    pthread_mutex_t rd_lock;
+    pthread_mutex_t wr_lock;
 
     /**
      * @brief Constructor.
-     * @param num_of_readers - max number of readers that can read from account
     */
-    rwlock(int num_of_readers);
+    rwlock();
     
     /**
      * @brief an ATM want to access read, so add him to counter

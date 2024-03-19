@@ -1,5 +1,7 @@
 #include "ATM.hpp"
 
+extern pthread_mutex_t log_mutex;
+
 ATM::ATM(ATM_id); 
 {
     this->ATM_id = ATM_id; 
@@ -322,13 +324,27 @@ int transaction(bank_t &myBank,
 
 void ATM::printError(string error)
 {
-    cerr << "Error " << this->id << ": Your transaction failed - ";
-    cerr << error << endl; 
+    log_mutex.lock();
+    ofstream outputFile(LOG_FILE);
+    if (outputFile.is_open())
+    {
+        outputFile << "Error " << this->id << ": Your transaction failed - ";
+        outputFile << error << endl; 
+    }
+    outputFile.close();
+    log_mutex.unlock();
 }
 
-void ATM::printError(string error)
+void ATM::printLog(string msg) /*not completed write fo log is required*/
 {
-    cerr << this->id << ": " << error << endl; 
+    log_mutex.lock();
+    ofstream outputFile(LOG_FILE);
+    if (outputFile.is_open())
+    {
+        outputFile << this->id << ": " << msg << endl; 
+    } 
+    outputFile.close();
+    log_mutex.unlock();
 }
 
 void sleep_ms (int sleep_time_ms) {

@@ -3,7 +3,7 @@
 /*-----------------------------includes--------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include "rwlock.hpp"
 #include "account.hpp"
 #include "bank.hpp"
@@ -13,6 +13,7 @@
 #define SLEEP_TIME 1 
 #define SUCCESS 0
 #define FAIL -1
+#define LOG_FILE "log.txt"
 
 using namespace std;
 
@@ -62,7 +63,7 @@ public:
      * @param amount - the amount of money you want to withdraw
      * @return - '0' on success and '-1' if failed. The func will log print.
     */
-    int withdraw(bank_t& bank, int id, , int password, int amount);
+    int withdraw(bank_t& bank, int id, int password, int amount);
     
     /**
      * @brief check the balance in account 'id' and the entering password
@@ -107,7 +108,7 @@ public:
     * @brief Print error that matches the specific ATM
     * @param error - The error message to print. 
     */
-    void printLog(string error);
+    void printLog(string msg);
 };
 
 void sleep_ms(int sleep_time_ms);

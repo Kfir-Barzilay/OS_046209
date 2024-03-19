@@ -1,5 +1,7 @@
 #include "bank.hpp"
 
+extern pthread_mutex_t log_mutex;
+
 /***********************
 desc: take a random precent from each account (maybe also update if it finished running)
 everything here is critical section
@@ -22,6 +24,7 @@ bank::commission()
 
     // Generate a random number within the specified range
     int tax = distribution(gen);
+    
     this->read_down();
     for (auto it = this->accounts_map.begin() ; it != this->accounts_map.end() ; it++)
     {
@@ -32,13 +35,15 @@ bank::commission()
         int roundedValue = int(round(money));
         this->bank_account.write_balance(MASTER_PASSWORD ,roundedValue);
         account.write_balance(MASTER_PASSWORD , (-1) * roundedValue);
+
         string msg = "commission of ";
         msg += tax;
         msg += " % were charged, the bank gained ";
         msg += money;
         msg += " $ from account ";
         msg += it->first;
-        this->printLog(msg)
+        this->printLog(msg);
+
         account.write_unlock();
     }
     this->read_up();
@@ -47,7 +52,7 @@ bank::commission()
 void bank::status()
 {
     this->read_down();
-    cout <<< "Current Bank Status" << endl;
+    cout << "Current Bank Status" << endl;
     for (auto it = this->accounts_map.begin() ; it != this->accounts_map.end() ; it++)
     {
         account_t* account = &(it->second); 
@@ -60,4 +65,16 @@ void bank::status()
     cout << "The bank has " << bank_balance << " $\n";
 
     this->read_up():
+}
+
+void printLog(string msg)
+{
+    log_mutex.lock();
+    ofstream outputFile(LOG_FILE);
+    if (outputFile.is_open())
+    {
+        outputFile << "Bank: " << msg << endl;
+    }
+    outputFile.close();
+    log_mutex.unlock();
 }

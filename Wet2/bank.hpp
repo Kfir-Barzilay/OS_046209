@@ -3,9 +3,11 @@
 /*-----------------------------includes--------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <list>
+#include <map>
 #include <cmath>
+#include <fstream>
 #include "rwlock.hpp"
 #include "account.hpp"
 
@@ -13,6 +15,7 @@
 /*-----------------------------defines---------------------------------*/
 #define SUCCESS 0
 #define FAIL -1
+#define LOG_FILE "log.txt"
 
 using namespace std;
 
@@ -23,7 +26,7 @@ public:
      * @field accounts_map - Map struct that holds all the accounts.
      * @field bank_account - The account the commisions are taken to.
      */
-    map<int id, account_t> accounts_map;
+    map<int, account_t> accounts_map;
     account_t bank_account;
     rwlock_t lock;
 
@@ -62,7 +65,8 @@ public:
     int status();
 
     /**
-     * @brief print to the log Bank: msg.
+     * @brief print to the log.
+     * @param msg - prints "Bank: " + msg.
     */
     void printLog(string msg);
 }bank_t;

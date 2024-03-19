@@ -96,6 +96,7 @@ typedef class account
 * @brief - Print function for failed sys calls.
 * @param sys_call - The failed system call function.
 */
-void sysError(string sys_call);
+void sys_Error(string msg);
+
 #endif /*ACCOUNT_CLASS_H*/
 

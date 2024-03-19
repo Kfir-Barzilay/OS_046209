@@ -1,4 +1,7 @@
 #include "account.hpp"
+#include <string.h>
+
+using namespace std;
 
 account::account(int id, int password, int balance)
 {
@@ -52,10 +55,10 @@ int account::get_password()
     return this->password;
 }
 
-void sysError(string sys_call)
+void sys_Error(string msg)
 {
     string error = "Bank error: ";
-    error += sys_call;
+    error += msg;
     error += " failed";
     perror(error);
 }
