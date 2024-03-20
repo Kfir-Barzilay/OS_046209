@@ -6,11 +6,12 @@ extern pthread_mutex_t log_mutex;
 desc: take a random precent from each account (maybe also update if it finished running)
 everything here is critical section
 ***********************/
-bank::bank()
+bank::bank(int num_of_atms)
 {
     this->map<int ,account_t> accounts_map;
     this->bank_account = account::account(0, MASTER_PASSWORD ,0);
     this->lock = rwlock();
+    this->ATMs_alive = num_of_atms;
 }
 
 bank::commission()
@@ -66,6 +67,11 @@ void bank::status()
 
     this->read_up():
 }
+bool bank::isAlive()
+{
+    return this->ATMs_alive;
+}
+
 
 void printLog(string msg)
 {

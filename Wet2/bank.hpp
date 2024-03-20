@@ -29,6 +29,7 @@ public:
     map<int, account_t> accounts_map;
     account_t bank_account;
     rwlock_t lock;
+    int ATMs_alive;
 
     /**
      * @brief - Constructor
@@ -69,6 +70,13 @@ public:
      * @param msg - prints "Bank: " + msg.
     */
     void printLog(string msg);
+
+     /**
+     * @brief gives status on bank.
+     * @return true - if there is atm alive, false otherwise. 
+    */
+    bool isAlive();
+
 }bank_t;
 
 

@@ -94,8 +94,7 @@ public:
     int transaction(bank_t& bank,
                 int id_sender,
                 int password_sender, 
-                int id_receiver, 
-                int password_receiver, 
+                int id_receiver,  
                 int amount);
     
     /**
@@ -109,7 +108,7 @@ public:
     * @param error - The error message to print. 
     */
     void printLog(string msg);
-};
+} ATM_t;
 
 void sleep_ms(int sleep_time_ms);
 
