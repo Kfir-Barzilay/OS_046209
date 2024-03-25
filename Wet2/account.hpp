@@ -3,11 +3,11 @@
 /*-----------------------------includes--------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
+#include <cstring>
 #include "rwlock.hpp"
 
 /*-----------------------------defines---------------------------------*/
-#define DEBUG 0
 #define MASTER_PASSWORD -1
 
 
@@ -35,6 +35,10 @@ typedef class account
     */
     int id;
 
+    /**
+    * @brief constructs new acccount, default.
+    */
+    account();
     /**
     * @brief constructs new acccount.
     * @param id - The constructed account key value.

@@ -1,0 +1,252 @@
+Error 1: Your transaction failed - account id 1 does not exist
+Error 1: Your transaction failed - account id 1 does not exist
+Error 1: Your transaction failed - account id 1 does not exist
+Error 1: Your transaction failed - account id 1 does not exist
+1: New account id is 1 with password 1 and initial balance 100
+Error 1: Your transaction failed - account with the same id exists
+Bank: commissions of 2 % were charged, the bank gained 2 $ from account 1
+Error 1: Your transaction failed - account id 1 does not exist
+Error 1: Your transaction failed - account id 1 does not exist
+Error 1: Your transaction failed - account id 1 does not exist
+Bank: commissions of 1 % were charged, the bank gained 1 $ from account 1
+Error 1: Your transaction failed - password for account id 1 is incorrect
+1: Account 1 new balance is 1097 after 1000 $ was withdrew
+1: Account 1 new balance is 1197 after 100 $ was withdrew
+Bank: commissions of 1 % were charged, the bank gained 12 $ from account 1
+Error 1: Your transaction failed - password for account id 1 is incorrect
+1: Account 1 balance is 1185
+Error 1: Your transaction failed - password for account id 1 is incorrect
+Bank: commissions of 2 % were charged, the bank gained 24 $ from account 1
+1: Account 1 is now closed. Balance was 1161
+1: New account id is 1 with password 1 and initial balance 1000
+1: New account id is 2 with password 1 and initial balance 1000
+Bank: commissions of 3 % were charged, the bank gained 30 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 30 $ from account 2
+Error 1: Your transaction failed - account id 1 balance is lower than 1000
+Error 1: Your transaction failed - account id 1 balance is lower than 2000
+Error 1: Your transaction failed - account id 1 balance is lower than 1000
+Bank: commissions of 1 % were charged, the bank gained 10 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 10 $ from account 2
+1: New account id is 10 with password 10 and initial balance 100
+1: Account 10 new balance is 110 after 10 $ was withdrew
+1: Account 10 new balance is 120 after 10 $ was withdrew
+Bank: commissions of 1 % were charged, the bank gained 10 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 10 $ from account 2
+Bank: commissions of 1 % were charged, the bank gained 1 $ from account 10
+1: Account 10 new balance is 129 after 10 $ was withdrew
+1: Account 10 new balance is 139 after 10 $ was withdrew
+1: Account 10 new balance is 149 after 10 $ was withdrew
+Bank: commissions of 3 % were charged, the bank gained 29 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 29 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 4 $ from account 10
+1: Account 10 new balance is 155 after 10 $ was withdrew
+1: Account 10 is now closed. Balance was 155
+1: New account id is 11 with password 1 and initial balance 1000
+Bank: commissions of 5 % were charged, the bank gained 46 $ from account 1
+Bank: commissions of 5 % were charged, the bank gained 46 $ from account 2
+Bank: commissions of 5 % were charged, the bank gained 50 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 4 % were charged, the bank gained 35 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 35 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 38 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 3 % were charged, the bank gained 25 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 25 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 27 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 2
+Bank: commissions of 1 % were charged, the bank gained 9 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 2
+Bank: commissions of 1 % were charged, the bank gained 9 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 2
+Bank: commissions of 1 % were charged, the bank gained 9 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 3 % were charged, the bank gained 24 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 24 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 26 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 2
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 2 % were charged, the bank gained 15 $ from account 1
+Bank: commissions of 2 % were charged, the bank gained 15 $ from account 2
+Bank: commissions of 2 % were charged, the bank gained 16 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 4 % were charged, the bank gained 30 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 30 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 32 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 2 % were charged, the bank gained 14 $ from account 1
+Bank: commissions of 2 % were charged, the bank gained 14 $ from account 2
+Bank: commissions of 2 % were charged, the bank gained 16 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 1 % were charged, the bank gained 7 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 7 $ from account 2
+Bank: commissions of 1 % were charged, the bank gained 8 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 3 % were charged, the bank gained 21 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 21 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 23 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 4 % were charged, the bank gained 27 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 27 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 29 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 3 % were charged, the bank gained 19 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 19 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 21 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Error 1: Your transaction failed - password for account id 11 is incorrect
+Bank: commissions of 4 % were charged, the bank gained 25 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 25 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 27 $ from account 11
+Error 1: Your transaction failed - password for account id 11 is incorrect
+1: Transfer 1 from account 11 to account 1 new account balance is 651 new target account balance is 602
+1: Transfer 1 from account 1 to account 11 new account balance is 601 new target account balance is 652
+Bank: commissions of 3 % were charged, the bank gained 18 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 18 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 20 $ from account 11
+1: Transfer 1 from account 2 to account 11 new account balance is 582 new target account balance is 633
+1: Transfer 1 from account 11 to account 2 new account balance is 632 new target account balance is 583
+1: Transfer 1 from account 11 to account 1 new account balance is 631 new target account balance is 584
+Bank: commissions of 4 % were charged, the bank gained 23 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 23 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 25 $ from account 11
+1: Transfer 1 from account 1 to account 11 new account balance is 560 new target account balance is 607
+1: Transfer 1 from account 2 to account 11 new account balance is 559 new target account balance is 608
+1: Transfer 1 from account 11 to account 2 new account balance is 607 new target account balance is 560
+Bank: commissions of 2 % were charged, the bank gained 11 $ from account 1
+Bank: commissions of 2 % were charged, the bank gained 11 $ from account 2
+Bank: commissions of 2 % were charged, the bank gained 12 $ from account 11
+1: Transfer 1 from account 11 to account 1 new account balance is 594 new target account balance is 550
+1: Transfer 1 from account 1 to account 11 new account balance is 549 new target account balance is 595
+1: Transfer 1 from account 2 to account 11 new account balance is 548 new target account balance is 596
+Bank: commissions of 5 % were charged, the bank gained 27 $ from account 1
+Bank: commissions of 5 % were charged, the bank gained 27 $ from account 2
+Bank: commissions of 5 % were charged, the bank gained 30 $ from account 11
+1: Transfer 1 from account 11 to account 2 new account balance is 565 new target account balance is 522
+1: Transfer 1 from account 11 to account 1 new account balance is 564 new target account balance is 523
+1: Transfer 1 from account 1 to account 11 new account balance is 522 new target account balance is 565
+Bank: commissions of 2 % were charged, the bank gained 10 $ from account 1
+Bank: commissions of 2 % were charged, the bank gained 10 $ from account 2
+Bank: commissions of 2 % were charged, the bank gained 11 $ from account 11
+1: Transfer 1 from account 2 to account 11 new account balance is 511 new target account balance is 555
+1: Transfer 1 from account 11 to account 2 new account balance is 554 new target account balance is 512
+1: Transfer 1 from account 11 to account 1 new account balance is 553 new target account balance is 513
+Bank: commissions of 4 % were charged, the bank gained 21 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 20 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 22 $ from account 11
+1: Transfer 1 from account 1 to account 11 new account balance is 491 new target account balance is 532
+1: Transfer 1 from account 2 to account 11 new account balance is 491 new target account balance is 533
+1: Transfer 1 from account 11 to account 2 new account balance is 532 new target account balance is 492
+Bank: commissions of 5 % were charged, the bank gained 25 $ from account 1
+Bank: commissions of 5 % were charged, the bank gained 25 $ from account 2
+Bank: commissions of 5 % were charged, the bank gained 27 $ from account 11
+1: Transfer 1 from account 11 to account 1 new account balance is 504 new target account balance is 467
+1: Transfer 1 from account 1 to account 11 new account balance is 466 new target account balance is 505
+1: Transfer 1 from account 2 to account 11 new account balance is 466 new target account balance is 506
+Bank: commissions of 5 % were charged, the bank gained 23 $ from account 1
+Bank: commissions of 5 % were charged, the bank gained 23 $ from account 2
+Bank: commissions of 5 % were charged, the bank gained 25 $ from account 11
+1: Transfer 1 from account 11 to account 2 new account balance is 480 new target account balance is 444
+1: Transfer 1 from account 11 to account 1 new account balance is 479 new target account balance is 444
+1: Transfer 1 from account 1 to account 11 new account balance is 443 new target account balance is 480
+Bank: commissions of 4 % were charged, the bank gained 18 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 18 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 19 $ from account 11
+1: Transfer 1 from account 2 to account 11 new account balance is 425 new target account balance is 462
+1: Transfer 1 from account 11 to account 2 new account balance is 461 new target account balance is 426
+1: Transfer 1 from account 11 to account 1 new account balance is 460 new target account balance is 426
+Bank: commissions of 4 % were charged, the bank gained 17 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 17 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 18 $ from account 11
+1: Transfer 1 from account 1 to account 11 new account balance is 408 new target account balance is 443
+1: Transfer 1 from account 2 to account 11 new account balance is 408 new target account balance is 444
+1: Transfer 1 from account 11 to account 2 new account balance is 443 new target account balance is 409
+Bank: commissions of 5 % were charged, the bank gained 20 $ from account 1
+Bank: commissions of 5 % were charged, the bank gained 20 $ from account 2
+Bank: commissions of 5 % were charged, the bank gained 22 $ from account 11
+1: Transfer 1 from account 11 to account 1 new account balance is 420 new target account balance is 389
+1: Transfer 1 from account 1 to account 11 new account balance is 388 new target account balance is 421
+1: Transfer 1 from account 2 to account 11 new account balance is 388 new target account balance is 422
+Bank: commissions of 2 % were charged, the bank gained 8 $ from account 1
+Bank: commissions of 2 % were charged, the bank gained 8 $ from account 2
+Bank: commissions of 2 % were charged, the bank gained 8 $ from account 11
+1: Transfer 1 from account 11 to account 2 new account balance is 413 new target account balance is 381
+1: Transfer 1 from account 11 to account 1 new account balance is 412 new target account balance is 381
+1: Transfer 1 from account 1 to account 11 new account balance is 380 new target account balance is 413
+Bank: commissions of 1 % were charged, the bank gained 4 $ from account 1
+Bank: commissions of 1 % were charged, the bank gained 4 $ from account 2
+Bank: commissions of 1 % were charged, the bank gained 4 $ from account 11
+1: Transfer 1 from account 2 to account 11 new account balance is 376 new target account balance is 410
+1: Transfer 1 from account 11 to account 2 new account balance is 409 new target account balance is 377
+1: Transfer 1 from account 11 to account 1 new account balance is 408 new target account balance is 377
+Bank: commissions of 2 % were charged, the bank gained 8 $ from account 1
+Bank: commissions of 2 % were charged, the bank gained 8 $ from account 2
+Bank: commissions of 2 % were charged, the bank gained 8 $ from account 11
+1: Transfer 1 from account 1 to account 11 new account balance is 368 new target account balance is 401
+1: Transfer 1 from account 2 to account 11 new account balance is 368 new target account balance is 402
+1: Transfer 1 from account 11 to account 2 new account balance is 401 new target account balance is 369
+Bank: commissions of 3 % were charged, the bank gained 11 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 11 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 12 $ from account 11
+1: Transfer 1 from account 11 to account 1 new account balance is 388 new target account balance is 358
+1: Transfer 1 from account 1 to account 11 new account balance is 357 new target account balance is 389
+1: Transfer 1 from account 2 to account 11 new account balance is 357 new target account balance is 390
+Bank: commissions of 3 % were charged, the bank gained 11 $ from account 1
+Bank: commissions of 3 % were charged, the bank gained 11 $ from account 2
+Bank: commissions of 3 % were charged, the bank gained 12 $ from account 11
+1: Transfer 1 from account 11 to account 2 new account balance is 377 new target account balance is 347
+1: New account id is 3 with password 1 and initial balance 100
+Error 1: Your transaction failed - account with the same id exists
+Bank: commissions of 4 % were charged, the bank gained 14 $ from account 1
+Bank: commissions of 4 % were charged, the bank gained 14 $ from account 2
+Bank: commissions of 4 % were charged, the bank gained 4 $ from account 3
+Bank: commissions of 4 % were charged, the bank gained 15 $ from account 11
+Error 1: Your transaction failed - account with the same id exists
+1: Account 1 new balance is 335 after 3 $ was withdrew
+Error 1: Your transaction failed - password for account id 1 is incorrect
+Bank: commissions of 5 % were charged, the bank gained 17 $ from account 1
+Bank: commissions of 5 % were charged, the bank gained 17 $ from account 2
+Bank: commissions of 5 % were charged, the bank gained 5 $ from account 3
+Bank: commissions of 5 % were charged, the bank gained 18 $ from account 11
+1: Account 11 is now closed. Balance was 344
+1: Account 3 is now closed. Balance was 91
+1: Account 2 is now closed. Balance was 316
+Bank: commissions of 2 % were charged, the bank gained 6 $ from account 1
+1: Account 1 is now closed. Balance was 312

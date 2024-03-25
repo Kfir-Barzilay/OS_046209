@@ -3,40 +3,47 @@
 #include "rwlock.hpp"
 
 /*-----------------------------defines---------------------------------*/
-
+#define DEBUG 0
 #define EMPTY 0
 
 rwlock::rwlock()
 {
-    this->rd_counter = EMPTY;
+    // Initialize mutexes
+    pthread_mutex_init(&rd_lock, nullptr);
+    pthread_mutex_init(&wr_lock, nullptr);
+    rd_counter = EMPTY;
 }
 
 void rwlock::read_down()
 {
-    this->rd_lock.lock();
+    if (DEBUG) cout << "read down" << endl;
+    pthread_mutex_lock(&rd_lock);
     rd_counter++;
     if (rd_counter == 1) {
-        this->wr_lock.lock();
+        pthread_mutex_lock(&wr_lock);
     }
-    this->rd_lock.unlock();
+    pthread_mutex_unlock(&rd_lock);
 }
 
 void rwlock::read_up()
 {
-    this->rd_lock.lock();
+    if (DEBUG) cout << "read up" << endl;
+    pthread_mutex_lock(&rd_lock);
     rd_counter--;
     if (rd_counter == 0) {
-        this->wr_lock.unlock();
+        pthread_mutex_unlock(&wr_lock);
     }
-    this->rd_lock.unlock();
+    pthread_mutex_unlock(&rd_lock);
 }
 
 void rwlock::write_lock()
 {
-    wr_lock.lock();
+    if (DEBUG) cout << "write lock" << endl;
+    pthread_mutex_lock(&wr_lock);
 }
 
 void rwlock::write_unlock()
 {
-    wr_lock.unlocked();
+    if (DEBUG) cout << "write unlock" << endl;
+    pthread_mutex_unlock(&wr_lock);
 }

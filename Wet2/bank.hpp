@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <cmath>
+#include <random>
 #include <fstream>
 #include "rwlock.hpp"
 #include "account.hpp"
@@ -16,6 +17,7 @@
 #define SUCCESS 0
 #define FAIL -1
 #define LOG_FILE "log.txt"
+
 
 using namespace std;
 
@@ -30,11 +32,14 @@ public:
     account_t bank_account;
     rwlock_t lock;
     int ATMs_alive;
+    bool status_alive;
+    bool comm_alive;
 
     /**
      * @brief - Constructor
+     * @param num_of_atms - the number of ATMs
     */
-    bank();
+    bank(int num_of_atms);
 
     /**
      * @brief - Destructor
@@ -57,13 +62,13 @@ public:
      * @brief the bank take every x time a random tax from each account
      * @return '0' on success and '-1' if failed
     */
-    int commissions();
+    int commission();
 
     /**
      * @brief print to the screen the current status fro each account
      * @return '0' on success and '-1' if failed
     */
-    int status();
+    void status();
 
     /**
      * @brief print to the log.
@@ -71,11 +76,40 @@ public:
     */
     void printLog(string msg);
 
+    /**
+     * @brief print to the log.
+     * @param msg - prints "Bank: " + msg.
+    */
+    //void printError(string msg);
+    
+
      /**
      * @brief gives status on bank.
      * @return true - if there is atm alive, false otherwise. 
     */
     bool isAlive();
+
+    /**
+     * @brief read locks the bank lock
+     * 
+    */
+   void read_down();
+
+   /**
+    * @brief read unlocks the bank lock
+   */
+    void read_up();
+
+    /**
+     * @brief write locks the bank lock
+     * 
+    */
+   void write_lock();
+
+   /**
+    * @brief write unlocks the bank lock
+   */
+    void write_unlock();
 
 }bank_t;
 

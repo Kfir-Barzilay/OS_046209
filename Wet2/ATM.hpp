@@ -4,13 +4,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <unistd.h>
+#include <algorithm>
+#include <pthread.h>
+
 #include "rwlock.hpp"
 #include "account.hpp"
 #include "bank.hpp"
 
 
+
 /*-----------------------------defines---------------------------------*/
-#define SLEEP_TIME 1 
 #define SUCCESS 0
 #define FAIL -1
 #define LOG_FILE "log.txt"
@@ -30,11 +34,6 @@ public:
      * @param ATM_id - the ATM's id
     */
     ATM(int ATM_id);
-
-    /**
-     * @brief Destructor
-    */
-    ~ATM();
     
     /**
      * @brief opening account
@@ -111,6 +110,8 @@ public:
 } ATM_t;
 
 void sleep_ms(int sleep_time_ms);
+
+bool isInVector(const vector<int>& vec, int value);
 
 #endif /*ATM_CLASS_H*/
 
